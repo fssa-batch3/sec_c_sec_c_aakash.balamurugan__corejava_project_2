@@ -1,6 +1,7 @@
 package com.fssa.betterme.server;
 
 import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,28 +11,43 @@ import com.fssa.betterme.dao.DAOException;
 import com.fssa.betterme.dao.EventDao;
 
 public class Service {
-public static void main(String[] args) {
-	EventHost host = new EventHost("aakash", "9876543210", "aakash@gmail.com");
-	
-	Events myEvent = new Events("evetnewof",
-			"This is a very big event so the description should contain atleast of 30 characters",
-			"This is a very big event so the Address should be in breief with 30 and more characters",
-			LocalDate.of(2023, 10, 1), LocalTime.of(9, 00), 400, host);
-	try {
-		if(EventValidator.isValidEvent(myEvent)) {
+	private Events eventValidation;
+	private EventValidator EventValidator;
+	public Service(Events eventValidation,EventValidator EventValidator) {
+		super();
+		this.eventValidation = eventValidation;
+		this.EventValidator = EventValidator;
+	}
+	public Service() {
 		
-			EventDao.addEvent(myEvent.getEventName(), myEvent.getEventDescription(), myEvent.getEventAddress(), myEvent.getEventDate(), myEvent.getEventTime(), myEvent.getPrice(), myEvent.getHost().getHostName());
-//			EventDao.GetEventByDate();
-//			EventDao.readEvent();
-//			EventDao.EventRange(LocalDate.of(2023, 10, 01), LocalDate.of(2020, 10, 31));
+	}
+	public boolean addProduct(Events event)throws DAOException,SQLException{
+		if(EventValidator.isValidEvent(event)) {
+			EventDao.addEvent(event);
 		}
-	} catch (DAOException | SQLException e) {
-		// TODO Auto-generated catch block
-		System.out.println(e.getMessage());
-		e.printStackTrace();
+		return true;
+	}
+	public boolean updateEvent(Events event)throws DAOException,SQLException{
+		if(EventValidator.isValidEvent(event)) {
+			int num  =1;
+			EventDao.updateEvent(num,event.getEventName());
+			EventDao.updateEvent(num,event.getPrice());
+		}
+		return true;
+	}
+	public boolean deleteProduct(Events event)throws DAOException,SQLException{
+		
+		if(EventValidator.isValidEvent(event)) {
+			int EventId =1;
+			EventDao.deleteEvent(EventId);
+		}
+		return true;
+	}
+	public boolean getEvents()throws DAOException,SQLException {
+		EventDao.readEvent();
+		return true;
+	}
+}
 
-}
-}
-}
 
 

@@ -1,5 +1,6 @@
 package com.fssa.betterme.validation;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,6 +11,7 @@ import com.fssa.betterme.dao.DAOException;
 import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.objects.Rating;
+import com.fssa.betterme.server.Service;
 
 public class EventValidatorTest {
 
@@ -23,6 +25,8 @@ public class EventValidatorTest {
 	EventValidator validateEvent = new EventValidator();
 	EventHostValidator validateHost = new EventHostValidator();
 
+	
+	Service service = new Service(validEvent,validateEvent);
 	@Test
 	void validEventTest() throws DAOException {
 
@@ -311,7 +315,27 @@ public class EventValidatorTest {
 		}
 
 	}
+	
+	
+	@Test 
+	void ValidAddEventTest() throws DAOException, SQLException {
+		Assertions.assertTrue(service.addProduct(validEvent));
+	}
 
+	@Test 
+	void ValidUpdateEventTest() throws DAOException, SQLException {
+		Assertions.assertTrue(service.updateEvent(validEvent));
+	}
+	
+	@Test 
+	void ValidReadAllEventTest() throws DAOException, SQLException {
+		Assertions.assertTrue(service.getEvents());
+	}
+	
+	@Test 
+	void ValidDeleteEventTest() throws DAOException, SQLException {
+		Assertions.assertTrue(service.deleteProduct(validEvent));
+	}
 //	@Test
 //	void validEventReviewTest() {
 //		validHost.setReview(validHost.getReview());

@@ -10,6 +10,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fssa.betterme.objects.Events;
+
 
 
 
@@ -60,16 +62,16 @@ public class EventDao {
 
 
 	//adding new row to the table 
-	public static boolean addEvent(String eventName, String eventDescription, String eventAddress, LocalDate date, LocalTime time, double price, String hostName) throws SQLException, DAOException {
+	public static boolean addEvent(Events event ) throws SQLException, DAOException {
 	    try (Connection con = ConnectionUtil.getConnection()) {
 	        String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price) VALUES (?, ?, ?, ?, ?, ?);";
 	        try (PreparedStatement pst = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-	            pst.setString(1, eventName);
-	            pst.setString(2, eventDescription);
-	            pst.setString(3, eventAddress);
-	            pst.setDate(4, Date.valueOf(date));
-	            pst.setTime(5, Time.valueOf(time));
-	            pst.setDouble(6, price);
+	            pst.setString(1, event.getEventName());
+	            pst.setString(2, event.getEventDescription());
+	            pst.setString(3, event.getEventAddress());
+	            pst.setDate(4, Date.valueOf(event.getEventDate()));
+	            pst.setTime(5, Time.valueOf(event.getEventTime()));
+	            pst.setDouble(6, event.getPrice());
 
 	            int rows = pst.executeUpdate();
 
@@ -88,7 +90,7 @@ public class EventDao {
 	            }
 
 	            // Find the host ID
-	            int hostId = findHostId(hostName);
+	            int hostId = findHostId(event.getHostName());
 
 	            // Associate the host with the event in the join table
 	            if (hostId != -1) {
