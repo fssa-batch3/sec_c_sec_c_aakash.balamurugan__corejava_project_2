@@ -2,31 +2,41 @@ package com.fssa.betterme.dao;
 
 import java.sql.*;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 
 public abstract class ConnectionUtil {
 
 		 
-	    public static Connection getConnection()  {
+	
 	 
-	        Connection con = null;
-//	        String url = "jdbc:mysql:// aws.connect.psdb.cloud";
-//	        String userName = "3qynvhn4mczixvw69aq3";
-//	        String passWord = "pscale_pw_w3jrAE4nrSA2IoreDXZri99cr1pxZs7gIn86JHIOufP";
-	        
-	        
-	        String url = "jdbc:mysql://localhost:3306/ betterme ";
-	        String userName = "root";
-	        String passWord = "123456";
-	        try {
-	            con = DriverManager.getConnection(url, userName, passWord);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            throw new RuntimeException("Unable to connect to the database");
-	        }
-	        System.out.println("Connnection Created");
-	        return con;
-	    }
-	     
+	    	  public static Connection getConnection() {
+	    	        Connection con = null;
+
+	    	        String url, userName, passWord;
+
+	    	        if (System.getenv("CI") != null) {
+	    	            url = System.getenv("jdbc:mysql://164.52.216.41:3306/aakash_balamurugan_corejava_project");
+	    	            userName = System.getenv("GR3iOU3e2faf");
+	    	            passWord = System.getenv("fd8a6b14-4219-4c47-85ac-86b496585e59");
+	    	        } else {
+	    	            Dotenv env = Dotenv.load();
+	    	            url = env.get("jdbc:mysql://164.52.216.41:3306/aakash_balamurugan_corejava_project");
+	    	            userName = env.get("GR3iOU3e2faf");
+	    	            passWord = env.get("fd8a6b14-4219-4c47-85ac-86b496585e59");
+	    	        }
+
+	    	        try {
+	    	            Class.forName("com.mysql.cj.jdbc.Driver");
+	    	            con = DriverManager.getConnection(url, userName, passWord);
+	    	        } catch (Exception e) {
+	    	            e.printStackTrace();
+	    	            throw new RuntimeException("Unable to connect to the database");
+	    	        }
+	    	        return con;
+	    	    }
+	    	  
+	    	  
 	    public static void close(Connection conn , Statement stmt, ResultSet rs){
 	         
 	        try

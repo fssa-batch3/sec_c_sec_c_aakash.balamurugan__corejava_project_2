@@ -11,6 +11,10 @@
 <properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		
+		 <sonar.projectKey>fssa-batch3_sec_c_sec_c_aakash.balamurugan__corejava_project_2</sonar.projectKey>
+        <sonar.organization>fssa-batch3</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
@@ -26,6 +30,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
 		</dependency>
+		 <!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.1.2</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<pluginManagement>

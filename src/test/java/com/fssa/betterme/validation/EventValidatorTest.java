@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.fssa.betterme.dao.DAOException;
 import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.objects.Rating;
@@ -23,36 +24,36 @@ public class EventValidatorTest {
 	EventHostValidator validateHost = new EventHostValidator();
 
 	@Test
-	void validEventTest() {
+	void validEventTest() throws DAOException {
 
-		Assertions.assertTrue(validateEvent.isValidEvent(validEvent));
+		Assertions.assertTrue(EventValidator.isValidEvent(validEvent));
 	}
 
 	@Test
 	void inValidEventTestNull() {
 		try {
-			validateEvent.isValidEvent(null);
+			EventValidator.isValidEvent(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENT_NULL_ERROR, ex.getMessage());
 			;
 		}
 	}
 
 	@Test
-	void validEventNameTest() {
+	void validEventNameTest() throws DAOException {
 
 		validEvent.setEventName(validEvent.getEventName());
-		Assertions.assertTrue(validateEvent.isValidEventName(validEvent.getEventName()));
+		Assertions.assertTrue(EventValidator.isValidEventName(validEvent.getEventName()));
 	}
 
 	@Test
 	void inValidEventNameTestNull() {
 
 		try {
-			validateEvent.isValidEventName(null);
+			EventValidator.isValidEventName(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -60,28 +61,28 @@ public class EventValidatorTest {
 	@Test
 	void inValidEventNameTest() {
 		try {
-			validateEvent.isValidEventName(inValidEvent.getEventName());
+			EventValidator.isValidEventName(inValidEvent.getEventName());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_INVALID_ERROR, ex.getMessage());
 		}
-
+ 
 	}
 
 	@Test
-	void validEventAddressTest() {
+	void validEventAddressTest() throws DAOException {
 
 		validEvent.setEventAddress(validEvent.getEventAddress());
 
-		Assertions.assertTrue(validateEvent.isValidEventAddress(validEvent.getEventAddress()));
+		Assertions.assertTrue(EventValidator.isValidEventAddress(validEvent.getEventAddress()));
 	}
 
 	@Test
 	void inValidEventAddressTestNull() {
 		try {
-			validateEvent.isValidEventAddress(null);
+			EventValidator.isValidEventAddress(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTADDRESS_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -89,27 +90,27 @@ public class EventValidatorTest {
 	@Test
 	void inValidEventAddressTest() {
 		try {
-			validateEvent.isValidEventAddress(inValidEvent.getEventAddress());
+			EventValidator.isValidEventAddress(inValidEvent.getEventAddress());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTADDRESS_INVALID_ERROR, ex.getMessage());
 		}
 	}
 
 	@Test
-	void validEventDescriptionTest() {
+	void validEventDescriptionTest() throws DAOException {
 
 		validEvent.setEventDescription(validEvent.getEventDescription());
-		Assertions.assertTrue(validateEvent.isValidEventDescription(validEvent.getEventDescription()));
+		Assertions.assertTrue(EventValidator.isValidEventDescription(validEvent.getEventDescription()));
 	}
 
 	@Test
 	void inValidEventDescriptionTestNull() {
 
 		try {
-			validateEvent.isValidEventDescription(null);
+			EventValidator.isValidEventDescription(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR, ex.getMessage());
 		}
 
@@ -118,27 +119,27 @@ public class EventValidatorTest {
 	@Test
 	void inValidEventDescriptionTest() {
 		try {
-			validateEvent.isValidEventDescription(inValidEvent.getEventDescription());
+			EventValidator.isValidEventDescription(inValidEvent.getEventDescription());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_INVALID_ERROR, ex.getMessage());
 		}
 	}
 
 	@Test
-	void validEventDateTest() {
+	void validEventDateTest() throws DAOException {
 
 		validEvent.setEventDate(validEvent.getEventDate());
-		Assertions.assertTrue(validateEvent.isValidEventDate(validEvent.getEventDate()));
+		Assertions.assertTrue(EventValidator.isValidEventDate(validEvent.getEventDate()));
 	}
 
 	@Test
 	void inValidEventDateTestNull() {
 
 		try {
-			validateEvent.isValidEventDate(null);
+			EventValidator.isValidEventDate(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDATE_NULL_ERROR, ex.getMessage());
 		}
 
@@ -148,27 +149,27 @@ public class EventValidatorTest {
 	void inValidEventDateTest() {
 
 		try {
-			validateEvent.isValidEventDate(inValidEvent.getEventDate());
+			EventValidator.isValidEventDate(inValidEvent.getEventDate());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDATE_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void validEventTimeTest() {
+	void validEventTimeTest() throws DAOException {
 
 		validEvent.setEventTime(validEvent.getEventTime());
-		Assertions.assertTrue(validateEvent.isValidEventTime(validEvent.getEventTime()));
+		Assertions.assertTrue(EventValidator.isValidEventTime(validEvent.getEventTime()));
 	}
 
 	@Test
 	void inValidEventTimeTestNull() {
 		try {
-			validateEvent.isValidEventTime(null);
+			EventValidator.isValidEventTime(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTTIME_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -177,27 +178,27 @@ public class EventValidatorTest {
 	void inValidEventTimeTest() {
 
 		try {
-			validateEvent.isValidEventTime(inValidEvent.getEventTime());
+			EventValidator.isValidEventTime(inValidEvent.getEventTime());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTTIME_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void validEventPriceTest() {
+	void validEventPriceTest() throws DAOException {
 
 		validEvent.setPrice(validEvent.getPrice());
-		Assertions.assertTrue(validateEvent.isValidPrice(validEvent.getPrice()));
+		Assertions.assertTrue(EventValidator.isValidPrice(validEvent.getPrice()));
 	}
 
 	@Test
 	void inValidEventPriceTest() {
 		try {
-			validateEvent.isValidPrice(inValidEvent.getPrice());
+			EventValidator.isValidPrice(inValidEvent.getPrice());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTPRICE_INVALID_ERROR, ex.getMessage());
 		}
 
@@ -211,34 +212,34 @@ public class EventValidatorTest {
 	}
 
 	@Test
-	void validEventHostTest() {
+	void validEventHostTest() throws DAOException {
 
-		Assertions.assertTrue(validateHost.isValidEventHost(validHost));
+		Assertions.assertTrue(EventHostValidator.isValidEventHost(validHost));
 	}
 
 	@Test
 	void inValidEventHostNullTest() {
 		try {
-			validateHost.isValidEventHost(null);
+			EventHostValidator.isValidEventHost(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOST_NULL_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void validEventHostNameTest() {
+	void validEventHostNameTest() throws DAOException {
 		validHost.setHostName(validHost.getHostName());
-		Assertions.assertTrue(validateHost.isValidHostName(validHost.getHostName()));
+		Assertions.assertTrue(EventHostValidator.isValidHostName(validHost.getHostName()));
 	}
 
 	@Test
 	void inValidEventHostNameNullTest() {
 		try {
-			validateHost.isValidHostName(null);
+			EventHostValidator.isValidHostName(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR, ex.getMessage());
 		}
 
@@ -247,26 +248,26 @@ public class EventValidatorTest {
 	@Test
 	void inValidEventHostNameTest() {
 		try {
-			validateHost.isValidHostName(inValidHost.getHostName());
+			EventHostValidator.isValidHostName(inValidHost.getHostName());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void validEventHostNumberTest() {
+	void validEventHostNumberTest() throws DAOException {
 		validHost.setContactNumber(validHost.getContactNumber());
-		Assertions.assertTrue(validateHost.isValidContactNumber(validHost.getContactNumber()));
+		Assertions.assertTrue(EventHostValidator.isValidContactNumber(validHost.getContactNumber()));
 	}
 
 	@Test
 	void inValidEventHostNumberNullTest() {
 		try {
-			validateHost.isValidContactNumber(null);
+			EventHostValidator.isValidContactNumber(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR, ex.getMessage());
 		}
 
@@ -275,26 +276,26 @@ public class EventValidatorTest {
 	@Test
 	void inValidEventHostNumberTest() {
 		try {
-			validateHost.isValidContactNumber(inValidHost.getContactNumber());
+			EventHostValidator.isValidContactNumber(inValidHost.getContactNumber());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNUMBER_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void validEventHostMailTest() {
+	void validEventHostMailTest() throws DAOException {
 		validHost.setEmail(validHost.getEmail());
-		Assertions.assertTrue(validateHost.isValidEmail(validHost.getEmail()));
+		Assertions.assertTrue(EventHostValidator.isValidEmail(validHost.getEmail()));
 	}
 
 	@Test
 	void inValidEventHostMailNullTest() {
 		try {
-			validateHost.isValidEmail(null);
+			EventHostValidator.isValidEmail(null);
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTMAIL_NULL_ERROR, ex.getMessage());
 		}
 
@@ -303,9 +304,9 @@ public class EventValidatorTest {
 	@Test
 	void inValidEventHostMailTest() {
 		try {
-			validateHost.isValidEmail(inValidHost.getEmail());
+			EventHostValidator.isValidEmail(inValidHost.getEmail());
 			Assertions.fail();
-		} catch (IllegalArgumentException ex) {
+		} catch (DAOException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTMAIL_INVALID_ERROR, ex.getMessage());
 		}
 
@@ -322,7 +323,7 @@ public class EventValidatorTest {
 //		try {
 //			validateHost.isValidReview(inValidHost.getReview());
 //			Assertions.fail();
-//		} catch (IllegalArgumentException ex) {
+//		} catch (DAOException ex) {
 //			Assertions.assertEquals(EventHostValidatorError.EVENTRATING_INVALID_ERROR, ex.getMessage());
 //		}
 //

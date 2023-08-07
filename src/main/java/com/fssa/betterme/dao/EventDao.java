@@ -1,9 +1,14 @@
 package com.fssa.betterme.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+
 import java.sql.Date;
-import java.util.*;
-import java.time.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 
@@ -11,64 +16,174 @@ import java.time.*;
 
 public class EventDao {
 
-//	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException {
 //		Scanner s = new Scanner(System.in);
-////	System.out.println("Event name:");
-////		String eventName = s.nextLine();
-////		System.out.println("Event description:");
-////		String eventDescription = s.nextLine();
-////		
-////		System.out.println("Event eventAddress:");
-////		String eventAddress = s.nextLine();
-////		
-////		System.out.println("Event date: year month date");
-////		LocalDate date = LocalDate.of(s.nextInt(), s.nextInt(), s.nextInt())  ;
-////		
-////		System.out.println("Event time: hour minute ");
-////		LocalTime time = LocalTime.of(s.nextInt(), s.nextInt()) ;
-////		
-////		System.out.println("Event price: ");
-////		double price = s.nextDouble();
+//	System.out.println("Event name:");
+//		String eventName = "better me";
+//		System.out.println("Event description:");
+//		String eventDescription = "description";
 //		
-////		addEvents(eventName,eventDescription,eventAddress,date,time,price);
-////		updateEvent(1, "new event name");
-////		updateEvent(3, 200);
-////		deleteEvent(4);
+//		System.out.println("Event eventAddress:");
+//		String eventAddress = "address";
+//		
+//		System.out.println("Event date: year month date");
+//		LocalDate date = LocalDate.of(2005 ,9, 9)  ;
+//		
+//		System.out.println("Event time: hour minute ");
+//		LocalTime time = LocalTime.of(5, 5) ;
+//		
+//		System.out.println("Event price: ");
+//		double price = 200;
+//		System.out.println("Event hostname:");
+//		String hostName = "aakash";
+//		
+	
+//			try {
+//				addEvent(eventName, eventDescription,eventAddress,date,time,price, hostName);
+//			} catch (SQLException | DAOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+
+//		updateEvent(1, "new event name");
+//		updateEvent(3, 200);
+//		deleteEvent(4);
 //		readEvent();
 //		
-//	}
 		
-		public static boolean addEvents(String eventName,String eventDescription,String eventAddress,LocalDate date,LocalTime time,double price)  throws SQLException {
-		
-		try(Connection con = ConnectionUtil.getConnection()){
-			
-			
-			
-			String query = "INSERT INTO events  (event_name,event_description,event_address,date,time,price ) VALUES (?,?,?,?,?,?);";
-			
-			try(PreparedStatement pst = con.prepareStatement(query);){
-				
-				pst.setString(1,eventName );
-				pst.setString(2,eventDescription );
-				pst.setString(3,eventAddress );
-				pst.setDate(4,Date.valueOf(date) );
-				pst.setTime(5,Time.valueOf(time) );
-				pst.setDouble(6,price );
-				
-				int rows = pst.executeUpdate();
-				
-				System.out.println("no of rows affected:" + rows);
-				
-				ConnectionUtil.close(con, pst, null);
-				
-			}
-		
+//		System.out.println(findEventId("aakash"));
 		
 	}
-		return false;
+		
 	
 
-}
+
+
+	//adding new row to the table 
+	public static boolean addEvent(String eventName, String eventDescription, String eventAddress, LocalDate date, LocalTime time, double price, String hostName) throws SQLException, DAOException {
+	    try (Connection con = ConnectionUtil.getConnection()) {
+	        String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price) VALUES (?, ?, ?, ?, ?, ?);";
+	        try (PreparedStatement pst = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+	            pst.setString(1, eventName);
+	            pst.setString(2, eventDescription);
+	            pst.setString(3, eventAddress);
+	            pst.setDate(4, Date.valueOf(date));
+	            pst.setTime(5, Time.valueOf(time));
+	            pst.setDouble(6, price);
+
+	            int rows = pst.executeUpdate();
+
+	            if (rows <= 0) {
+	                throw new DAOException("Failed to insert event.");
+	            }
+
+	            // Get the auto-generated event ID
+	            int eventId = -1;
+	            try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+	                if (generatedKeys.next()) {
+	                    eventId = generatedKeys.getInt(1);
+	                } else {
+	                    throw new DAOException("Failed to get the auto-generated event ID.");
+	                }
+	            }
+
+	            // Find the host ID
+	            int hostId = findHostId(hostName);
+
+	            // Associate the host with the event in the join table
+	            if (hostId != -1) {
+	                joinHostEvent(eventId, hostId);
+	            } else {
+	                throw new DAOException("Host is not defined.");
+	            }
+
+	            ConnectionUtil.close(con, pst, null);
+	            return true;
+	        }
+	    }
+	}
+
+	
+		public static boolean joinHostEvent(int eventId , int HostId)  throws SQLException {
+			
+			try(Connection con = ConnectionUtil.getConnection()){
+				
+				
+			
+				String query = "INSERT INTO Event_host  (event_id, host_id) VALUES (?,?);";
+				
+				try(PreparedStatement pst = con.prepareStatement(query);){
+					
+					
+						
+					pst.setInt(1,eventId );
+					pst.setInt(2,HostId );
+					
+					
+					int rows = pst.executeUpdate();
+					
+					System.out.println("no of rows affected:" + rows);
+					
+					ConnectionUtil.close(con, pst, null);
+					return(rows>0)? true : false;
+				}
+			
+			
+		}
+
+	}
+		
+		
+		public static int findEventId(String EventName) throws SQLException {
+
+			try (Connection con = ConnectionUtil.getConnection()) {
+
+				String query = " SELECT * FROM events WHERE event_name = ?;";
+				int EventId = -1;
+				try (PreparedStatement pst = con.prepareStatement(query);) {
+					pst.setString(1, EventName);
+					ResultSet rs = pst.executeQuery();
+
+					// Step 06: Iterate the result
+					while (rs.next()) {
+						EventId = rs.getInt("id");
+
+					}
+
+					ConnectionUtil.close(con, pst, rs);
+
+				}
+				return EventId;
+			}
+
+		}
+		
+	public static int findHostId(String hostName) throws SQLException {
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+
+			String query = " SELECT * FROM host WHERE host_name = ?;";
+			int userId = -1;
+			try (PreparedStatement pst = con.prepareStatement(query);) {
+				
+				pst.setString(1, hostName);
+				
+				ResultSet rs = pst.executeQuery();
+
+				// Step 06: Iterate the result
+				while (rs.next()) {
+					userId = rs.getInt("id");
+
+				}
+
+				ConnectionUtil.close(con, pst, rs);
+
+			}
+			return userId;
+		}
+
+	}
+		
 		
 		public static boolean updateEvent(int id , String newName)  throws SQLException {
 			
@@ -85,9 +200,10 @@ public class EventDao {
 					
 					System.out.println("no of rows affected:" + rows);
 					ConnectionUtil.close(con, pst, null);
+					return(rows>0)? true : false;
 				}		
 		}
-			return false;
+			
 		
 
 	}
@@ -108,10 +224,10 @@ public class EventDao {
 					
 					System.out.println("no of rows affected:" + rows);
 					ConnectionUtil.close(con, pst, null);
+					return(rows>0)? true : false;
 				}		
 		}
-			return false;
-		
+			
 
 	}
 		
@@ -131,9 +247,11 @@ public class EventDao {
 					
 					System.out.println("no of rows affected:" + rows);
 					ConnectionUtil.close(con, pst, null);
+					
+					return(rows>0)? true : false;
 				}		
 		}
-			return false;
+		
 		
 
 	}
@@ -142,14 +260,14 @@ public class EventDao {
 		
 		try(Connection con = ConnectionUtil.getConnection()){
 
-			String query = "SELECT * FROM events";
+			String query = " SELECT * FROM betterme.host WHERE host_name = \"aakash\";";
 			
 			try(PreparedStatement pst = con.prepareStatement(query);){
 				
 				 ResultSet rs = pst.executeQuery(query);
 		         
 			        //Step 06: Iterate the result
-			        while ( rs.next()) {
+			        while ( rs.next()) { 
 			        	int userId = rs.getInt("id");            
 			        	String userName = rs.getString("event_name");
 			            Date emailID = rs.getDate("date");

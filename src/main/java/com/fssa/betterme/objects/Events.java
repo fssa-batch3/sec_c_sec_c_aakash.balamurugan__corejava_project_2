@@ -13,6 +13,7 @@ public class Events extends EventHost{
 	private LocalTime EventTime;
 	private double Price;
 	private EventHost Host;
+
 	public Events( String eventName,
 			String eventDescription, String eventAddress, LocalDate eventDate, LocalTime eventTime, double price,
 			EventHost host) {

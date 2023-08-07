@@ -4,14 +4,14 @@ package com.fssa.betterme.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fssa.betterme.dao.DAOException;
 import com.fssa.betterme.objects.EventHost;
-import com.fssa.betterme.objects.Rating;
 
 public class EventHostValidator {
 
-    public static boolean isValidEventHost(EventHost eventHost) {
+    public static boolean isValidEventHost(EventHost eventHost) throws DAOException {
         if (eventHost == null) {
-            throw new IllegalArgumentException(EventHostValidatorError.EVENTHOST_NULL_ERROR);
+            throw new DAOException(EventHostValidatorError.EVENTHOST_NULL_ERROR);
         }
         
         isValidHostName(eventHost.getHostName());
@@ -23,10 +23,10 @@ public class EventHostValidator {
    
     }
 
-    public static boolean isValidHostName(String name) {
+    public static boolean isValidHostName(String name) throws DAOException {
         // Define the regex pattern for a name
     	  if(name==null ) {
-         	 throw new IllegalArgumentException(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR);
+         	 throw new DAOException(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR);
          }
         String namePattern = "^[a-zA-Z]+(?:\\s[a-zA-Z]+)*$";
         Pattern pattern = Pattern.compile(namePattern);
@@ -36,14 +36,14 @@ public class EventHostValidator {
         if( match.matches() ) {
         	return true;
         }else {
-        	 throw new IllegalArgumentException(EventHostValidatorError.EVENTHOSTNAME_INVALID_ERROR);
+        	 throw new DAOException(EventHostValidatorError.EVENTHOSTNAME_INVALID_ERROR);
         }
     }
 
-    public static boolean isValidContactNumber(String contactNumber) {
+    public static boolean isValidContactNumber(String contactNumber) throws DAOException {
         // Define the regex pattern for a 10-digit numeric format
     	 if( contactNumber==null) {
-    		   throw new IllegalArgumentException(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR);
+    		   throw new DAOException(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR);
          }
     	
         String contactNumberPattern = "^[0-9]{10}$";
@@ -53,16 +53,16 @@ public class EventHostValidator {
         if( match.matches() ) {
         	return true;
         }else {
-        	 throw new IllegalArgumentException(EventHostValidatorError.EVENTHOSTNUMBER_INVALID_ERROR);
+        	 throw new DAOException(EventHostValidatorError.EVENTHOSTNUMBER_INVALID_ERROR);
         }
      }
 
 
-    public static boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) throws DAOException {
         // Define the regex pattern for an email address
     	
     	 if( email==null) {
-  		   throw new IllegalArgumentException(EventHostValidatorError.EVENTHOSTMAIL_NULL_ERROR);
+  		   throw new DAOException(EventHostValidatorError.EVENTHOSTMAIL_NULL_ERROR);
        }
         String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         Pattern pattern = Pattern.compile(emailPattern);
@@ -72,15 +72,15 @@ public class EventHostValidator {
         if( match.matches() ) {
         	return true;
         }else {
-        	 throw new IllegalArgumentException(EventHostValidatorError.EVENTHOSTMAIL_INVALID_ERROR);
+        	 throw new DAOException(EventHostValidatorError.EVENTHOSTMAIL_INVALID_ERROR);
         }
     }
 
-//    public boolean isValidReview(Rating review) {
+//    public boolean isValidReview(Rating review) throws DAOException {
 //        // Implement your review validation logic here, e.g., check if it's within a valid rating range
 //        // For this example, we'll assume that any non-null review is valid
 //    	if(review == null) {
-//       	 throw new IllegalArgumentException(EventHostValidatorError.EVENTRATING_INVALID_ERROR);
+//       	 throw new DAOException(EventHostValidatorError.EVENTRATING_INVALID_ERROR);
 //    	}
 //    	else {
 //    		return true;
