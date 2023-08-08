@@ -1,6 +1,6 @@
 package com.fssa.betterme.validation;
 
-public class EventValidaterErrors {
+public interface EventValidaterErrors {
   public static final String EVENT_NULL_ERROR ="Event cannot be null ";
   public static final String EVENTNAME_NULL_ERROR ="Event Name cannot be null ";
   public static final String EVENTDESCRIPTION_NULL_ERROR ="Event Description cannot be null ";

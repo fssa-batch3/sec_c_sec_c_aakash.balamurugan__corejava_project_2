@@ -33,8 +33,8 @@ public class Service {
 	public static boolean deleteProduct(Events event)throws DAOException,SQLException{
 		
 		if(EventValidator.isValidEvent(event)) {
-			int EventId =1;
-			EventDao.deleteEvent(EventId);
+			int eventId =1;
+			EventDao.deleteEvent(eventId);
 		}
 		return true;
 	}

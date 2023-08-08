@@ -47,7 +47,7 @@ public class EventHostValidator {
     		   throw new DAOException(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR);
          }
     	
-        String contactNumberPattern = "^[0-9]{10}$";
+    	 String contactNumberPattern = "^\\d{10}$";
         Pattern pattern = Pattern.compile(contactNumberPattern);
         Matcher match = pattern.matcher(contactNumber);
         // Check if the contact number matches the pattern

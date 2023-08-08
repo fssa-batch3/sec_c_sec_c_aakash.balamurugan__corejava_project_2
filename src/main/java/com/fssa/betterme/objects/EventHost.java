@@ -8,13 +8,7 @@ public class  EventHost {
 	protected String email;
 	
 	
-	public EventHost(String hostName, String contactNumber, Rating review, String email) {
-		
-		this.hostName = hostName;
-		this.contactNumber = contactNumber;
 
-		this.email = email;
-	}
 
 	
 	public EventHost(String hostName, String contactNumber, String email) {

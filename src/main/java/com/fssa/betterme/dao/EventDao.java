@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
 
@@ -14,52 +15,55 @@ import java.time.LocalDate;
 import com.fssa.betterme.objects.Events;
 
 public class EventDao {
+	
+	static String rowAffected = "no of rows affected:";
 
 	// adding new row to the table
 	public static boolean addEvent(Events event) throws SQLException, DAOException {
-		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price) VALUES (?, ?, ?, ?, ?, ?);";
-			try (PreparedStatement pst = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-				pst.setString(1, event.getEventName());
-				pst.setString(2, event.getEventDescription());
-				pst.setString(3, event.getEventAddress());
-				pst.setDate(4, Date.valueOf(event.getEventDate()));
-				pst.setTime(5, Time.valueOf(event.getEventTime()));
-				pst.setDouble(6, event.getPrice());
+	    try (Connection con = ConnectionUtil.getConnection()) {
+	        String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price) VALUES (?, ?, ?, ?, ?, ?);";
+	        try (PreparedStatement pst = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+	            pst.setString(1, event.getEventName());
+	            pst.setString(2, event.getEventDescription());
+	            pst.setString(3, event.getEventAddress());
+	            pst.setDate(4, Date.valueOf(event.getEventDate()));
+	            pst.setTime(5, Time.valueOf(event.getEventTime()));
+	            pst.setDouble(6, event.getPrice());
 
-				int rows = pst.executeUpdate();
+	            int rows = pst.executeUpdate();
+	        	System.out.println(rowAffected + rows);
+	            if (rows <= 0) {
+	                throw new DAOException("Failed to insert event.");
+	            }
 
-				if (rows <= 0) {
-					throw new DAOException("Failed to insert event.");
-				}
+	            // Get the auto-generated event ID
+	            int eventId = -1;
+	            try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+	                if (generatedKeys.next()) {
+	                    eventId = generatedKeys.getInt(1);
+	                } else {
+	                    throw new DAOException("Failed to get the auto-generated event ID.");
+	                }
+	            }
 
-				// Get the auto-generated event ID
-				int eventId = -1;
-				try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
-					if (generatedKeys.next()) {
-						eventId = generatedKeys.getInt(1);
-					} else {
-						throw new DAOException("Failed to get the auto-generated event ID.");
-					}
-				}
+	            // Find the host ID
+	            int hostId = findHostId(event.getHostName(), con);
 
-				// Find the host ID
-				int hostId = findHostId(event.getHostName(),con);
+	            // Associate the host with the event in the join table
+	            if (hostId != -1) {
+	                joinHostEvent(eventId, hostId, con);
+	            } else {
+	                throw new DAOException("Host is not defined.");
+	            }
 
-				// Associate the host with the event in the join table
-				if (hostId != -1) {
-					joinHostEvent(eventId, hostId,con);
-				} else {
-					throw new DAOException("Host is not defined.");
-				}
-
-				ConnectionUtil.close(con, pst, null);
-				return true;
-			}
-		}
+	            ConnectionUtil.close(con, pst, null);
+	            return true;
+	        }
+	    }
 	}
 
-	public static boolean joinHostEvent(int eventId, int HostId,Connection con) throws SQLException {
+
+	public static boolean joinHostEvent(int eventId, int hostId,Connection con) throws SQLException {
 
 	
 
@@ -68,14 +72,14 @@ public class EventDao {
 			try (PreparedStatement pst = con.prepareStatement(query);) {
 
 				pst.setInt(1, eventId);
-				pst.setInt(2, HostId);
+				pst.setInt(2, hostId);
 
 				int rows = pst.executeUpdate();
 
-				System.out.println("no of rows affected:" + rows);
+				System.out.println(rowAffected + rows);
 
 				
-				return (rows > 0) ? true : false;
+				return true ;
 			}
 
 		
@@ -120,9 +124,9 @@ public class EventDao {
 
 				int rows = pst.executeUpdate();
 
-				System.out.println("no of rows affected:" + rows);
+				System.out.println(rowAffected + rows);
 				ConnectionUtil.close(con, pst, null);
-				return (rows > 0) ? true : false;
+				return  true ;
 			}
 		}
 
@@ -141,9 +145,9 @@ public class EventDao {
 
 				int rows = pst.executeUpdate();
 
-				System.out.println("no of rows affected:" + rows);
+				System.out.println(rowAffected + rows);
 				ConnectionUtil.close(con, pst, null);
-				return (rows > 0) ? true : false;
+				return  true ;
 			}
 		}
 
@@ -165,10 +169,10 @@ public class EventDao {
 					pst1.setInt(1, id);
 					pst1.executeUpdate();
 				}
-				System.out.println("no of rows affected:" + rows);
+				System.out.println(rowAffected + rows);
 				ConnectionUtil.close(con, pst, null);
 
-				return (rows > 0) ? true : false;
+				return  true ;
 			}
 		}
 
