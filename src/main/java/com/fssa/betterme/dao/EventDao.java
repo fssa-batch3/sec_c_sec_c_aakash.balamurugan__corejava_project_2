@@ -44,11 +44,11 @@ public class EventDao {
 				}
 
 				// Find the host ID
-				int hostId = findHostId(event.getHostName());
+				int hostId = findHostId(event.getHostName(),con);
 
 				// Associate the host with the event in the join table
 				if (hostId != -1) {
-					joinHostEvent(eventId, hostId);
+					joinHostEvent(eventId, hostId,con);
 				} else {
 					throw new DAOException("Host is not defined.");
 				}
@@ -59,9 +59,9 @@ public class EventDao {
 		}
 	}
 
-	public static boolean joinHostEvent(int eventId, int HostId) throws SQLException {
+	public static boolean joinHostEvent(int eventId, int HostId,Connection con) throws SQLException {
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+	
 
 			String query = "INSERT INTO Event_host  (event_id, host_id) VALUES (?,?);";
 
@@ -74,17 +74,17 @@ public class EventDao {
 
 				System.out.println("no of rows affected:" + rows);
 
-				ConnectionUtil.close(con, pst, null);
+				
 				return (rows > 0) ? true : false;
 			}
 
-		}
+		
 
 	}
 
-	public static int findHostId(String hostName) throws SQLException {
+	public static int findHostId(String hostName,Connection con) throws SQLException {
 
-		try (Connection con = ConnectionUtil.getConnection()) {
+		
 
 			String query = " SELECT * FROM host WHERE host_name = ?;";
 			int userId = -1;
@@ -100,11 +100,10 @@ public class EventDao {
 
 				}
 
-				ConnectionUtil.close(con, pst, rs);
-
+				
 			}
 			return userId;
-		}
+		
 
 	}
 
