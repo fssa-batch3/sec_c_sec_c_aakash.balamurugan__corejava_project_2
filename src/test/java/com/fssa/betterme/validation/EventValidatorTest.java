@@ -17,7 +17,7 @@ import com.fssa.betterme.server.Service;
 
 	EventHost validHost = new EventHost("aakash", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", null, "9876543210ujn.com");
-	Events validEvent = new Events("New new event", "it is a event conducted by betterme ",
+	Events validEvent = new Events("Aakash event", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(2), LocalTime.of(15, 00), 150.00,
 			validHost);
 	Events inValidEvent = new Events("me", "it is not a valid", "it is not a valid", LocalDate.now().minusDays(1),
