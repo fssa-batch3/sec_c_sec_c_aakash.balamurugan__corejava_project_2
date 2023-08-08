@@ -2,8 +2,8 @@ package com.fssa.betterme.server;
 
 import java.sql.SQLException;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+
+
 
 import com.fssa.betterme.objects.*;
 import com.fssa.betterme.validation.EventValidator;
@@ -44,7 +44,7 @@ public class Service {
 		}
 		return true;
 	}
-	public boolean getEvents()throws DAOException,SQLException {
+	public boolean getEvents()throws SQLException {
 		EventDao.readEvent();
 		return true;
 	}

@@ -23,7 +23,7 @@ public abstract class ConnectionUtil {
 		}
 
 		try {
-//	    	            Class.forName("com.mysql.cj.jdbc.Driver");
+
 			con = DriverManager.getConnection(url, userName, passWord);
 		} catch (Exception e) {
 		
