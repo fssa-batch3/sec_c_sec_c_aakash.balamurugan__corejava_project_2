@@ -38,7 +38,7 @@ public class Service {
 		}
 		return true;
 	}
-	public static boolean getEvents()throws SQLException {
+	public static boolean getEvents()throws SQLException, DAOException {
 		EventDao.readEvent();
 		EventDao.getEventByDate();
 		

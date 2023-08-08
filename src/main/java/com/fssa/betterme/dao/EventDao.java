@@ -2,6 +2,7 @@ package com.fssa.betterme.dao;
 
 import java.sql.Connection;
 
+import com.fssa.betterme.server.Logger;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -17,6 +18,7 @@ import com.fssa.betterme.objects.Events;
 public class EventDao {
 	
 	static String rowAffected = "no of rows affected:";
+	static Logger log = new Logger();
 
 	// adding new row to the table
 	public static boolean addEvent(Events event) throws SQLException, DAOException {
@@ -31,7 +33,7 @@ public class EventDao {
 	            pst.setDouble(6, event.getPrice());
 
 	            int rows = pst.executeUpdate();
-	        	System.out.println(rowAffected + rows);
+	        	log.debug(rowAffected + rows);
 	            if (rows <= 0) {
 	                throw new DAOException("Failed to insert event.");
 	            }
@@ -76,7 +78,7 @@ public class EventDao {
 
 				int rows = pst.executeUpdate();
 
-				System.out.println(rowAffected + rows);
+				log.info(rowAffected + rows);
 
 				
 				return true ;
@@ -111,7 +113,7 @@ public class EventDao {
 
 	}
 
-	public static boolean updateEvent(int id, String newName) throws SQLException {
+	public static boolean updateEvent(int id, String newName) throws SQLException, DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -124,7 +126,7 @@ public class EventDao {
 
 				int rows = pst.executeUpdate();
 
-				System.out.println(rowAffected + rows);
+				log.info(rowAffected + rows);
 				ConnectionUtil.close(con, pst, null);
 				return  true ;
 			}
@@ -132,7 +134,7 @@ public class EventDao {
 
 	}
 
-	public static boolean updateEvent(int id, double price) throws SQLException {
+	public static boolean updateEvent(int id, double price) throws SQLException, DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -145,7 +147,7 @@ public class EventDao {
 
 				int rows = pst.executeUpdate();
 
-				System.out.println(rowAffected + rows);
+				log.info(rowAffected + rows);
 				ConnectionUtil.close(con, pst, null);
 				return  true ;
 			}
@@ -153,7 +155,7 @@ public class EventDao {
 
 	}
 
-	public static boolean deleteEvent(int id) throws SQLException {
+	public static boolean deleteEvent(int id) throws SQLException, DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -169,7 +171,7 @@ public class EventDao {
 					pst1.setInt(1, id);
 					pst1.executeUpdate();
 				}
-				System.out.println(rowAffected + rows);
+				log.info(rowAffected + rows);
 				ConnectionUtil.close(con, pst, null);
 
 				return  true ;
@@ -178,7 +180,7 @@ public class EventDao {
 
 	}
 
-	public static boolean readEvent() throws SQLException {
+	public static boolean readEvent() throws SQLException, DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -194,7 +196,7 @@ public class EventDao {
 					String userName = rs.getString("event_name");
 					Date emailID = rs.getDate("date");
 
-					System.out.println("UserId:" + userId + ", UserName:" + userName + ", EMAIL ID:" + emailID);
+				log.info("UserId:" + userId + ", UserName:" + userName + ", EMAIL ID:" + emailID);
 				}
 
 				ConnectionUtil.close(con, pst, rs);
@@ -205,7 +207,7 @@ public class EventDao {
 
 	}
 
-	public static boolean getEventByDate() throws SQLException {
+	public static boolean getEventByDate() throws SQLException, DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -221,7 +223,7 @@ public class EventDao {
 					String userName = rs.getString("event_name");
 					Date emailID = rs.getDate("date");
 
-					System.out.println("event Id:" + userId + ", Event name: " + userName + ", date :" + emailID);
+					log.info("event Id:" + userId + ", Event name: " + userName + ", date :" + emailID);
 				}
 
 				ConnectionUtil.close(con, pst, rs);
@@ -232,7 +234,7 @@ public class EventDao {
 
 	}
 
-	public static boolean eventRange(LocalDate start, LocalDate end) throws SQLException {
+	public static boolean eventRange(LocalDate start, LocalDate end) throws SQLException, DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?;";
 
@@ -249,7 +251,7 @@ public class EventDao {
 					String userName = rs.getString("event_name");
 					Date eventDate = rs.getDate("date");
 
-					System.out.println("UserId: " + userId + ", UserName: " + userName + ", date: " + eventDate);
+					log.info("UserId: " + userId + ", UserName: " + userName + ", date: " + eventDate);
 
 					eventsFound = true;
 				}

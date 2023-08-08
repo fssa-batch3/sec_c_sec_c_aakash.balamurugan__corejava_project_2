@@ -6,7 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public abstract class ConnectionUtil {
 
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DAOException {
 		Connection con = null;
 
 		String url;
@@ -29,7 +29,7 @@ public abstract class ConnectionUtil {
 			con = DriverManager.getConnection(url, userName, passWord);
 		} catch (Exception e) {
 		
-			throw new RuntimeException("Unable to connect to the database");
+			throw new DAOException("Unable to connect to the database");
 		}
 		return con;
 	}
@@ -46,7 +46,7 @@ public abstract class ConnectionUtil {
 			}
 			if (conn != null) {
 				conn.close();
-				System.out.println("connection closed");
+			
 			}
 		} catch (SQLException e) {
 			
