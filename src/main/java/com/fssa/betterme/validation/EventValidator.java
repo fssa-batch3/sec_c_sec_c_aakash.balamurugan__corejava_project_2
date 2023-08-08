@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
 
 public class EventValidator {
 
+	 EventValidator (){
+		
+	}
 	    // Other attributes and methods remain the same...
 
 	    // Validator methods
@@ -32,7 +35,7 @@ public class EventValidator {
 		  if(name==null ||name.trim().isEmpty()) {
 	         	 throw new DAOException(EventValidaterErrors.EVENTNAME_NULL_ERROR);
 	         }
-	        String namePattern = "^[a-zA-Z]+(?:\\s[a-zA-Z]+)*$";// ergex pattern that the string should contain only alphabet
+	        String namePattern = "^[a-zA-Z]+(?:\\s[a-zA-Z]++)*$";// ergex pattern that the string should contain only alphabet
 	        Pattern pattern = Pattern.compile(namePattern);
 	        Matcher match = pattern.matcher(name);
 	      

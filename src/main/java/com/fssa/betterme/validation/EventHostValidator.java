@@ -17,7 +17,7 @@ public class EventHostValidator {
         isValidHostName(eventHost.getHostName());
         isValidContactNumber(eventHost.getContactNumber());
         isValidEmail(eventHost.getEmail());
-//      isValidReview(eventHost.getReview());
+
         return true;
 
    
@@ -76,14 +76,6 @@ public class EventHostValidator {
         }
     }
 
-//    public boolean isValidReview(Rating review) throws DAOException {
-//        // Implement your review validation logic here, e.g., check if it's within a valid rating range
-//        // For this example, we'll assume that any non-null review is valid
-//    	if(review == null) {
-//       	 throw new DAOException(EventHostValidatorError.EVENTRATING_INVALID_ERROR);
-//    	}
-//    	else {
-//    		return true;
-//    	}
-//    }
+
+
 }

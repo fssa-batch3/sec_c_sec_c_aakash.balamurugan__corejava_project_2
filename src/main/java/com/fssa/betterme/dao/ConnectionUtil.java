@@ -26,7 +26,7 @@ public abstract class ConnectionUtil {
 //	    	            Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, userName, passWord);
 		} catch (Exception e) {
-			e.printStackTrace();
+		
 			throw new RuntimeException("Unable to connect to the database");
 		}
 		return con;
@@ -47,7 +47,7 @@ public abstract class ConnectionUtil {
 				System.out.println("connection closed");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 			// No need re throw the exception.
 		}
 	}

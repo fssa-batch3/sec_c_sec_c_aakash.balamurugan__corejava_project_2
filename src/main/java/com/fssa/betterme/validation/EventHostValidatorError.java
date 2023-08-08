@@ -1,6 +1,6 @@
 package com.fssa.betterme.validation;
 
-public interface EventHostValidatorError {
+public class EventHostValidatorError {
 	  public static final String EVENTHOST_NULL_ERROR ="EventHost cannot be null ";
 	  public static final String EVENTHOSTNAME_NULL_ERROR ="Event host Name cannot be null ";
 	  public static final String  EVENTHOSTNUMBER_NULL_ERROR = "Event host Contact number cannot be null";

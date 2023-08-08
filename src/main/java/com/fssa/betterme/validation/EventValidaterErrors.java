@@ -1,6 +1,6 @@
 package com.fssa.betterme.validation;
 
-public interface EventValidaterErrors {
+public class EventValidaterErrors {
   public static final String EVENT_NULL_ERROR ="Event cannot be null ";
   public static final String EVENTNAME_NULL_ERROR ="Event Name cannot be null ";
   public static final String EVENTDESCRIPTION_NULL_ERROR ="Event Description cannot be null ";
@@ -11,7 +11,7 @@ public interface EventValidaterErrors {
   
   
   public static final String EVENT_INVALID_ERROR ="Event is  Invalid ";
-  public static final String EVENTNAME_INVALID_ERROR ="Event Name should contain atleast of 8 characters";
+  public static final String EVENTNAME_INVALID_ERROR ="Event Name should contain atleast of 8 characters with only alphabet";
   public static final String EVENTDESCRIPTION_INVALID_ERROR ="Event Description should contain atleast of 30 characters  ";
   public static final String EVENTADDRESS_INVALID_ERROR ="Event Address should contain atleast of 30 characters ";
   public static final String EVENTDATE_INVALID_ERROR ="Event Date should not be in the past ";

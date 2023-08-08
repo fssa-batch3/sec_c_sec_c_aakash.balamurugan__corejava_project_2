@@ -11,6 +11,8 @@ import com.fssa.betterme.dao.DAOException;
 import com.fssa.betterme.dao.EventDao;
 
 public class Service {
+	
+	
 	private Events eventValidation;
 	private EventValidator EventValidator;
 	public Service(Events eventValidation,EventValidator EventValidator) {
@@ -18,10 +20,9 @@ public class Service {
 		this.eventValidation = eventValidation;
 		this.EventValidator = EventValidator;
 	}
-	public Service() {
-		
-	}
-	public boolean addProduct(Events event)throws DAOException,SQLException{
+
+
+	public boolean addEvent(Events event)throws DAOException,SQLException{
 		if(EventValidator.isValidEvent(event)) {
 			EventDao.addEvent(event);
 		}
