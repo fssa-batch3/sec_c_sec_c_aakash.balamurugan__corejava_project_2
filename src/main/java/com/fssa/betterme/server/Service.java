@@ -13,22 +13,16 @@ import com.fssa.betterme.dao.EventDao;
 public class Service {
 	
 	
-	private Events eventValidation;
-	private EventValidator EventValidator;
-	public Service(Events eventValidation,EventValidator EventValidator) {
-		super();
-		this.eventValidation = eventValidation;
-		this.EventValidator = EventValidator;
-	}
 
 
-	public boolean addEvent(Events event)throws DAOException,SQLException{
+
+	public static boolean addEvent(Events event)throws DAOException,SQLException{
 		if(EventValidator.isValidEvent(event)) {
 			EventDao.addEvent(event);
 		}
 		return true;
 	}
-	public boolean updateEvent(Events event)throws DAOException,SQLException{
+	public static boolean updateEvent(Events event)throws DAOException,SQLException{
 		if(EventValidator.isValidEvent(event)) {
 			int num  =1;
 			EventDao.updateEvent(num,event.getEventName());
@@ -36,7 +30,7 @@ public class Service {
 		}
 		return true;
 	}
-	public boolean deleteProduct(Events event)throws DAOException,SQLException{
+	public static boolean deleteProduct(Events event)throws DAOException,SQLException{
 		
 		if(EventValidator.isValidEvent(event)) {
 			int EventId =1;
@@ -44,10 +38,15 @@ public class Service {
 		}
 		return true;
 	}
-	public boolean getEvents()throws SQLException {
+	public static boolean getEvents()throws SQLException {
 		EventDao.readEvent();
+		EventDao.getEventByDate();
+		
 		return true;
 	}
+
+
+
 }
 
 

@@ -202,7 +202,7 @@ public class EventDao {
 
 	}
 
-	public static boolean GetEventByDate() throws SQLException {
+	public static boolean getEventByDate() throws SQLException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -229,7 +229,7 @@ public class EventDao {
 
 	}
 
-	public static boolean EventRange(LocalDate start, LocalDate end) throws SQLException {
+	public static boolean eventRange(LocalDate start, LocalDate end) throws SQLException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?;";
 

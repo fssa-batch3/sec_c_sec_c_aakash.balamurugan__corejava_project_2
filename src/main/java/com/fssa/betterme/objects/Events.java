@@ -4,83 +4,83 @@ package com.fssa.betterme.objects;
 import java.time.*;
 
 public class Events extends EventHost{
-	private String EventName;
+	private String eventName;
 
 
-	private String EventDescription;
-	private String EventAddress;
-	private LocalDate EventDate;
-	private LocalTime EventTime;
-	private double Price;
-	private EventHost Host;
+	private String eventDescription;
+	private String eventAddress;
+	private LocalDate eventDate;
+	private LocalTime eventTime;
+	private double price;
+	private EventHost host;
 
 	public Events( String eventName,
 			String eventDescription, String eventAddress, LocalDate eventDate, LocalTime eventTime, double price,
 			EventHost host) {
 		super(host.getHostName(), host.getContactNumber(), host.getEmail());
-		this.EventName = eventName;
-		this.EventDescription = eventDescription;
-		this.EventAddress = eventAddress;
-		this.EventDate = eventDate;
-		this.EventTime = eventTime;
-		this.Price = price;
-		this.Host = host;
+		this.eventName = eventName;
+		this.eventDescription = eventDescription;
+		this.eventAddress = eventAddress;
+		this.eventDate = eventDate;
+		this.eventTime = eventTime;
+		this.price = price;
+		this.host = host;
 	}
 
 	public String getEventName() {
-		return EventName;
+		return eventName;
 	}
 
 	public String getEventDescription() {
-		return EventDescription;
+		return eventDescription;
 	}
 
 	public String getEventAddress() {
-		return EventAddress;
+		return eventAddress;
 	}
 
 	public LocalDate getEventDate() {
-		return EventDate;
+		return eventDate;
 	}
 
 	public LocalTime getEventTime() {
-		return EventTime;
+		return eventTime;
 	}
 
 	public double getPrice() {
-		return Price;
+		return price;
 	}
 
 	public EventHost getHost() {
-		return Host;
+		return host;
 	}
 
 	public void setEventName(String eventName) {
-		EventName = eventName;
+		this.eventName = eventName;
 	}
 
 	public void setEventDescription(String eventDescription) {
-		EventDescription = eventDescription;
+		this.eventDescription = eventDescription;
 	}
 
 	public void setEventAddress(String eventAddress) {
-		EventAddress = eventAddress;
+		this.eventAddress = eventAddress;
 	}
 
 	public void setEventDate(LocalDate eventDate) {
-		EventDate = eventDate;
+		this.eventDate = eventDate;
 	}
 
 	public void setEventTime(LocalTime eventTime) {
-		EventTime = eventTime;
+		this.eventTime = eventTime;
 	}
 
 	public void setPrice(double price) {
-		Price = price;
+		this.price = price;
 	}
 
 	public void setHost(EventHost host) {
-		Host = host;
+		this.host = host;
 	}	
 	
 	

@@ -4,7 +4,7 @@ import java.sql.*;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-public abstract class ConnectionUtil {
+public  class ConnectionUtil {
 
 	public static Connection getConnection() {
 		Connection con = null;

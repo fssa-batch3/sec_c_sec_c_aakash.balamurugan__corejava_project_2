@@ -4,7 +4,7 @@ public class  EventHost {
 
 	protected String hostName;
 	protected String contactNumber;
-//	protected Rating review ;
+
 	protected String email;
 	
 	
@@ -12,7 +12,7 @@ public class  EventHost {
 		
 		this.hostName = hostName;
 		this.contactNumber = contactNumber;
-//		this.review = review;
+
 		this.email = email;
 	}
 
@@ -21,7 +21,7 @@ public class  EventHost {
 		
 		this.hostName = hostName;
 		this.contactNumber = contactNumber;
-//		this.review = review;
+
 		this.email = email;
 	}
 	public String getHostName() {
@@ -30,9 +30,7 @@ public class  EventHost {
 	public String getContactNumber() {
 		return contactNumber;
 	}
-//	public Rating getReview() {
-//		return review;
-//	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -42,9 +40,7 @@ public class  EventHost {
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
-//	public void setReview(Rating review) {
-//		this.review = review;
-//	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
