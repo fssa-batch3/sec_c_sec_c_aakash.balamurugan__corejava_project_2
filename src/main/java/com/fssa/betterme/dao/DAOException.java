@@ -11,11 +11,5 @@ public class DAOException extends Exception {
 		super(msg);
 	}
 
-	public DAOException(Throwable te) {
-		super(te);
-	}
 
-	public DAOException(String msg, Throwable te) {
-		super(msg, te);
-	}
 }

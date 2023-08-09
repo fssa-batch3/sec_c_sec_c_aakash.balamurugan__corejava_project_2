@@ -3,7 +3,7 @@ package com.fssa.betterme.objects;
 
 import java.time.*;
 
-public class Events extends EventHost{
+public class Events {
 	private String eventName;
 
 
@@ -17,7 +17,7 @@ public class Events extends EventHost{
 	public Events( String eventName,
 			String eventDescription, String eventAddress, LocalDate eventDate, LocalTime eventTime, double price,
 			EventHost host) {
-		super(host.getHostName(), host.getContactNumber(), host.getEmail());
+		
 		this.eventName = eventName;
 		this.eventDescription = eventDescription;
 		this.eventAddress = eventAddress;

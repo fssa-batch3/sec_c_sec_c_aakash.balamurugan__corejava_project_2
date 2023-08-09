@@ -31,6 +31,7 @@ public abstract class ConnectionUtil {
 		
 			throw new DAOException("Unable to connect to the database");
 		}
+		System.out.println("connected");
 		return con;
 	}
 
@@ -46,7 +47,7 @@ public abstract class ConnectionUtil {
 			}
 			if (conn != null) {
 				conn.close();
-			
+				System.out.println("connection removed");
 			}
 		} catch (SQLException e) {
 			

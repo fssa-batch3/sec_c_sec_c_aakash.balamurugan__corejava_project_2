@@ -28,7 +28,7 @@ public class EventHostValidator {
     	  if(name==null ) {
          	 throw new DAOException(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR);
          }
-        String namePattern = "^[a-zA-Z]+$";
+        String namePattern = "^[A-Za-z\s]+$";
         
         Pattern pattern = Pattern.compile(namePattern);
         Matcher match = pattern.matcher(name);

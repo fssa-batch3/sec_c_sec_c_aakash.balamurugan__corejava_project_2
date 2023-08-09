@@ -15,10 +15,10 @@ import com.fssa.betterme.server.Service;
 
  class EventValidatorTest {
 
-	EventHost validHost = new EventHost("aakash", "9876543210", "joe1@gmail.com");
+	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
-	Events validEvent = new Events("newnewbettermeEvent", "it is a event conducted by betterme ",
-			"it is a event conducted by betterme", LocalDate.now().plusDays(2), LocalTime.of(15, 00), 150.00,
+	Events validEvent = new Events("yogievent", "it is a event conducted by betterme ",
+			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
 	Events inValidEvent = new Events("me", "it is not a valid", "it is not a valid", LocalDate.now().minusDays(1),
 			LocalTime.of(23, 0), 0, inValidHost);
@@ -317,6 +317,7 @@ import com.fssa.betterme.server.Service;
 	}
 	
 	
+	
 	@Test 
 	void ValidAddEventTest() throws DAOException, SQLException {
 		Assertions.assertTrue(Service.addEvent(validEvent));
@@ -324,17 +325,21 @@ import com.fssa.betterme.server.Service;
 
 	@Test 
 	void ValidUpdateEventTest() throws DAOException, SQLException {
+	
+		
 		Assertions.assertTrue(Service.updateEvent(validEvent));
 	}
 	
 	@Test 
 	void ValidReadAllEventTest() throws DAOException, SQLException {
-		Assertions.assertTrue(Service.getEvents());
+		Service service = new Service();
+		Assertions.assertTrue(service.getEvents());
 	}
+	
 	
 	@Test 
 	void ValidDeleteEventTest() throws DAOException, SQLException {
-		Assertions.assertTrue(Service.deleteProduct(validEvent));
+		Assertions.assertTrue(Service.deleteEvent(validEvent));
 	}
 
 
