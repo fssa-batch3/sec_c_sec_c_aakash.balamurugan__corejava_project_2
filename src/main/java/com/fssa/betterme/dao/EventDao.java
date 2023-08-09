@@ -39,7 +39,7 @@ public class EventDao {
 	            pst.setInt(7, hostId);
 
 	            int rows = pst.executeUpdate();
-	        	log.debug(rowAffected + rows);
+	        	log.info(rowAffected + rows);
 	            if (rows <= 0) {
 	                throw new DAOException("Failed to insert event.");
 	            }
@@ -139,7 +139,7 @@ public class EventDao {
 				// Step 06: Iterate the result
 				while (rs.next()) {
 					int eventId = rs.getInt("id");
-					String eventName = rs.getString("event_name");
+					String eventName = rs.getString(event);
 					Date emailID = rs.getDate("date");
 
 				log.info("EventId:" + eventId + ", EventName:" + eventName + ", EMAIL ID:" + emailID);
@@ -166,7 +166,7 @@ public class EventDao {
 				// Step 06: Iterate the result
 				while (rs.next()) {
 					int userId = rs.getInt("id");
-					String userName = rs.getString("event_name");
+					String userName = rs.getString(event);
 					Date emailID = rs.getDate("date");
 
 					log.info("event Id:" + userId + ", Event name: " + userName + ", date :" + emailID);
@@ -194,7 +194,7 @@ public class EventDao {
 				// Step 06: Iterate the result
 				while (rs.next()) {
 					int userId = rs.getInt("id");
-					String userName = rs.getString("event_name");
+					String userName = rs.getString(event);
 					Date eventDate = rs.getDate("date");
 
 					log.info("UserId: " + userId + ", UserName: " + userName + ", date: " + eventDate);

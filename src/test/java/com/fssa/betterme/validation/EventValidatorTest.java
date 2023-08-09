@@ -2,6 +2,7 @@ package com.fssa.betterme.validation;
 
 
 import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,6 +13,7 @@ import com.fssa.betterme.dao.DAOException;
 import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.server.Service;
+
 
  class EventValidatorTest {
 
@@ -332,8 +334,8 @@ import com.fssa.betterme.server.Service;
 	
 	@Test 
 	void ValidReadAllEventTest() throws DAOException, SQLException {
-		Service service = new Service();
-		Assertions.assertTrue(service.getEvents());
+		
+		Assertions.assertTrue(Service.getEvents());
 	}
 	
 	

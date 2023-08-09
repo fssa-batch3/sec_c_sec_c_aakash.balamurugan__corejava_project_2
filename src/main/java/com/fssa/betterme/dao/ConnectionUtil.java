@@ -1,13 +1,15 @@
 package com.fssa.betterme.dao;
 
 import java.sql.*;
+import com.fssa.betterme.server.*;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
 public abstract class ConnectionUtil {
-
+	static Logger log = new Logger();
 	public static Connection getConnection() throws DAOException {
 		Connection con = null;
+		
 
 		String url;
 		String userName;
@@ -31,7 +33,7 @@ public abstract class ConnectionUtil {
 		
 			throw new DAOException("Unable to connect to the database");
 		}
-		System.out.println("connected");
+		log.info("connected");
 		return con;
 	}
 
@@ -47,7 +49,7 @@ public abstract class ConnectionUtil {
 			}
 			if (conn != null) {
 				conn.close();
-				System.out.println("connection removed");
+				log.info("connection removed");
 			}
 		} catch (SQLException e) {
 			
