@@ -79,7 +79,8 @@ public class EventDao {
 	}
 
 	 public boolean updateEvent(Object oldValue, String columnName, Object newValue) throws SQLException, DAOException {
-	        String query = "UPDATE events SET " + columnName + " = ? WHERE "+columnName +" = ?";
+	        String query1 = "UPDATE events SET " + columnName + " = ? WHERE "+columnName +" = ?";
+	        String query = query1;
 	        
 	        try (Connection con = ConnectionUtil.getConnection()){
 	             try(PreparedStatement pst = con.prepareStatement(query)) {
@@ -100,8 +101,7 @@ public class EventDao {
 	            int rows = pst.executeUpdate();
 	            ConnectionUtil.close(con, pst, null);
 	            return rows > 0;
-	        }
-	             }
+	        }}
 	    }
 
 

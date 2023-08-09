@@ -6,10 +6,15 @@ import com.fssa.betterme.server.*;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public abstract class ConnectionUtil {
+
+	private ConnectionUtil() {
+
+	}
+
 	static Logger log = new Logger();
+
 	public static Connection getConnection() throws DAOException {
 		Connection con = null;
-		
 
 		String url;
 		String userName;
@@ -30,7 +35,7 @@ public abstract class ConnectionUtil {
 
 			con = DriverManager.getConnection(url, userName, passWord);
 		} catch (Exception e) {
-		
+
 			throw new DAOException("Unable to connect to the database");
 		}
 		log.info("connected");
@@ -52,7 +57,7 @@ public abstract class ConnectionUtil {
 				log.info("connection removed");
 			}
 		} catch (SQLException e) {
-			
+
 			// No need re throw the exception.
 		}
 	}
