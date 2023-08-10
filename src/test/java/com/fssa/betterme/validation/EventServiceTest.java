@@ -3,6 +3,7 @@ package com.fssa.betterme.validation;
 
 
 import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -15,7 +16,7 @@ import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.server.EventService;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
 
-public class EventServiceTest {
+ class EventServiceTest {
 	
 	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");

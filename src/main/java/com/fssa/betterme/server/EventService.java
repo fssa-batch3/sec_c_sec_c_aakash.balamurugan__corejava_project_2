@@ -8,7 +8,7 @@ import com.fssa.betterme.validation.EventValidator;
 import com.fssa.betterme.dao.EventDao;
 import com.fssa.betterme.exception.DAOException;
 
-public class EventService {
+ public class EventService {
 	
 	
 

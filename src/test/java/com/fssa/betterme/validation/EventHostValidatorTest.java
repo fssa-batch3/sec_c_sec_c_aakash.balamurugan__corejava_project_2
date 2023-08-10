@@ -11,7 +11,7 @@ import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
-public class EventHostValidatorTest {
+ class EventHostValidatorTest {
 	
 	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");

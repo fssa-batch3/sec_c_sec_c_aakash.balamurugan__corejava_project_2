@@ -12,7 +12,7 @@ import com.fssa.betterme.server.EventHostService;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
 
-public class HostServiceTest {
+ class HostServiceTest {
 
 	EventHost valid = new EventHost("sandeep" , "9876543210" ,"sandeep@gmail.com");
 	EventHost inValid = new EventHost("san67" , "98765hv210" ,"sandeepgmail.com");
