@@ -4,8 +4,9 @@ package com.fssa.betterme.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fssa.betterme.dao.DAOException;
+import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.objects.EventHost;
+import com.fssa.betterme.validation.message.EventHostValidatorError;
 
 public class EventHostValidator {
 

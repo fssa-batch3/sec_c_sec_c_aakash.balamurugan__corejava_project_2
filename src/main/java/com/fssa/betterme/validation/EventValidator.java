@@ -1,7 +1,9 @@
 package com.fssa.betterme.validation;
 
+import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.objects.Events;
-import com.fssa.betterme.dao.DAOException;
+import com.fssa.betterme.validation.message.EventValidaterErrors;
+
 import java.time.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

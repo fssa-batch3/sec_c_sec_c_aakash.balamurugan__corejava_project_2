@@ -2,8 +2,7 @@ package com.fssa.betterme.dao;
 
 import java.sql.Connection;
 
-
-import com.fssa.betterme.server.Logger;
+import com.fssa.betterme.util.ConnectionUtil;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,7 +12,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 
-
+import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.logger.Logger;
 import com.fssa.betterme.objects.Events;
 
 public class EventDao {
@@ -23,12 +23,12 @@ public class EventDao {
 	static String event = "event_name";
 
 	// adding new row to the table
-	public static boolean addEvent(Events event) throws SQLException, DAOException {
+	public static boolean addEvent(Events event) throws DAOException {
 	    try (Connection con = ConnectionUtil.getConnection()) {
-	    	
-	    	int hostId = findHostId(event.getHost().getHostName(), con);
-	    	
-	        String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price,host_id) VALUES (?, ?, ?, ?, ?, ?,?);";
+	        // Retrieve host ID based on host name
+	        int hostId = findHostId(event.getHost().getHostName(), con);
+
+	        String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id) VALUES (?, ?, ?, ?, ?, ?, ?);";
 	        try (PreparedStatement pst = con.prepareStatement(query)) {
 	            pst.setString(1, event.getEventName());
 	            pst.setString(2, event.getEventDescription());
@@ -38,21 +38,24 @@ public class EventDao {
 	            pst.setDouble(6, event.getPrice());
 	            pst.setInt(7, hostId);
 
-	            int rows = pst.executeUpdate();
-	        	log.info(rowAffected + rows);
-	            if (rows <= 0) {
+	            int rowsAffected = pst.executeUpdate();
+	            
+	            if (rowsAffected <= 0) {
 	                throw new DAOException("Failed to insert event.");
 	            }
 
-
-	            ConnectionUtil.close(con, pst, null);
 	            return true;
+	        } catch (SQLException e) {
+	           
+	            throw new DAOException( e.getMessage());
 	        }
+	    } catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
 	    }
 	}
 
 
-	public static int findHostId(String hostName,Connection con) throws SQLException {
+	public static int findHostId(String hostName,Connection con) throws DAOException  {
 
 		
 
@@ -72,13 +75,15 @@ public class EventDao {
 				}
 				ConnectionUtil.close(null, pst, rs);
 				
+			} catch (SQLException e) {
+		        throw new DAOException( e.getMessage());
 			}
 			return userId;
 		
 
 	}
 
-	 public boolean updateEvent(Object oldValue, String columnName, Object newValue) throws SQLException, DAOException {
+	 public boolean updateEvent(Object oldValue, String columnName, Object newValue) throws  DAOException {
 	        String query1 = "UPDATE events SET " + columnName + " = ? WHERE "+columnName +" = ?";
 	        String query = query1;
 	        
@@ -101,11 +106,13 @@ public class EventDao {
 	            int rows = pst.executeUpdate();
 	            ConnectionUtil.close(con, pst, null);
 	            return rows > 0;
-	        }}
+	        }} catch (SQLException e) {
+		        throw new DAOException( e.getMessage());
+			}
 	    }
 
 
-	public static boolean deleteEvent(Events event) throws SQLException, DAOException {
+	public static boolean deleteEvent(Events event) throws  DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -123,11 +130,13 @@ public class EventDao {
 
 				return  true ;
 			}
+		} catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
 		}
 
 	}
 
-	public static boolean readEvent() throws SQLException, DAOException {
+	public static boolean readEvent() throws  DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -149,12 +158,14 @@ public class EventDao {
 				ConnectionUtil.close(con, pst, rs);
 
 			}
+		} catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
 		}
 		return false;
 
 	}
 
-	public static boolean getEventByDate() throws SQLException, DAOException {
+	public static boolean getEventByDate() throws DAOException {
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 
@@ -176,12 +187,14 @@ public class EventDao {
 				ConnectionUtil.close(con, pst, rs);
 
 			}
+		} catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
 		}
 		return false;
 
 	}
 
-	public static boolean eventRange(LocalDate start, LocalDate end) throws SQLException, DAOException {
+	public static boolean eventRange(LocalDate start, LocalDate end) throws  DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?;";
 
@@ -207,7 +220,12 @@ public class EventDao {
 
 				return eventsFound;
 			}
+		} catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
 		}
 	}
+
+	
+
 
 }
