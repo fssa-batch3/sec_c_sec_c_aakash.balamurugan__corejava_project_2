@@ -88,16 +88,16 @@ public class EventDao {
 	        try (Connection con = ConnectionUtil.getConnection()){
 	             try(PreparedStatement pst = con.prepareStatement(query)) {
 	            
-	            if (newValue instanceof String) {
-	                pst.setString(1, (String) newValue);
-	            } else if (newValue instanceof Double) {
-	                pst.setDouble(1, (Double) newValue);
+	            if (newValue instanceof String str) {
+	                pst.setString(1, str);
+	            } else if (newValue instanceof Double dou) {
+	                pst.setDouble(1, dou);
 	            }
 	            
-	            if (oldValue instanceof String) {
-	                pst.setString(2, (String) oldValue);
-	            } else if (oldValue instanceof Double) {
-	                pst.setDouble(2, (Double) oldValue);
+	            if (oldValue instanceof String str) {
+	                pst.setString(2, str);
+	            } else if (oldValue instanceof Double dou) {
+	                pst.setDouble(2, dou);
 	            }
 	          
 	            
