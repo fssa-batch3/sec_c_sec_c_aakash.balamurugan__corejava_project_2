@@ -17,7 +17,7 @@ public class EventValidator {
 
 	    // Validator methods
 	// validation for valid event
-	public static boolean isValidEvent(Events event) throws DAOException {
+	public static  boolean isValidEvent(Events event) throws DAOException {
 		if(event==null) {  // check is it null
 			throw new DAOException(EventValidaterErrors.EVENT_NULL_ERROR);// throws exception if its null
 		}

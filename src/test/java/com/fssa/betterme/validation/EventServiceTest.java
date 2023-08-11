@@ -27,35 +27,35 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 			LocalTime.of(23, 0), 0, inValidHost);
 	EventValidator validateEvent = new EventValidator();
 	EventHostValidator validateHost = new EventHostValidator();
-	
+	EventService service = new EventService();
 	@Test 
 	void ValidAddEventTest() throws DAOException, SQLException {
-		Assertions.assertTrue(EventService.addEvent(validEvent));
+		Assertions.assertTrue(service.addEvent(validEvent));
 	}
 
 	@Test 
 	void ValidUpdateEventTest() throws DAOException, SQLException {
 	
 		
-		Assertions.assertTrue(EventService.updateEvent(validEvent));
+		Assertions.assertTrue(service.updateEvent(validEvent));
 	}
 	
 	@Test 
 	void ValidReadAllEventTest() throws DAOException, SQLException {
 		
-		Assertions.assertTrue(EventService.getEvents());
+		Assertions.assertTrue(service.getEvents());
 	}
 	
 	
 	@Test 
 	void ValidDeleteEventTest() throws DAOException, SQLException {
-		Assertions.assertTrue(EventService.deleteEvent(validEvent));
+		Assertions.assertTrue(service.deleteEvent(validEvent));
 	}
 	@Test 
 	void inValidAddEventTest()  {
 	
 		try {
-			Assertions.assertFalse(EventService.addEvent(inValidEvent));
+			Assertions.assertFalse(service.addEvent(inValidEvent));
 			Assertions.fail();
 		} catch (DAOException e) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_INVALID_ERROR, e.getMessage());
@@ -69,7 +69,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		
 	
 		try {
-			Assertions.assertFalse(EventService.updateEvent(inValidEvent));
+			Assertions.assertFalse(service.updateEvent(inValidEvent));
 			Assertions.fail();
 		} catch (DAOException e) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_INVALID_ERROR, e.getMessage());
@@ -81,7 +81,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	void inValidDeleteEventTest() throws DAOException, SQLException {
 		
 		try {
-			Assertions.assertFalse(EventService.deleteEvent(inValidEvent));
+			Assertions.assertFalse(service.deleteEvent(inValidEvent));
 			Assertions.fail();
 		} catch (DAOException e) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_INVALID_ERROR, e.getMessage());

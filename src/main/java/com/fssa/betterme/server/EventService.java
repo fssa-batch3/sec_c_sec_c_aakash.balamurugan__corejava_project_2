@@ -3,6 +3,7 @@ package com.fssa.betterme.server;
 
 import java.time.LocalDate;
 
+
 import com.fssa.betterme.objects.*;
 import com.fssa.betterme.validation.EventValidator;
 import com.fssa.betterme.dao.EventDao;
@@ -14,13 +15,13 @@ import com.fssa.betterme.exception.DAOException;
 
 
 
-	public static boolean addEvent(Events event)throws DAOException{
+	public boolean addEvent(Events event)throws DAOException{
 		if(EventValidator.isValidEvent(event)) {
 			EventDao.addEvent(event);
 		}
 		return true;
 	}
-	public static boolean updateEvent(Events event)throws DAOException{
+	public boolean updateEvent(Events event)throws DAOException{
 		if(EventValidator.isValidEvent(event)) {
 	
 			
@@ -30,7 +31,7 @@ import com.fssa.betterme.exception.DAOException;
 		}
 		return true;
 	}
-	public static boolean deleteEvent(Events event)throws DAOException{
+	public boolean deleteEvent(Events event)throws DAOException{
 		
 		if(EventValidator.isValidEvent(event)) {
 			
@@ -39,7 +40,7 @@ import com.fssa.betterme.exception.DAOException;
 		}
 		return true;
 	}
-	public static boolean getEvents()throws DAOException {
+	public boolean getEvents()throws DAOException {
 		EventDao.readEvent();
 		EventDao.getEventByDate();
 		EventDao.eventRange(LocalDate.of(2023,11, 20), LocalDate.of(2023,11, 25));

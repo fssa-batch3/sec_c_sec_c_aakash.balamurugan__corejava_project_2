@@ -29,17 +29,13 @@ public class HostDao {
 
 	            // Execute the update and check the affected row count
 	            int rowsAffected = pst.executeUpdate();
-	            if (rowsAffected > 0) {
-	                return true; // Successfully added the host
-	            } else {
-	                return false; // No rows affected, host addition failed
-	            }
-	        } catch (SQLException e) {
-	            throw new DAOException( e.getMessage());
+	          
+	                return rowsAffected > 0; // Successfully added the host
+	          
 	        }
 	    } catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
-	    }
+		} 
 	}
 
 	

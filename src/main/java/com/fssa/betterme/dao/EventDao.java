@@ -45,15 +45,13 @@ public class EventDao {
 	            }
 
 	            return true;
-	        } catch (SQLException e) {
-	           
-	            throw new DAOException( e.getMessage());
-	        }
+	    
+	    
+	       }
 	    } catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
-	    }
+		}
 	}
-
 
 	public static int findHostId(String hostName,Connection con) throws DAOException  {
 
