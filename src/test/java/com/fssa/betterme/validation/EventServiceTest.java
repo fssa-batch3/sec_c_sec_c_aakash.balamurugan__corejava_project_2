@@ -18,7 +18,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 
  class EventServiceTest {
 	
-	EventHost validHost = new EventHost("Isac", "9876543210", "Isac@gmail.com");
+	EventHost validHost = new EventHost("Aakash", "9876543210", "Isac@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
 	Events validEvent = new Events("yogi event", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
