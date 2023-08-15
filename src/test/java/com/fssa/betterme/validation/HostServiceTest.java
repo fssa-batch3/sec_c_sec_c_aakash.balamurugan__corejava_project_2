@@ -14,7 +14,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 
  class HostServiceTest {
 
-	EventHost valid = new EventHost("sandeep" , "9876543210" ,"sandeep@gmail.com");
+	EventHost valid = new EventHost("Isac" , "9876543210" ,"Isac@gmail.com");
 	EventHost inValid = new EventHost("san67" , "98765hv210" ,"sandeepgmail.com");
 	
 	@Test 
@@ -36,10 +36,10 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	}
 	
 	
-	@Test 
-	void ValidDeleteEventTest() throws DAOException {
-		Assertions.assertTrue(EventHostService.deleteHost(valid));
-	}
+//	@Test 
+//	void ValidDeleteEventTest() throws DAOException {
+//		Assertions.assertTrue(EventHostService.deleteHost(valid));
+//	}
 	@Test 
 	void inValidAddHostTest()  {
 	

@@ -1,5 +1,6 @@
 package com.fssa.betterme.dao;
 
+
 import java.sql.Connection;
 
 import com.fssa.betterme.util.ConnectionUtil;
@@ -11,6 +12,9 @@ import java.sql.SQLException;
 
 import java.sql.Time;
 import java.time.LocalDate;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.logger.Logger;
@@ -36,6 +40,10 @@ public class EventDao {
 	            pst.setDate(4, Date.valueOf(event.getEventDate()));
 	            pst.setTime(5, Time.valueOf(event.getEventTime()));
 	            pst.setDouble(6, event.getPrice());
+	            if (hostId == -1) {
+	                throw new DAOException("host not found");
+	            }
+	            
 	            pst.setInt(7, hostId);
 
 	            int rowsAffected = pst.executeUpdate();
@@ -57,7 +65,7 @@ public class EventDao {
 
 		
 
-			String query = " SELECT * FROM host WHERE host_name = ?;";
+			String query = " SELECT * FROM hosts WHERE host_name = ?;";
 			int userId = -1;
 			try (PreparedStatement pst = con.prepareStatement(query);) {
 
@@ -134,37 +142,41 @@ public class EventDao {
 
 	}
 
-	public static boolean readEvent() throws  DAOException {
+	 public static List<Events> readEvents() throws DAOException {
+	        List<Events> events = new ArrayList<>();
+	        
+	        try (Connection con = ConnectionUtil.getConnection()) {
+	            String query = "SELECT * FROM events";
+	            
+	            try (PreparedStatement pst = con.prepareStatement(query);
+	                 ResultSet rs = pst.executeQuery();) {
+	                
+	                while (rs.next()) {
+	                    int eventId = rs.getInt("id");
+	                    String eventName = rs.getString("event_name");
+	                    Date eventDate = rs.getDate("date");
+	                    Time eventTime = rs.getTime("time");
+	                    double price = rs.getDouble("price");
+	                    
+	                   
+	                
+	                    Events event = new Events(eventId, eventName, eventDate, eventTime, price);
+	                    events.add(event);
+	                    
+	                    
+	                }
+	            }
+	        } catch (SQLException e) {
+	            throw new DAOException(e.getMessage());
+	        }
+	        
+	        return events;
+	    }
 
-		try (Connection con = ConnectionUtil.getConnection()) {
 
-			String query = " SELECT * FROM events";
-
-			try (PreparedStatement pst = con.prepareStatement(query);) {
-
-				ResultSet rs = pst.executeQuery(query);
-
-				// Step 06: Iterate the result
-				while (rs.next()) {
-					int eventId = rs.getInt("id");
-					String eventName = rs.getString(event);
-					Date emailID = rs.getDate("date");
-
-				log.info("EventId:" + eventId + ", EventName:" + eventName + ", EMAIL ID:" + emailID);
-				}
-
-				ConnectionUtil.close(con, pst, rs);
-
-			}
-		} catch (SQLException e) {
-	        throw new DAOException( e.getMessage());
-		}
-		return false;
-
-	}
-
-	public static boolean getEventByDate() throws DAOException {
-
+	public static  List<Events> getEventByDate() throws DAOException {
+		 List<Events> events = new ArrayList<>();
+	        
 		try (Connection con = ConnectionUtil.getConnection()) {
 
 			String query = "SELECT * FROM events ORDER BY date ASC;";
@@ -173,14 +185,21 @@ public class EventDao {
 
 				ResultSet rs = pst.executeQuery(query);
 
-				// Step 06: Iterate the result
-				while (rs.next()) {
-					int userId = rs.getInt("id");
-					String userName = rs.getString(event);
-					Date emailID = rs.getDate("date");
-
-					log.info("event Id:" + userId + ", Event name: " + userName + ", date :" + emailID);
-				}
+				
+			     while (rs.next()) {
+	                    int eventId = rs.getInt("id");
+	                    String eventName = rs.getString("event_name");
+	                    Date eventDate = rs.getDate("date");
+	                    Time eventTime = rs.getTime("time");
+	                    double price = rs.getDouble("price");
+	                    
+	                   
+	                
+	                    Events event = new Events(eventId, eventName, eventDate, eventTime, price);
+	                    events.add(event);
+	                    
+	                    
+	                }
 
 				ConnectionUtil.close(con, pst, rs);
 
@@ -188,11 +207,12 @@ public class EventDao {
 		} catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
 		}
-		return false;
+		return events;
 
 	}
 
-	public static boolean eventRange(LocalDate start, LocalDate end) throws  DAOException {
+	public static  List<Events> eventRange(LocalDate start, LocalDate end) throws  DAOException {
+		 List<Events> events = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?;";
 
@@ -201,27 +221,33 @@ public class EventDao {
 				pst.setString(2, String.valueOf(end));
 				ResultSet rs = pst.executeQuery();
 
-				boolean eventsFound = false;
+				
 
-				// Step 06: Iterate the result
-				while (rs.next()) {
-					int userId = rs.getInt("id");
-					String userName = rs.getString(event);
-					Date eventDate = rs.getDate("date");
-
-					log.info("UserId: " + userId + ", UserName: " + userName + ", date: " + eventDate);
-
-					eventsFound = true;
-				}
+			    while (rs.next()) {
+                    int eventId = rs.getInt("id");
+                    String eventName = rs.getString("event_name");
+                    Date eventDate = rs.getDate("date");
+                    Time eventTime = rs.getTime("time");
+                    double price = rs.getDouble("price");
+                    
+                   
+                
+                    Events event = new Events(eventId, eventName, eventDate, eventTime, price);
+                    events.add(event);
+                    
+                    
+                }
 
 				ConnectionUtil.close(con, pst, rs);
 
-				return eventsFound;
+				return events;
 			}
 		} catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
 		}
 	}
+
+
 
 	
 

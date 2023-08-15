@@ -20,7 +20,7 @@ public class HostDao {
 	
 	public static boolean addHost(EventHost host) throws DAOException {
 	    try (Connection con = ConnectionUtil.getConnection()) {
-	        String query = "INSERT INTO host (host_name, mobile_number, email) VALUES (?, ?, ?);";
+	        String query = "INSERT INTO hosts (host_name, mobile_number, email) VALUES (?, ?, ?);";
 	        try (PreparedStatement pst = con.prepareStatement(query)) {
 	            // Set parameters using a single try block
 	            pst.setString(1, host.getHostName());
@@ -40,7 +40,7 @@ public class HostDao {
 
 	
 	public boolean updateHost(EventHost host) throws DAOException {
-	    String query = "UPDATE host SET mobile_number = ?, email = ? WHERE host_name = ?;";
+	    String query = "UPDATE hosts SET mobile_number = ?, email = ? WHERE host_name = ?;";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
@@ -63,7 +63,7 @@ public class HostDao {
 
 	
 	public static boolean deleteHostByHostName(String hostName) throws DAOException {
-	    String query = "DELETE FROM host WHERE host_name = ?;";
+	    String query = "DELETE FROM hosts WHERE host_name = ?;";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
@@ -81,7 +81,7 @@ public class HostDao {
 	}
 	
 	public static boolean readAllHost() throws DAOException {
-	    String query = "SELECT * FROM host;";
+	    String query = "SELECT * FROM hosts;";
 	   
 
 	    try (Connection con = ConnectionUtil.getConnection();

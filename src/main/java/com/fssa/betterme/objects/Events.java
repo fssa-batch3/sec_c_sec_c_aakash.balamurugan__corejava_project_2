@@ -1,6 +1,8 @@
 package com.fssa.betterme.objects;
 
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.*;
 
 public class Events {
@@ -25,6 +27,15 @@ public class Events {
 		this.eventTime = eventTime;
 		this.price = price;
 		this.host = host;
+	}
+
+	public Events(int eventId, String eventName, Date eventDate, Time eventTime, double price) {
+		this.eventName = eventName;
+		
+		this.eventDate = eventDate.toLocalDate();
+		this.eventTime = eventTime.toLocalTime();
+		this.price = price;
+		
 	}
 
 	public String getEventName() {
