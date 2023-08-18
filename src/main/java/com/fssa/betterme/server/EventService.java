@@ -45,16 +45,16 @@ import com.fssa.betterme.validation.EventValidator;
 	public boolean getEvents()throws DAOException {
 	
 		List<Events> values=EventDao.readEvents();
-		print_events(values);
+		printEvents(values);
 		List<Events> values1=EventDao.getEventByDate();
-		print_events(values1);
+		printEvents(values1);
 		List<Events> values2=EventDao.eventRange(LocalDate.of(2023,11, 20), LocalDate.of(2023,11, 25));
-		print_events(values2);
+		printEvents(values2);
 		
 		return true;
 	}
 
-	void print_events(List<Events> val) {
+	void printEvents(List<Events> val) {
 		Logger log = new Logger();
 		for (Events events : val) {
 			log.info(events);

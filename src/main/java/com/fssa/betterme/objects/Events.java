@@ -29,7 +29,7 @@ public class Events {
 		this.host = host;
 	}
 
-	public Events(int eventId, String eventName, Date eventDate, Time eventTime, double price) {
+	public Events( String eventName, Date eventDate, Time eventTime, double price) {
 		this.eventName = eventName;
 		
 		this.eventDate = eventDate.toLocalDate();

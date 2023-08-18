@@ -25,6 +25,7 @@ public class EventDao {
 	static String rowAffected = "no of rows affected:";
 	static Logger log = new Logger();
 	static String event = "event_name";
+	static String priceValue = "price";
 
 	// adding new row to the table
 	public static boolean addEvent(Events event) throws DAOException {
@@ -152,15 +153,15 @@ public class EventDao {
 	                 ResultSet rs = pst.executeQuery();) {
 	                
 	                while (rs.next()) {
-	                    int eventId = rs.getInt("id");
-	                    String eventName = rs.getString("event_name");
+	                   
+	                    String eventName = rs.getString(event);
 	                    Date eventDate = rs.getDate("date");
 	                    Time eventTime = rs.getTime("time");
-	                    double price = rs.getDouble("price");
+	                    double price = rs.getDouble(priceValue);
 	                    
 	                   
 	                
-	                    Events event = new Events(eventId, eventName, eventDate, eventTime, price);
+	                    Events event = new Events( eventName, eventDate, eventTime, price);
 	                    events.add(event);
 	                    
 	                    
@@ -187,15 +188,15 @@ public class EventDao {
 
 				
 			     while (rs.next()) {
-	                    int eventId = rs.getInt("id");
-	                    String eventName = rs.getString("event_name");
+	                  
+	                    String eventName = rs.getString(event);
 	                    Date eventDate = rs.getDate("date");
 	                    Time eventTime = rs.getTime("time");
-	                    double price = rs.getDouble("price");
+	                    double price = rs.getDouble(priceValue);
 	                    
 	                   
 	                
-	                    Events event = new Events(eventId, eventName, eventDate, eventTime, price);
+	                    Events event = new Events( eventName, eventDate, eventTime, price);
 	                    events.add(event);
 	                    
 	                    
@@ -224,15 +225,15 @@ public class EventDao {
 				
 
 			    while (rs.next()) {
-                    int eventId = rs.getInt("id");
-                    String eventName = rs.getString("event_name");
+             
+                    String eventName = rs.getString(event);
                     Date eventDate = rs.getDate("date");
                     Time eventTime = rs.getTime("time");
-                    double price = rs.getDouble("price");
+                    double price = rs.getDouble(priceValue);
                     
                    
                 
-                    Events event = new Events(eventId, eventName, eventDate, eventTime, price);
+                    Events event = new Events( eventName, eventDate, eventTime, price);
                     events.add(event);
                     
                     

@@ -51,6 +51,7 @@ CREATE TABLE event_user (
 
 
 
+
 INSERT INTO hosts (host_name, mobile_number, email) VALUES 
 ('Aakash', 9876543210, 'aakash@gmail.com'),
 ('Vishlali', 9876543210, 'vishali@gmail.com'),
