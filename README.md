@@ -1,4 +1,4 @@
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=fssa-batch3_aakash.balamurugan__web_project&metric=bugs)]([https://sonarcloud.io/summary/new_code?id=fssa-batch3_aakash.balamurugan__web_project](https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_sec_c_aakash.balamurugan__corejava_project_2))
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?fssa-batch3_sec_c_sec_c_aakash.balamurugan__corejava_project_2&metric=bugs)]([https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_sec_c_aakash.balamurugan__corejava_project_2](https://sonarcloud.io/summary/new_code?id=fssa-batch3_sec_c_sec_c_aakash.balamurugan__corejava_project_2))
 
 # sec_c_sec_c_aakash.balamurugan__corejava_project_2
 # MILESTONE 1
