@@ -1,5 +1,3 @@
-
-
 # sec_c_sec_c_aakash.balamurugan__corejava_project_2
 # MILESTONE 1
 ###  ** EVENT MODULE**
