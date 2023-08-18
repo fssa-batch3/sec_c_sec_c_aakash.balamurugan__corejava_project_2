@@ -14,18 +14,19 @@
 -update event
 -Delete Event
 # DATABASE_DESIGN
-### EventList Table
+### Events Table Structure
 
-| Data Type      | Field            | Default | Nullable | Extras        |
-|----------------|------------------|---------|----------|---------------|
-| INT            | id               |         | NOT NULL | AUTO_INCREMENT|
-| VARCHAR(100)   | event_name       |         | NOT NULL |               |
-| VARCHAR(255)   | event_description|         | NOT NULL |               |
-| VARCHAR(255)   | event_address    |         | NOT NULL |               |
-| DATE           | date             |         | NOT NULL |               |
-| TIME           | time             |         | NOT NULL |               |
-| DOUBLE         | price            |         | NOT NULL |               |
-| INT            | host_id          |         | NOT NULL |               |
+| Field            | Type        | Null  | Key | Default | Extra          |
+|------------------|-------------|-------|-----|---------|----------------|
+| id               | INT         | NO    | PRI |         | auto_increment|
+| event_name       | VARCHAR(100)| NO    |     |         |                |
+| event_description| VARCHAR(255)| NO    |     |         |                |
+| event_address    | VARCHAR(255)| NO    |     |         |                |
+| date             | DATE        | NO    |     |         |                |
+| time             | TIME        | NO    |     |         |                |
+| price            | DOUBLE      | NO    |     |         |                |
+| host_id          | INT         | NO    | MUL |         |                |
+
 
 
 
