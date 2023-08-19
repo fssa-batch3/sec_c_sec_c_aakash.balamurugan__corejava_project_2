@@ -19,7 +19,7 @@
 | Field            | Type        | Null  | Key | Default | Extra          |
 |------------------|-------------|-------|-----|---------|----------------|
 | id               | INT         | NO    | PRI |         | auto_increment|
-| event_name       | VARCHAR(100)| NO    |     |         |                |
+| event_name       | VARCHAR(100)| NO    | UNI |         |                |
 | event_description| VARCHAR(255)| NO    |     |         |                |
 | event_address    | VARCHAR(255)| NO    |     |         |                |
 | date             | DATE        | NO    |     |         |                |
