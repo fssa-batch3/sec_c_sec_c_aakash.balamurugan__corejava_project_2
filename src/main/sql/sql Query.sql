@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS hosts (
 
 CREATE TABLE events (
     id INT NOT NULL AUTO_INCREMENT,
-    event_name VARCHAR(100) NOT NULL,
+    event_name VARCHAR(100) NOT NULL UNIQUE,
     event_description VARCHAR(255) NOT NULL,
     event_address VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
@@ -27,6 +27,8 @@ CREATE TABLE events (
     FOREIGN KEY (host_id) REFERENCES hosts(id)
 );
 
+ALTER TABLE events
+ADD UNIQUE (ID);
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,

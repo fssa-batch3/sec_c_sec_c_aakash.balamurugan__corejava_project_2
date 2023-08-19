@@ -14,7 +14,7 @@ import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 
- class EventValidatorTest {
+ class TestEventValidator {
 
 	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
@@ -29,13 +29,13 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	
 	
 	@Test
-	void validEventTest() throws DAOException {
+	void testValidEvent() throws DAOException {
 
 		Assertions.assertTrue(EventValidator.isValidEvent(validEvent));
 	}
 
 	@Test
-	void inValidEventTestNull() {
+	void testInValidEventNull() {
 		try {
 			EventValidator.isValidEvent(null);
 			Assertions.fail();
@@ -46,14 +46,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validEventNameTest() throws DAOException {
+	void testValidEventName() throws DAOException {
 
 		validEvent.setEventName(validEvent.getEventName());
 		Assertions.assertTrue(EventValidator.isValidEventName(validEvent.getEventName()));
 	}
 
 	@Test
-	void inValidEventNameTestNull() {
+	void testInValidEventNameNull() {
 
 		try {
 			EventValidator.isValidEventName(null);
@@ -64,7 +64,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void inValidEventNameTest() {
+	void testInValidEventName() {
 		try {
 			EventValidator.isValidEventName(inValidEvent.getEventName());
 			Assertions.fail();
@@ -75,7 +75,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validEventAddressTest() throws DAOException {
+	void testValidEventAddress() throws DAOException {
 
 		validEvent.setEventAddress(validEvent.getEventAddress());
 
@@ -83,7 +83,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void inValidEventAddressTestNull() {
+	void testInValidEventAddressNull() {
 		try {
 			EventValidator.isValidEventAddress(null);
 			Assertions.fail();
@@ -93,7 +93,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void inValidEventAddressTest() {
+	void testInValidEventAddress() {
 		try {
 			EventValidator.isValidEventAddress(inValidEvent.getEventAddress());
 			Assertions.fail();
@@ -103,14 +103,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validEventDescriptionTest() throws DAOException {
+	void testValidEventDescription() throws DAOException {
 
 		validEvent.setEventDescription(validEvent.getEventDescription());
 		Assertions.assertTrue(EventValidator.isValidEventDescription(validEvent.getEventDescription()));
 	}
 
 	@Test
-	void inValidEventDescriptionTestNull() {
+	void testInValidEventDescriptionNull() {
 
 		try {
 			EventValidator.isValidEventDescription(null);
@@ -122,7 +122,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void inValidEventDescriptionTest() {
+	void testInValidEventDescription() {
 		try {
 			EventValidator.isValidEventDescription(inValidEvent.getEventDescription());
 			Assertions.fail();
@@ -132,14 +132,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validEventDateTest() throws DAOException {
+	void testValidEventDate() throws DAOException {
 
 		validEvent.setEventDate(validEvent.getEventDate());
 		Assertions.assertTrue(EventValidator.isValidEventDate(validEvent.getEventDate()));
 	}
 
 	@Test
-	void inValidEventDateTestNull() {
+	void testInValidEventDateNull() {
 
 		try {
 			EventValidator.isValidEventDate(null);
@@ -151,7 +151,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void inValidEventDateTest() {
+	void testInValidEventDate() {
 
 		try {
 			EventValidator.isValidEventDate(inValidEvent.getEventDate());
@@ -163,14 +163,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validEventTimeTest() throws DAOException {
+	void testValidEventTime() throws DAOException {
 
 		validEvent.setEventTime(validEvent.getEventTime());
 		Assertions.assertTrue(EventValidator.isValidEventTime(validEvent.getEventTime()));
 	}
 
 	@Test
-	void inValidEventTimeTestNull() {
+	void testInValidEventTimeNull() {
 		try {
 			EventValidator.isValidEventTime(null);
 			Assertions.fail();
@@ -180,7 +180,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void inValidEventTimeTest() {
+	void testInValidEventTime() {
 
 		try {
 			EventValidator.isValidEventTime(inValidEvent.getEventTime());
@@ -192,14 +192,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validEventPriceTest() throws DAOException {
+	void testValidEventPrice() throws DAOException {
 
 		validEvent.setPrice(validEvent.getPrice());
 		Assertions.assertTrue(EventValidator.isValidPrice(validEvent.getPrice()));
 	}
 
 	@Test
-	void inValidEventPriceTest() {
+	void testInValidEventPrice() {
 		try {
 			EventValidator.isValidPrice(inValidEvent.getPrice());
 			Assertions.fail();
@@ -210,7 +210,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 
 	@Test
-	void validHostObj() {
+	void testValidHostObj() {
 		validEvent.setHost(validEvent.getHost());
 		Assertions.assertTrue(true);
 
