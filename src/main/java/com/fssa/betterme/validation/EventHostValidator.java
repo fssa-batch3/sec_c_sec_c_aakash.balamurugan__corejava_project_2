@@ -10,6 +10,13 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 
 public class EventHostValidator {
 
+    /**
+     * Validates if an event host is valid.
+     *
+     * @param eventHost The event host to be validated.
+     * @return True if the event host is valid, false otherwise.
+     * @throws DAOException If the event host is not valid.
+     */
     public static boolean isValidEventHost(EventHost eventHost) throws DAOException {
         if (eventHost == null) {
             throw new DAOException(EventHostValidatorError.EVENTHOST_NULL_ERROR);
@@ -20,9 +27,8 @@ public class EventHostValidator {
         isValidEmail(eventHost.getEmail());
 
         return true;
-
-   
     }
+
 
     public static boolean isValidHostName(String name) throws DAOException {
         // Define the regex pattern for a name

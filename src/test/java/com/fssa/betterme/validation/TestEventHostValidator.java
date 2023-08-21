@@ -3,11 +3,12 @@ package com.fssa.betterme.validation;
 
 
 import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.objects.EventHost;
-import com.fssa.betterme.objects.Events;
+
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
  class TestEventHostValidator {
@@ -15,7 +16,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
 
-	EventValidator validateEvent = new EventValidator();
+
 	EventHostValidator validateHost = new EventHostValidator();
 	
 	@Test

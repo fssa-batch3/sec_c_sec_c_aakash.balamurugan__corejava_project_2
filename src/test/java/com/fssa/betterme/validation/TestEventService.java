@@ -19,19 +19,18 @@ import com.fssa.betterme.server.EventService;
 
  class TestEventService {
 	
-	EventHost validHost = new EventHost("Isac", "9876543210", "aakash@gmail.com");
+	EventHost validHost = new EventHost("aakash", "9876543210", "aakash@gmail.com");
 	Events validEvent = new Events("yogi event", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
 	
-	EventValidator validateEvent = new EventValidator();
-	EventHostValidator validateHost = new EventHostValidator();
+
 	EventService service = new EventService();
 	
 	@Test 
 	void testAddEvent() throws DAOException, SQLException {
 		Assertions.assertTrue(service.addEvent(validEvent));
-	}
+	} 
 
 	@Test 
 	void testUpdateEvent() throws DAOException, SQLException {
@@ -50,6 +49,16 @@ import com.fssa.betterme.server.EventService;
 	@Test 
 	void testDeleteEvent() throws DAOException, SQLException {
 		Assertions.assertTrue(service.deleteEvent(validEvent));
+	}
+	
+	@Test 
+	void testGetEventByDate() throws DAOException, SQLException {
+		Assertions.assertTrue(service.getEventByDate());
+	}
+
+	@Test 
+	void testGetEventByRange() throws DAOException, SQLException {
+		Assertions.assertTrue(service.getEventByRange());
 	}
 
 

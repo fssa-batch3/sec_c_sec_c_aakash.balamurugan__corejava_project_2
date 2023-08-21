@@ -10,38 +10,62 @@ import java.util.regex.Pattern;
 
 public class EventValidator {
 
-	 EventValidator (){
-		
-	}
-	    // Other attributes and methods remain the same...
+    // Private constructor to prevent instantiation since this is a utility class.
+     EventValidator() {
+    }
+    
+  
+    
+    
+   
 
-	    // Validator methods
-	// validation for valid event
-	public static  boolean isValidEvent(Events event) throws DAOException {
-		if(event==null) {  // check is it null
-			throw new DAOException(EventValidaterErrors.EVENT_NULL_ERROR);// throws exception if its null
-		}
-		
-		isValidEventName(event.getEventName());
-		isValidEventDescription(event.getEventDescription());
-		isValidEventAddress(event.getEventAddress());
-		isValidEventDate(event.getEventDate());
-		isValidEventTime(event.getEventTime());
-		isValidPrice(event.getPrice());
-		EventHostValidator.isValidEventHost(event.getHost());
-	return true;
-	
-	}
+
+	private final static int minPrice =150;
+    private final static int maxPrice =500;
+
+    // Validator methods
+
+    /**
+     * Validates if an event is valid.
+     *
+     * @param event The event to be validated.
+     * @return True if the event is valid, false otherwise.
+     * @throws DAOException If the event is not valid.
+     */
+    public static boolean isValidEvent(Events event) throws DAOException {
+        if (event == null) {
+            throw new DAOException(EventValidaterErrors.EVENT_NULL_ERROR);
+        }
+
+        isValidEventName(event.getEventName());
+        isValidEventDescription(event.getEventDescription());
+        isValidEventAddress(event.getEventAddress());
+        isValidEventDate(event.getEventDate());
+        isValidEventTime(event.getEventTime());
+        isValidPrice(event.getPrice());
+
+        return true;
+    }
+
+    /**
+     * Validates if the event name is valid.
+     *
+     * @param name The event name to be validated.
+     * @return True if the event name is valid.
+     * @throws DAOException If the event name is not valid.
+     */
+
+
 	
 	public static boolean isValidEventName(String name ) throws DAOException{
 		  if(name==null ||name.trim().isEmpty()) {
 	         	 throw new DAOException(EventValidaterErrors.EVENTNAME_NULL_ERROR);
 	         }
-	        String namePattern = "[a-zA-Z ]+";// ergex pattern that the string should contain only alphabet
+	        String namePattern = "[a-zA-Z ]+";// regex pattern that the string should contain only alphabet
 	        Pattern pattern = Pattern.compile(namePattern);
 	        Matcher match = pattern.matcher(name);
 	      
-	        // Check if the name matches the pattern
+	        // Check if the name matches the pattern and have a length of 8 charaters
 	        if( match.matches() && name.length()>=8 ) { // 
 	        	return true;
 	        }else {
@@ -107,7 +131,7 @@ public class EventValidator {
 
 		 // validator for price should be in the range of 150 and 500 
 	    public static boolean isValidPrice(double price) throws DAOException {
-	    	if(price >= 150 && price <=500) {
+	    	if(price >= minPrice && price <=maxPrice) {
 	        return true;
 	        }else {
 	        	throw new DAOException(EventValidaterErrors.EVENTPRICE_INVALID_ERROR);

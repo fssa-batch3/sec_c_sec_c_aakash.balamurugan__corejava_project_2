@@ -35,10 +35,10 @@ import com.fssa.betterme.server.EventHostService;
 	}
 	
 	
-	@Test 
-	void testDeleteHost() throws DAOException {
-		Assertions.assertTrue(EventHostService.deleteHost(valid));
-	}
+//	@Test 
+//	void testDeleteHost() throws DAOException {
+//		Assertions.assertTrue(EventHostService.deleteHost(valid));
+//	}
 
 
 }

@@ -175,42 +175,36 @@ public class EventDao {
 	    }
 
 
-	public static  List<Events> getEventByDate() throws DAOException {
-		 List<Events> events = new ArrayList<>();
-	        
-		try (Connection con = ConnectionUtil.getConnection()) {
-
-			String query = "SELECT * FROM events ORDER BY date ASC;";
-
-			try (PreparedStatement pst = con.prepareStatement(query);) {
-
-				ResultSet rs = pst.executeQuery(query);
-
-				
-			     while (rs.next()) {
-	                  
-	                    String eventName = rs.getString(event);
-	                    Date eventDate = rs.getDate("date");
-	                    Time eventTime = rs.getTime("time");
-	                    double price = rs.getDouble(priceValue);
-	                    
-	                   
-	                
-	                    Events event = new Events( eventName, eventDate, eventTime, price);
-	                    events.add(event);
-	                    
-	                    
-	                }
-
-				ConnectionUtil.close(con, pst, rs);
-
-			}
-		} catch (SQLException e) {
-	        throw new DAOException( e.getMessage());
+	 public static List<Events> getEventByDate(LocalDate date) throws DAOException {
+		    List<Events> events = new ArrayList<>();
+		    
+		    try (Connection con = ConnectionUtil.getConnection()) {
+		        String query = "SELECT * FROM events WHERE date = ?;"; // Corrected the query
+		        
+		        try (PreparedStatement pst = con.prepareStatement(query)) {
+		            pst.setDate(1, Date.valueOf(date)); // Set the parameter value before executing
+		            
+		            ResultSet rs = pst.executeQuery(); // Removed the query parameter from executeQuery
+		            
+		            while (rs.next()) {
+		                String eventName = rs.getString("event_name"); // Corrected the column name
+		                Date eventDate = rs.getDate("date");
+		                Time eventTime = rs.getTime("time");
+		                double price = rs.getDouble("price"); // Corrected the column name
+		                
+		                Events event = new Events(eventName, eventDate, eventTime, price);
+		                events.add(event);
+		            }
+		            
+		            ConnectionUtil.close(con, pst, rs);
+		        }
+		    } catch (SQLException e) {
+		        throw new DAOException(e.getMessage());
+		    }
+		    
+		    return events;
 		}
-		return events;
 
-	}
 
 	public static  List<Events> eventRange(LocalDate start, LocalDate end) throws  DAOException {
 		 List<Events> events = new ArrayList<>();

@@ -27,8 +27,7 @@ CREATE TABLE events (
     FOREIGN KEY (host_id) REFERENCES hosts(id)
 );
 
-ALTER TABLE events
-ADD UNIQUE (ID);
+
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
@@ -50,8 +49,6 @@ CREATE TABLE event_user (
 );
 
 -- Default values to the tables
-
-
 
 
 INSERT INTO hosts (host_name, mobile_number, email) VALUES 
