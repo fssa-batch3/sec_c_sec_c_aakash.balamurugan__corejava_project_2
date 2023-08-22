@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 
-import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.exception.ValidationException;
 import com.fssa.betterme.objects.EventHost;
 
 import com.fssa.betterme.validation.message.EventHostValidatorError;
@@ -20,7 +20,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	EventHostValidator validateHost = new EventHostValidator();
 	
 	@Test
-	void testValidEventHost() throws DAOException {
+	void testValidEventHost() throws ValidationException {
 
 		Assertions.assertTrue(EventHostValidator.isValidEventHost(validHost));
 	}
@@ -30,14 +30,14 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidEventHost(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOST_NULL_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void testValidEventHostNameTest() throws DAOException {
+	void testValidEventHostNameTest() throws ValidationException {
 		validHost.setHostName(validHost.getHostName());
 		Assertions.assertTrue(EventHostValidator.isValidHostName(validHost.getHostName()));
 	}
@@ -47,7 +47,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidHostName(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR, ex.getMessage());
 		}
 
@@ -58,14 +58,14 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidHostName(inValidHost.getHostName());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void testValidEventHostNumber() throws DAOException {
+	void testValidEventHostNumber() throws ValidationException {
 		validHost.setContactNumber(validHost.getContactNumber());
 		Assertions.assertTrue(EventHostValidator.isValidContactNumber(validHost.getContactNumber()));
 	}
@@ -75,7 +75,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidContactNumber(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR, ex.getMessage());
 		}
 
@@ -86,14 +86,14 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidContactNumber(inValidHost.getContactNumber());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNUMBER_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void testValidEventHostMail() throws DAOException {
+	void testValidEventHostMail() throws ValidationException {
 		validHost.setEmail(validHost.getEmail());
 		Assertions.assertTrue(EventHostValidator.isValidEmail(validHost.getEmail()));
 	}
@@ -103,7 +103,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidEmail(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTMAIL_NULL_ERROR, ex.getMessage());
 		}
 
@@ -114,7 +114,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 		try {
 			EventHostValidator.isValidEmail(inValidHost.getEmail());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTMAIL_INVALID_ERROR, ex.getMessage());
 		}
 

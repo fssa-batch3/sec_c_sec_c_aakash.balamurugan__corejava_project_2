@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fssa.betterme.dao.EventDao;
 import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.exception.ValidationException;
 import com.fssa.betterme.logger.Logger;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.validation.EventValidator;
@@ -20,8 +21,9 @@ public class EventService {
      * @param event The event to be added.
      * @return True if the event was added successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
+     * @throws ValidationException 
      */
-    public boolean addEvent(Events event) throws DAOException {
+    public boolean addEvent(Events event) throws  ValidationException, DAOException {
         if (EventValidator.isValidEvent(event)) {
             EventDao.addEvent(event);
             return true;
@@ -35,11 +37,13 @@ public class EventService {
      * @param event The event to be updated.
      * @return True if the event was updated successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
+     * @throws ValidationException 
      */
-    public boolean updateEvent(Events event) throws DAOException {
+    public boolean updateEvent(Events event) throws DAOException, ValidationException {
         if (EventValidator.isValidEvent(event)) {
             EventDao eventDao = new EventDao();
-            eventDao.updateEvent(event.getEventName(), "event_name", event.getEventName() + "loss");
+            event.setEventAddress(event.getEventAddress()+" (updated)");
+            eventDao.updateEvent(event);
             return true;
         }
         return false;
@@ -51,8 +55,9 @@ public class EventService {
      * @param event The event to be deleted.
      * @return True if the event was deleted successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
+     * @throws ValidationException 
      */
-    public boolean deleteEvent(Events event) throws DAOException {
+    public boolean deleteEvent(Events event) throws DAOException, ValidationException {
         if (EventValidator.isValidEvent(event)) {
             EventDao.deleteEvent(event);
             return true;

@@ -1,13 +1,14 @@
 package com.fssa.betterme.objects;
 
-import java.sql.Date;
-import java.sql.Time;
+
 import java.time.*;
 
 /**
  * Represents an event.
  */
 public class Events {
+	
+	private int id;
     private String eventName;
     private String eventDescription;
     private String eventAddress;
@@ -20,12 +21,37 @@ public class Events {
      * Constructs an Events object with all attributes.
      *
      * @param eventName        The name of the event.
+     * @param eventName        The name of the event.
      * @param eventDescription The description of the event.
      * @param eventAddress     The address of the event.
      * @param eventDate        The date of the event.
      * @param eventTime        The time of the event.
      * @param price            The price of the event.
      */
+    
+    public Events(int eventid,String eventName, String eventDescription, String eventAddress,
+                  LocalDate eventDate, LocalTime eventTime, double price) {
+    	this.id=eventid;
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
+        this.eventAddress = eventAddress;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
+        this.price = price;
+      
+    }
+
+    /**
+     * Constructs an Events object with limited attributes.
+     *
+     * @param eventName        The name of the event.
+     * @param eventDescription The description of the event.
+     * @param eventAddress     The address of the event.
+     * @param eventDate        The date of the event.
+     * @param eventTime        The time of the event.
+     * @param price            The price of the event.
+     */
+    
     public Events(String eventName, String eventDescription, String eventAddress,
                   LocalDate eventDate, LocalTime eventTime, double price,EventHost host) {
         this.eventName = eventName;
@@ -36,21 +62,7 @@ public class Events {
         this.price = price;
         this.host = host;
     }
-
-    /**
-     * Constructs an Events object with limited attributes.
-     *
-     * @param eventName The name of the event.
-     * @param eventDate The date of the event.
-     * @param eventTime The time of the event.
-     * @param price     The price of the event.
-     */
-    public Events(String eventName, Date eventDate, Time eventTime, double price) {
-        this.eventName = eventName;
-        this.eventDate = eventDate.toLocalDate();
-        this.eventTime = eventTime.toLocalTime();
-        this.price = price;
-    }
+    
 
 
     /**
@@ -63,7 +75,15 @@ public class Events {
         return eventName;
     }
 
-
+    /**
+     * Gets the Id of the event.
+     *
+     * @return The event Id.
+     */
+    
+	public int getId() {
+		return id;
+	}
 
     /**
      * Gets the name of the event.
@@ -190,6 +210,8 @@ public class Events {
     public void setHost(EventHost host) {
         this.host = host;
     }
+
+
 
 	
 

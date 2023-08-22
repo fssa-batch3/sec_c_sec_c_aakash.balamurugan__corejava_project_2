@@ -4,9 +4,10 @@ package com.fssa.betterme.objects;
  * Represents a host of an event.
  */
 public class EventHost {
-    protected String hostName;
-    protected String contactNumber;
-    protected String email;
+	private int id ;
+    private String hostName;
+    private String contactNumber;
+    private String email;
 
     /**
      * Constructs an EventHost object with all attributes.
@@ -22,7 +23,16 @@ public class EventHost {
     }
 
     
-    /**
+    public EventHost(int hostId, String hostName, String mobileNumber, String email) {
+    	this.id=hostId;
+    	 this.hostName = hostName;
+         this.contactNumber = mobileNumber;
+         this.email = email;
+	}
+
+
+
+	/**
      * Returns a string representation of the host.
      *
      * @return The host name.
@@ -32,6 +42,16 @@ public class EventHost {
         return hostName;
     }
 
+    
+    /**
+     * Gets the id of the host.
+     *
+     * @return The host id.
+     */
+    
+	public int getId() {
+		return id;
+	}
     /**
      * Gets the name of the host.
      *
@@ -85,4 +105,9 @@ public class EventHost {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+
+
+
 }

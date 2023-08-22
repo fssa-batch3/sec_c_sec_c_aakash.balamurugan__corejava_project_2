@@ -1,22 +1,22 @@
 package com.fssa.betterme.dao;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.logger.Logger;
-import com.fssa.betterme.objects.*;
+import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.util.ConnectionUtil;
 
 
 public class HostDao {
 
-	static String rowAffected = "no of rows affected:";
 	static Logger log = new Logger();
-	static String host = "host_name";
+
 	
 	public static boolean addHost(EventHost host) throws DAOException {
 	    try (Connection con = ConnectionUtil.getConnection()) {
@@ -30,8 +30,11 @@ public class HostDao {
 	            // Execute the update and check the affected row count
 	            int rowsAffected = pst.executeUpdate();
 	          
-	                return rowsAffected > 0; // Successfully added the host
-	          
+	    		if (rowsAffected <= 0) {
+					throw new DAOException("Failed to insert host.");
+				}
+
+				return true;
 	        }
 	    } catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
@@ -80,7 +83,9 @@ public class HostDao {
 	    }
 	}
 	
-	public static boolean readAllHost() throws DAOException {
+	public static List<EventHost> readAllHost() throws DAOException {
+		List<EventHost> hosts = new ArrayList<>();
+		
 	    String query = "SELECT * FROM hosts;";
 	   
 
@@ -91,17 +96,20 @@ public class HostDao {
 
 	        try (ResultSet rs = pst.executeQuery()) {
 	            if (rs.next()) {
-	            	String hostName = rs.getString(host);
+	            	int  hostId = rs.getInt("id");
+	            	String hostName = rs.getString("host_name");
 	                String mobileNumber = rs.getString("mobile_number");
 	                String email = rs.getString("email");
-	               log.info("host name :"+hostName+"contact number :"+mobileNumber+"email ID :"+email );
+	                
+	                EventHost host = new EventHost(hostId,hostName,mobileNumber,email );
+	                hosts.add(host);
 	            }
 	        }
 	    } catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
 	    }
 
-	    return true;
+	    return hosts;
 	}
 
 }

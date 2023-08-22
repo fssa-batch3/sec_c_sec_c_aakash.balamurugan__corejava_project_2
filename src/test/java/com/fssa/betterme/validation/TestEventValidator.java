@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.exception.ValidationException;
 import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
@@ -29,7 +29,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	
 	
 	@Test
-	void testValidEvent() throws DAOException {
+	void testValidEvent() throws ValidationException {
 
 		Assertions.assertTrue(EventValidator.isValidEvent(validEvent));
 	}
@@ -39,14 +39,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEvent(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENT_NULL_ERROR, ex.getMessage());
 			;
 		}
 	}
 
 	@Test
-	void testValidEventName() throws DAOException {
+	void testValidEventName() throws ValidationException {
 
 		validEvent.setEventName(validEvent.getEventName());
 		Assertions.assertTrue(EventValidator.isValidEventName(validEvent.getEventName()));
@@ -58,7 +58,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventName(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -68,14 +68,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventName(inValidEvent.getEventName());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_INVALID_ERROR, ex.getMessage());
 		}
  
 	}
 
 	@Test
-	void testValidEventAddress() throws DAOException {
+	void testValidEventAddress() throws ValidationException {
 
 		validEvent.setEventAddress(validEvent.getEventAddress());
 
@@ -87,7 +87,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventAddress(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTADDRESS_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -97,13 +97,13 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventAddress(inValidEvent.getEventAddress());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTADDRESS_INVALID_ERROR, ex.getMessage());
 		}
 	}
 
 	@Test
-	void testValidEventDescription() throws DAOException {
+	void testValidEventDescription() throws ValidationException {
 
 		validEvent.setEventDescription(validEvent.getEventDescription());
 		Assertions.assertTrue(EventValidator.isValidEventDescription(validEvent.getEventDescription()));
@@ -115,7 +115,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDescription(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR, ex.getMessage());
 		}
 
@@ -126,13 +126,13 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDescription(inValidEvent.getEventDescription());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_INVALID_ERROR, ex.getMessage());
 		}
 	}
 
 	@Test
-	void testValidEventDate() throws DAOException {
+	void testValidEventDate() throws ValidationException {
 
 		validEvent.setEventDate(validEvent.getEventDate());
 		Assertions.assertTrue(EventValidator.isValidEventDate(validEvent.getEventDate()));
@@ -144,7 +144,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDate(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDATE_NULL_ERROR, ex.getMessage());
 		}
 
@@ -156,14 +156,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDate(inValidEvent.getEventDate());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDATE_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void testValidEventTime() throws DAOException {
+	void testValidEventTime() throws ValidationException {
 
 		validEvent.setEventTime(validEvent.getEventTime());
 		Assertions.assertTrue(EventValidator.isValidEventTime(validEvent.getEventTime()));
@@ -174,7 +174,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventTime(null);
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTTIME_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -185,14 +185,14 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventTime(inValidEvent.getEventTime());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTTIME_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void testValidEventPrice() throws DAOException {
+	void testValidEventPrice() throws ValidationException {
 
 		validEvent.setPrice(validEvent.getPrice());
 		Assertions.assertTrue(EventValidator.isValidPrice(validEvent.getPrice()));
@@ -203,7 +203,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidPrice(inValidEvent.getPrice());
 			Assertions.fail();
-		} catch (DAOException ex) {
+		} catch (ValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTPRICE_INVALID_ERROR, ex.getMessage());
 		}
 

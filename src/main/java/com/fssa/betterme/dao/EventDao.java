@@ -1,6 +1,5 @@
 package com.fssa.betterme.dao;
 
-
 import java.sql.Connection;
 
 import com.fssa.betterme.util.ConnectionUtil;
@@ -21,7 +20,7 @@ import com.fssa.betterme.logger.Logger;
 import com.fssa.betterme.objects.Events;
 
 public class EventDao {
-	
+
 	static String rowAffected = "no of rows affected:";
 	static Logger log = new Logger();
 	static String event = "event_name";
@@ -29,185 +28,221 @@ public class EventDao {
 
 	// adding new row to the table
 	public static boolean addEvent(Events event) throws DAOException {
-	    try (Connection con = ConnectionUtil.getConnection()) {
-	        // Retrieve host ID based on host name
-	        int hostId = findHostId(event.getHost().getHostName(), con);
+		try (Connection con = ConnectionUtil.getConnection()) {
+			// Retrieve host ID based on host name
+			int hostId = findHostId(event.getHost().getHostName(), con);
 
-	        String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id) VALUES (?, ?, ?, ?, ?, ?, ?);";
-	        try (PreparedStatement pst = con.prepareStatement(query)) {
-	            pst.setString(1, event.getEventName());
-	            pst.setString(2, event.getEventDescription());
-	            pst.setString(3, event.getEventAddress());
-	            pst.setDate(4, Date.valueOf(event.getEventDate()));
-	            pst.setTime(5, Time.valueOf(event.getEventTime()));
-	            pst.setDouble(6, event.getPrice());
-	            if (hostId == -1) {
-	                throw new DAOException("host not found");
-	            }
-	            
-	            pst.setInt(7, hostId);
+			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id) VALUES (?, ?, ?, ?, ?, ?, ?);";
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setString(1, event.getEventName());
+				pst.setString(2, event.getEventDescription());
+				pst.setString(3, event.getEventAddress());
+				pst.setDate(4, Date.valueOf(event.getEventDate()));
+				pst.setTime(5, Time.valueOf(event.getEventTime()));
+				pst.setDouble(6, event.getPrice());
+				if (hostId == -1) {
+					throw new DAOException("host not found");
+				}
 
-	            int rowsAffected = pst.executeUpdate();
-	            
-	            if (rowsAffected <= 0) {
-	                throw new DAOException("Failed to insert event.");
-	            }
+				pst.setInt(7, hostId);
 
-	            return true;
-	    
-	    
-	       }
-	    } catch (SQLException e) {
-	        throw new DAOException( e.getMessage());
+				int rowsAffected = pst.executeUpdate();
+
+				if (rowsAffected <= 0) {
+					throw new DAOException("Failed to insert event.");
+				}
+
+				return true;
+
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
 		}
 	}
 
-	public static int findHostId(String hostName,Connection con) throws DAOException  {
+	public static int findHostId(String hostName, Connection con) throws DAOException {
 
-		
+		String query = " SELECT id FROM hosts WHERE host_name = ?;";
+		int hostId = -1;
+		try (PreparedStatement pst = con.prepareStatement(query);) {
 
-			String query = " SELECT * FROM hosts WHERE host_name = ?;";
-			int userId = -1;
-			try (PreparedStatement pst = con.prepareStatement(query);) {
+			pst.setString(1, hostName);
 
-				pst.setString(1, hostName);
+			ResultSet rs = pst.executeQuery();
+
+			// Step 06: Iterate the result
+			if (rs.next()) {
+				hostId = rs.getInt("id");
+
+			}
+			ConnectionUtil.close(null, pst, rs);
+
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		}
+		return hostId;
+
+	}
+
+	public static int findEventId(String eventName, Connection con) throws DAOException {
+
+		String query = " SELECT id FROM events WHERE event_name = ?;";
+		int eventId = -1;
+		try (PreparedStatement pst = con.prepareStatement(query);) {
+
+			pst.setString(1, eventName);
+
+			ResultSet rs = pst.executeQuery();
+
+			// Step 06: Iterate the result
+			if (rs.next()) {
+
+				eventId = rs.getInt("id");
+
+			} else {
+
+				System.out.println("Not found");
+			}
+			ConnectionUtil.close(null, pst, rs);
+
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		}
+		return eventId;
+	}
+
+	public boolean updateEvent(Events event) throws DAOException {
+
+		String query = "UPDATE events SET event_description = ?, event_address = ?,date = ?,time = ?,price = ? WHERE id = ?;";
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				int eventId = findEventId(event.getEventName(), con);
+
+				System.out.println(eventId);
+
+				if (eventId == -1)
+					throw new DAOException("Event Not found");
+
+				pst.setInt(6, eventId);
+				pst.setString(1, event.getEventDescription());
+				pst.setString(2, event.getEventAddress());
+				pst.setDate(3, Date.valueOf(event.getEventDate()));
+				pst.setTime(4, Time.valueOf(event.getEventTime()));
+				pst.setDouble(5, event.getPrice());
+
+				int rows = pst.executeUpdate();
+				ConnectionUtil.close(con, pst, null);
+				if (rows <= 0) {
+					throw new DAOException("Update event failed");
+				}
+
+				return true;
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		}
+	}
+
+	public static boolean deleteEvent(Events event) throws DAOException {
+
+		String queryDeleteEvents = "DELETE FROM events WHERE id = ?;";
+		try (Connection con = ConnectionUtil.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(queryDeleteEvents)) {
+
+				int eventId = findEventId(event.getEventName(), con);
+
+				if (eventId == -1)
+					throw new DAOException("Event Not found");
+
+				pst.setInt(1, eventId);
+				
+
+				int rows = pst.executeUpdate();
+
+				if (rows <= 0) {
+					throw new DAOException("Delete event failed");
+				}
+
+				ConnectionUtil.close(con, pst, null);
+
+				return true;
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		}
+
+	}
+
+	public static List<Events> readEvents() throws DAOException {
+		List<Events> events = new ArrayList<>();
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			String query = "SELECT * FROM events";
+
+			try (PreparedStatement pst = con.prepareStatement(query); ResultSet rs = pst.executeQuery();) {
+
+				while (rs.next()) {
+
+					int eventId = rs.getInt("id");
+					String eventName = rs.getString("event_name");
+					String event_address = rs.getString("event_address");
+					String event_description = rs.getString("event_description");
+					Date eventDate = rs.getDate("date");
+					Time eventTime = rs.getTime("time");
+					double price = rs.getDouble(priceValue);
+
+					Events event = new Events(eventId, eventName, event_description, event_address,
+							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
+					events.add(event);
+
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e.getMessage());
+		}
+
+		return events;
+	}
+
+	public static List<Events> getEventByDate(LocalDate date) throws DAOException {
+		List<Events> events = new ArrayList<>();
+
+		try (Connection con = ConnectionUtil.getConnection()) {
+			String query = "SELECT * FROM events WHERE date = ?;";
+
+			try (PreparedStatement pst = con.prepareStatement(query)) {
+				pst.setDate(1, Date.valueOf(date));
 
 				ResultSet rs = pst.executeQuery();
 
-				// Step 06: Iterate the result
 				while (rs.next()) {
-					userId = rs.getInt("id");
-					
+
+					int eventId = rs.getInt("id");
+					String eventName = rs.getString("event_name");
+					String event_address = rs.getString("event_address");
+					String event_description = rs.getString("event_description");
+					Date eventDate = rs.getDate("date");
+					Time eventTime = rs.getTime("time");
+					double price = rs.getDouble(priceValue);
+
+					Events event = new Events(eventId, eventName, event_description, event_address,
+							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
+					events.add(event);
 
 				}
-				ConnectionUtil.close(null, pst, rs);
-				
-			} catch (SQLException e) {
-		        throw new DAOException( e.getMessage());
-			}
-			return userId;
-		
 
-	}
-
-	 public boolean updateEvent(Object oldValue, String columnName, Object newValue) throws  DAOException {
-	        String query1 = "UPDATE events SET " + columnName + " = ? WHERE "+columnName +" = ?";
-	        String query = query1;
-	        
-	        try (Connection con = ConnectionUtil.getConnection()){
-	             try(PreparedStatement pst = con.prepareStatement(query)) {
-	            
-	            if (newValue instanceof String str) {
-	                pst.setString(1, str);
-	            } else if (newValue instanceof Double dou) {
-	                pst.setDouble(1, dou);
-	            }
-	            
-	            if (oldValue instanceof String str) {
-	                pst.setString(2, str);
-	            } else if (oldValue instanceof Double dou) {
-	                pst.setDouble(2, dou);
-	            }
-	          
-	            
-	            int rows = pst.executeUpdate();
-	            ConnectionUtil.close(con, pst, null);
-	            return rows > 0;
-	        }} catch (SQLException e) {
-		        throw new DAOException( e.getMessage());
-			}
-	    }
-
-
-	public static boolean deleteEvent(Events event) throws  DAOException {
-
-		try (Connection con = ConnectionUtil.getConnection()) {
-
-		
-
-				
-				String queryDeleteEvents = "DELETE FROM events WHERE event_name = ?;";
-				try (PreparedStatement pst = con.prepareStatement(queryDeleteEvents)) {
-					pst.setString(1, event.getEventName());
-					pst.executeUpdate();
-				
-				int rows = pst.executeUpdate();
-				log.info(rowAffected + rows);
-				ConnectionUtil.close(con, pst, null);
-
-				return  true ;
+				ConnectionUtil.close(con, pst, rs);
 			}
 		} catch (SQLException e) {
-	        throw new DAOException( e.getMessage());
+			throw new DAOException(e.getMessage());
 		}
 
+		return events;
 	}
 
-	 public static List<Events> readEvents() throws DAOException {
-	        List<Events> events = new ArrayList<>();
-	        
-	        try (Connection con = ConnectionUtil.getConnection()) {
-	            String query = "SELECT * FROM events";
-	            
-	            try (PreparedStatement pst = con.prepareStatement(query);
-	                 ResultSet rs = pst.executeQuery();) {
-	                
-	                while (rs.next()) {
-	                   
-	                    String eventName = rs.getString(event);
-	                    Date eventDate = rs.getDate("date");
-	                    Time eventTime = rs.getTime("time");
-	                    double price = rs.getDouble(priceValue);
-	                    
-	                   
-	                
-	                    Events event = new Events( eventName, eventDate, eventTime, price);
-	                    events.add(event);
-	                    
-	                    
-	                }
-	            }
-	        } catch (SQLException e) {
-	            throw new DAOException(e.getMessage());
-	        }
-	        
-	        return events;
-	    }
-
-
-	 public static List<Events> getEventByDate(LocalDate date) throws DAOException {
-		    List<Events> events = new ArrayList<>();
-		    
-		    try (Connection con = ConnectionUtil.getConnection()) {
-		        String query = "SELECT * FROM events WHERE date = ?;"; // Corrected the query
-		        
-		        try (PreparedStatement pst = con.prepareStatement(query)) {
-		            pst.setDate(1, Date.valueOf(date)); // Set the parameter value before executing
-		            
-		            ResultSet rs = pst.executeQuery(); // Removed the query parameter from executeQuery
-		            
-		            while (rs.next()) {
-		                String eventName = rs.getString("event_name"); // Corrected the column name
-		                Date eventDate = rs.getDate("date");
-		                Time eventTime = rs.getTime("time");
-		                double price = rs.getDouble("price"); // Corrected the column name
-		                
-		                Events event = new Events(eventName, eventDate, eventTime, price);
-		                events.add(event);
-		            }
-		            
-		            ConnectionUtil.close(con, pst, rs);
-		        }
-		    } catch (SQLException e) {
-		        throw new DAOException(e.getMessage());
-		    }
-		    
-		    return events;
-		}
-
-
-	public static  List<Events> eventRange(LocalDate start, LocalDate end) throws  DAOException {
-		 List<Events> events = new ArrayList<>();
+	public static List<Events> eventRange(LocalDate start, LocalDate end) throws DAOException {
+		List<Events> events = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?;";
 
@@ -216,35 +251,29 @@ public class EventDao {
 				pst.setString(2, String.valueOf(end));
 				ResultSet rs = pst.executeQuery();
 
-				
+				while (rs.next()) {
 
-			    while (rs.next()) {
-             
-                    String eventName = rs.getString(event);
-                    Date eventDate = rs.getDate("date");
-                    Time eventTime = rs.getTime("time");
-                    double price = rs.getDouble(priceValue);
-                    
-                   
-                
-                    Events event = new Events( eventName, eventDate, eventTime, price);
-                    events.add(event);
-                    
-                    
-                }
+					int eventId = rs.getInt("id");
+					String eventName = rs.getString("event_name");
+					String event_address = rs.getString("event_address");
+					String event_description = rs.getString("event_description");
+					Date eventDate = rs.getDate("date");
+					Time eventTime = rs.getTime("time");
+					double price = rs.getDouble(priceValue);
+
+					Events event = new Events(eventId, eventName, event_description, event_address,
+							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
+					events.add(event);
+
+				}
 
 				ConnectionUtil.close(con, pst, rs);
 
 				return events;
 			}
 		} catch (SQLException e) {
-	        throw new DAOException( e.getMessage());
+			throw new DAOException(e.getMessage());
 		}
 	}
-
-
-
-	
-
 
 }

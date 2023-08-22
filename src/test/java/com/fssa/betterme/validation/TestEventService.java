@@ -2,16 +2,16 @@ package com.fssa.betterme.validation;
 
 
 
-import java.sql.SQLException;
-
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.exception.ValidationException;
 import com.fssa.betterme.objects.EventHost;
 import com.fssa.betterme.objects.Events;
 import com.fssa.betterme.server.EventService;
@@ -19,45 +19,59 @@ import com.fssa.betterme.server.EventService;
 
  class TestEventService {
 	
-	EventHost validHost = new EventHost("aakash", "9876543210", "aakash@gmail.com");
-	Events validEvent = new Events("yogi event", "it is a event conducted by betterme ",
+	EventHost validHost = new EventHost("Aakash", "9876543210", "aakash@gmail.com");
+	Events validEvent = new Events("Bettet me day ten", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
+	
+	Events updateEvent = new Events("Bettet me day one", "aakash it is a event conducted by betterme ",
+			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
+			validHost);
+
+	Events deleteEvent = new Events("Bettet me day two", "it is a event conducted by betterme ",
+			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
+			validHost);
+	
+	
 	
 
 	EventService service = new EventService();
 	
-	@Test 
-	void testAddEvent() throws DAOException, SQLException {
+	@Test
+	@Order(1)
+	void testAddEvent() throws DAOException, ValidationException {
 		Assertions.assertTrue(service.addEvent(validEvent));
 	} 
 
 	@Test 
-	void testUpdateEvent() throws DAOException, SQLException {
-	
+	@Order(2)
+	void testUpdateEvent() throws ValidationException, DAOException {
+
 		
-		Assertions.assertTrue(service.updateEvent(validEvent));
+		Assertions.assertTrue(service.updateEvent(updateEvent));
 	}
 	
 	@Test 
-	void testReadAllEvent() throws DAOException, SQLException {
+	@Order(3)
+	void testReadAllEvent() throws DAOException {
 		
 		Assertions.assertTrue(service.getEvents());
 	}
 	
 	
 	@Test 
-	void testDeleteEvent() throws DAOException, SQLException {
-		Assertions.assertTrue(service.deleteEvent(validEvent));
+	@Order(4)
+	void testDeleteEvent() throws DAOException, ValidationException  {
+		Assertions.assertTrue(service.deleteEvent(deleteEvent));
 	}
 	
 	@Test 
-	void testGetEventByDate() throws DAOException, SQLException {
+	void testGetEventByDate() throws DAOException {
 		Assertions.assertTrue(service.getEventByDate());
 	}
 
 	@Test 
-	void testGetEventByRange() throws DAOException, SQLException {
+	void testGetEventByRange() throws DAOException {
 		Assertions.assertTrue(service.getEventByRange());
 	}
 
