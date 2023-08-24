@@ -15,7 +15,7 @@ import com.fssa.betterme.service.EventHostService;
 
  class TestHostService {
 
-	EventHost valid = new EventHost("joel" , "9876543210" ,"hemanath@gmail.com");
+	EventHost valid = new EventHost("joel" , "9876543210" ,"joel@gmail.com");
 	EventHost Updatevalid = new EventHost("Yogi" , "9876543210" ,"yogi@gmail.com");
 	
 	@Test 

@@ -21,7 +21,7 @@ import com.fssa.betterme.service.EventService;
 	
 	EventHost validHost = new EventHost("Aakash", "9876543210", "aakash@gmail.com");
 	
-	Events validEvent = new Events("Bettet me day twelve", "it a valid event to be instesrt with  length of 30 characters",
+	Events validEvent = new Events("Bettet me day thirtenn", "it a valid event to be instesrt with  length of 30 characters",
 			"274 ,M.G.R main road, perugudi , chennai ",  LocalDate.now().plusDays(1), LocalTime.of(15, 00)
 			, 150.00,validHost);
 	
@@ -29,7 +29,7 @@ import com.fssa.betterme.service.EventService;
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
 
-	Events deleteEvent = new Events("Bettet me day four", "it is a event conducted by betterme ",
+	Events deleteEvent = new Events("Bettet me day five", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
 	
