@@ -20,10 +20,10 @@ public class EventValidator {
     
    
 
- 	private final static LocalTime START =LocalTime.of(8, 59);;
-     private final static LocalTime END  =LocalTime.of(21, 01);
-	private final static int MIN_PRICE =150;
-    private final static int MAX_PRICE =500;
+ 	private static final  LocalTime START =LocalTime.of(8, 59);
+     private static final  LocalTime END  =LocalTime.of(21, 01);
+	private static final  int MIN_PRICE =150;
+    private static final  int MAX_PRICE =500;
 
     // Validator methods
 

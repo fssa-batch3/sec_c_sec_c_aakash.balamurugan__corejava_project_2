@@ -23,9 +23,9 @@ public class EventDao {
 
 	
 	static Logger log = new Logger();
-	static final String eventName = "event_name";
-	static final String eventAddressStr = "event_address";
-	static final String priceValue = "price";
+	static final String EVENTNAME = "event_name";
+	static final String EVENTADDR = "event_address";
+	static final String PRICEVALUE = "price";
 
 	// adding new row to the table
 	public static boolean addEvent(Events event, int id) throws DAOException {
@@ -179,12 +179,12 @@ public class EventDao {
 				while (rs.next()) {
 
 					int eventId = rs.getInt("id");
-					String eventName = rs.getString("event_name");
-					String eventAddress = rs.getString(eventAddressStr);
+					String eventName = rs.getString(EVENTNAME);
+					String eventAddress = rs.getString(EVENTADDR);
 					String eventDescription = rs.getString("event_description");
 					Date eventDate = rs.getDate("date");
 					Time eventTime = rs.getTime("time");
-					double price = rs.getDouble(priceValue);
+					double price = rs.getDouble(PRICEVALUE);
 
 					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
 							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
@@ -213,12 +213,12 @@ public class EventDao {
 				while (rs.next()) {
 
 					int eventId = rs.getInt("id");
-					String eventName = rs.getString("event_name");
-					String eventAddress = rs.getString(eventAddressStr);
+					String eventName = rs.getString(EVENTNAME);
+					String eventAddress = rs.getString(EVENTADDR);
 					String eventDescription = rs.getString("event_description");
 					Date eventDate = rs.getDate("date");
 					Time eventTime = rs.getTime("time");
-					double price = rs.getDouble(priceValue);
+					double price = rs.getDouble(PRICEVALUE);
 
 					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
 							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
@@ -248,12 +248,12 @@ public class EventDao {
 				while (rs.next()) { 
 
 					int eventId = rs.getInt("id");
-					String eventName = rs.getString("event_name");
-					String eventAddress = rs.getString(eventAddressStr);
+					String eventName = rs.getString(EVENTNAME);
+					String eventAddress = rs.getString(EVENTADDR);
 					String eventDescription = rs.getString("event_description");
 					Date eventDate = rs.getDate("date");
 					Time eventTime = rs.getTime("time");
-					double price = rs.getDouble(priceValue);
+					double price = rs.getDouble(PRICEVALUE);
 
 					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
 							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
@@ -269,5 +269,7 @@ public class EventDao {
 			throw new DAOException(e.getMessage());
 		}
 	}
+	
+	
 
 }
