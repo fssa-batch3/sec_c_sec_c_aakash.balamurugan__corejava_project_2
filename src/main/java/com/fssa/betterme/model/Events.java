@@ -1,4 +1,4 @@
-package com.fssa.betterme.objects;
+package com.fssa.betterme.model;
 
 
 import java.time.*;
@@ -32,7 +32,7 @@ public class Events {
     public Events(int eventid,String eventName, String eventDescription, String eventAddress,
                   LocalDate eventDate, LocalTime eventTime, double price) {
     	this.id=eventid;
-        this.eventName = eventName;
+        this.eventName = eventName; 
         this.eventDescription = eventDescription;
         this.eventAddress = eventAddress;
         this.eventDate = eventDate;

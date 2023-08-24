@@ -1,4 +1,4 @@
-package com.fssa.betterme.validation;
+package com.fssa.betterme.service;
 
 
 
@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.objects.*;
-import com.fssa.betterme.server.EventHostService;
+import com.fssa.betterme.model.*;
+import com.fssa.betterme.service.EventHostService;
 
 
 
  class TestHostService {
 
-	EventHost valid = new EventHost("gokul" , "9876543210" ,"gokul@gmail.com");
-	EventHost Updatevalid = new EventHost("yogi" , "9876543210" ,"yogi@gmail.com");
+	EventHost valid = new EventHost("hemanath" , "9876543210" ,"hemanath@gmail.com");
+	EventHost Updatevalid = new EventHost("Yogi" , "9876543210" ,"yogi@gmail.com");
 	
 	@Test 
 	void testAddHost() throws DAOException, ValidationException {

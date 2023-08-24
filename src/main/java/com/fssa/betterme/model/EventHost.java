@@ -1,4 +1,4 @@
-package com.fssa.betterme.objects;
+package com.fssa.betterme.model;
 
 /**
  * Represents a host of an event.

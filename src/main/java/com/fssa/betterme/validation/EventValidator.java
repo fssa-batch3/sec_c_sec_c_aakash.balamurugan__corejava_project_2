@@ -1,12 +1,13 @@
 package com.fssa.betterme.validation;
 
-import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.objects.Events;
-import com.fssa.betterme.validation.message.EventValidaterErrors;
-
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.fssa.betterme.exception.ValidationException;
+import com.fssa.betterme.model.Events;
+import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 public class EventValidator {
 
@@ -19,9 +20,10 @@ public class EventValidator {
     
    
 
-
-	private final static int minPrice =150;
-    private final static int maxPrice =500;
+ 	private final static LocalTime START =LocalTime.of(8, 59);;
+     private final static LocalTime END  =LocalTime.of(21, 01);
+	private final static int MIN_PRICE =150;
+    private final static int MAX_PRICE =500;
 
     // Validator methods
 
@@ -117,8 +119,8 @@ public class EventValidator {
 	        	throw new ValidationException(EventValidaterErrors.EVENTTIME_NULL_ERROR);
 	        }
 
-	        LocalTime minTime = LocalTime.of(8, 59); // Minimum time (9:00 AM)
-	        LocalTime maxTime = LocalTime.of(21, 01); // Maximum time (8:00 PM)
+	        LocalTime minTime = START ;// Minimum time (9:00 AM)
+	        LocalTime maxTime = END; // Maximum time (8:00 PM)
 	        
 	        if(eventTime.isAfter(minTime) && eventTime.isBefore(maxTime)) {
 	        	return true;
@@ -131,7 +133,7 @@ public class EventValidator {
 
 		 // validator for price should be in the range of 150 and 500 
 	    public static boolean isValidPrice(double price) throws ValidationException {
-	    	if(price >= minPrice && price <=maxPrice) {
+	    	if(price >= MIN_PRICE && price <=MAX_PRICE) {
 	        return true;
 	        }else {
 	        	throw new ValidationException(EventValidaterErrors.EVENTPRICE_INVALID_ERROR);

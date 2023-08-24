@@ -1,4 +1,4 @@
-package com.fssa.betterme.server;
+package com.fssa.betterme.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import java.util.List;
 import com.fssa.betterme.dao.HostDao;
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.logger.Logger;
-import com.fssa.betterme.objects.EventHost;
+import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.util.Logger;
 import com.fssa.betterme.validation.EventHostValidator;
 
 /**

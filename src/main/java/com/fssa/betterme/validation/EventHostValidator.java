@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.objects.EventHost;
+import com.fssa.betterme.model.EventHost;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
 public class EventHostValidator {
@@ -54,7 +54,7 @@ public class EventHostValidator {
     		   throw new ValidationException(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR);
          }
     	
-    	 String contactNumberPattern = "^\\d{10}$";
+    	 String contactNumberPattern = "^\\d{10}$"; //(\\+91|91)?[6789]\\d{9}$
         Pattern pattern = Pattern.compile(contactNumberPattern);
         Matcher match = pattern.matcher(contactNumber);
         // Check if the contact number matches the pattern

@@ -1,4 +1,4 @@
-package com.fssa.betterme.server;
+package com.fssa.betterme.service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import com.fssa.betterme.dao.EventDao;
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.logger.Logger;
-import com.fssa.betterme.objects.Events;
+import com.fssa.betterme.model.Events;
+import com.fssa.betterme.util.Logger;
 import com.fssa.betterme.validation.EventValidator;
 
 /**
@@ -25,7 +25,8 @@ public class EventService {
      */
     public boolean addEvent(Events event) throws  ValidationException, DAOException {
         if (EventValidator.isValidEvent(event)) {
-            EventDao.addEvent(event);
+        	int hostId = EventDao.findHostId(event.getEventName()) ;
+            EventDao.addEvent(event,hostId);
             return true;
         }
         return false;

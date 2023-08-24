@@ -1,4 +1,4 @@
-package com.fssa.betterme.logger;
+package com.fssa.betterme.util;
 
 /**
  * Simple logger class to log information to the console.

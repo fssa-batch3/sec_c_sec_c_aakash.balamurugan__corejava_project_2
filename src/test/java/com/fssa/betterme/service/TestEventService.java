@@ -1,4 +1,4 @@
-package com.fssa.betterme.validation;
+package com.fssa.betterme.service;
 
 
 
@@ -12,23 +12,24 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.objects.EventHost;
-import com.fssa.betterme.objects.Events;
-import com.fssa.betterme.server.EventService;
+import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Events;
+import com.fssa.betterme.service.EventService;
 
 
  class TestEventService {
 	
 	EventHost validHost = new EventHost("Aakash", "9876543210", "aakash@gmail.com");
-	Events validEvent = new Events("Bettet me day ten", "it is a event conducted by betterme ",
-			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
-			validHost);
+	
+	Events validEvent = new Events("Bettet me day eleven", "it a valid event to be instesrt with  length of 30 characters",
+			"274 ,M.G.R main road, perugudi , chennai ",  LocalDate.now().plusDays(1), LocalTime.of(15, 00)
+			, 150.00,validHost);
 	
 	Events updateEvent = new Events("Bettet me day one", "aakash it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
 
-	Events deleteEvent = new Events("Bettet me day two", "it is a event conducted by betterme ",
+	Events deleteEvent = new Events("Bettet me day three", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
 	

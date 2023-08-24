@@ -60,20 +60,20 @@ INSERT INTO hosts (host_name, mobile_number, email) VALUES
 
 INSERT INTO events  (event_name,event_description,event_address,date,time,price,host_id) VALUES 
 ('Bettet me day one', 'it a valid event to be instesrt with  length of 30 characters',
-'it the event address with charater length of 30 and above', '2023-10-30','15:00'
+'274 ,M.G.R main road, perugudi , chennai ', '2023-10-30','15:00'
 ,150.00,2),
-('Bettet me day two', 'it a valid event to be instesrt with  length of 30 characters',
-'it the event address with charater length of 30 and above', '2023-10-21','17:00'
+('Bettet me day two',  'it a valid event to be instesrt with  length of 30 characters',
+'274 ,M.G.R main road, perugudi , chennai ', '2023-10-21','17:00'
 ,200.00,1),
 ('Bettet me day three', 'it a valid event to be instesrt with  length of 30 characters',
 'it the event address with charater length of 30 and above', '2023-11-20','12:00'
 ,280.00,4),
-('Bettet me day four', 'it a valid event to be instesrt with  length of 30 characters',
-'it the event address with charater length of 30 and above', '2023-10-30','08:00'
+('Bettet me day four',  'it a valid event to be instesrt with  length of 30 characters',
+'274 ,M.G.R main road, perugudi , chennai ',  '2023-10-30','08:00'
 ,150.00,2),
-('Bettet me day five', 'it a valid event to be instesrt with  length of 30 characters',
-'it the event address with charater length of 30 and above', '2023-09-14','11:00'
+('Bettet me day five',  'it a valid event to be instesrt with  length of 30 characters',
+'274 ,M.G.R main road, perugudi , chennai ',  '2023-09-14','11:00'
 ,200.00,4),
-('Bettet me day seven', 'it a valid event to be instesrt with  length of 30 characters',
-'it the event address with charater length of 30 and above', '2024-01-21','16:00'
+('Bettet me day seven',  'it a valid event to be instesrt with  length of 30 characters',
+'274 ,M.G.R main road, perugudi , chennai ',  '2024-01-21','16:00'
 ,200.00,5);

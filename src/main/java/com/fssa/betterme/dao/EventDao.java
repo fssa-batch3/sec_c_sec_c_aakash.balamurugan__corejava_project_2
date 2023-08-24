@@ -3,6 +3,7 @@ package com.fssa.betterme.dao;
 import java.sql.Connection;
 
 import com.fssa.betterme.util.ConnectionUtil;
+import com.fssa.betterme.util.Logger;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -16,23 +17,25 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.fssa.betterme.exception.DAOException;
-import com.fssa.betterme.logger.Logger;
-import com.fssa.betterme.objects.Events;
+import com.fssa.betterme.model.Events;
 
 public class EventDao {
 
-	static String rowAffected = "no of rows affected:";
+	
 	static Logger log = new Logger();
-	static String event = "event_name";
-	static String priceValue = "price";
+	static final String eventName = "event_name";
+	static final String eventAddressStr = "event_address";
+	static final String priceValue = "price";
 
 	// adding new row to the table
-	public static boolean addEvent(Events event) throws DAOException {
+	public static boolean addEvent(Events event, int id) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			// Retrieve host ID based on host name
-			int hostId = findHostId(event.getHost().getHostName(), con);
-
-			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id) VALUES (?, ?, ?, ?, ?, ?, ?);";
+			int hostId = findHostId(event.getHost().getHostName() );
+			if (hostId == -1) {
+				throw new DAOException("host not found");
+			}
+			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, event.getEventName());
 				pst.setString(2, event.getEventDescription());
@@ -40,11 +43,7 @@ public class EventDao {
 				pst.setDate(4, Date.valueOf(event.getEventDate()));
 				pst.setTime(5, Time.valueOf(event.getEventTime()));
 				pst.setDouble(6, event.getPrice());
-				if (hostId == -1) {
-					throw new DAOException("host not found");
-				}
-
-				pst.setInt(7, hostId);
+			    pst.setInt(7, hostId);
 
 				int rowsAffected = pst.executeUpdate();
 
@@ -60,9 +59,9 @@ public class EventDao {
 		}
 	}
 
-	public static int findHostId(String hostName, Connection con) throws DAOException {
-
-		String query = " SELECT id FROM hosts WHERE host_name = ?;";
+	public static int findHostId(String hostName) throws DAOException {
+		try (Connection con = ConnectionUtil.getConnection()) {
+		String query = " SELECT id FROM hosts WHERE host_name = ?";
 		int hostId = -1;
 		try (PreparedStatement pst = con.prepareStatement(query);) {
 
@@ -70,23 +69,22 @@ public class EventDao {
 
 			ResultSet rs = pst.executeQuery();
 
-			// Step 06: Iterate the result
 			if (rs.next()) {
 				hostId = rs.getInt("id");
 
 			}
 			ConnectionUtil.close(null, pst, rs);
 
+		}
+		return hostId;
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
 		}
-		return hostId;
-
 	}
 
 	public static int findEventId(String eventName, Connection con) throws DAOException {
 
-		String query = " SELECT id FROM events WHERE event_name = ?;";
+		String query = " SELECT id FROM events WHERE event_name = ?";
 		int eventId = -1;
 		try (PreparedStatement pst = con.prepareStatement(query);) {
 
@@ -94,15 +92,11 @@ public class EventDao {
 
 			ResultSet rs = pst.executeQuery();
 
-			// Step 06: Iterate the result
 			if (rs.next()) {
 
 				eventId = rs.getInt("id");
 
-			} else {
-
-				System.out.println("Not found");
-			}
+			} 
 			ConnectionUtil.close(null, pst, rs);
 
 		} catch (SQLException e) {
@@ -113,13 +107,13 @@ public class EventDao {
 
 	public boolean updateEvent(Events event) throws DAOException {
 
-		String query = "UPDATE events SET event_description = ?, event_address = ?,date = ?,time = ?,price = ? WHERE id = ?;";
+		String query = "UPDATE events SET event_description = ?, event_address = ?,date = ?,time = ?,price = ? WHERE id = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				int eventId = findEventId(event.getEventName(), con);
 
-				System.out.println(eventId);
+			
 
 				if (eventId == -1)
 					throw new DAOException("Event Not found");
@@ -146,7 +140,7 @@ public class EventDao {
 
 	public static boolean deleteEvent(Events event) throws DAOException {
 
-		String queryDeleteEvents = "DELETE FROM events WHERE id = ?;";
+		String queryDeleteEvents = "DELETE FROM events WHERE id = ?";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(queryDeleteEvents)) {
 
@@ -186,13 +180,13 @@ public class EventDao {
 
 					int eventId = rs.getInt("id");
 					String eventName = rs.getString("event_name");
-					String event_address = rs.getString("event_address");
-					String event_description = rs.getString("event_description");
+					String eventAddress = rs.getString(eventAddressStr);
+					String eventDescription = rs.getString("event_description");
 					Date eventDate = rs.getDate("date");
 					Time eventTime = rs.getTime("time");
 					double price = rs.getDouble(priceValue);
 
-					Events event = new Events(eventId, eventName, event_description, event_address,
+					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
 							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
 					events.add(event);
 
@@ -209,7 +203,7 @@ public class EventDao {
 		List<Events> events = new ArrayList<>();
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT * FROM events WHERE date = ?;";
+			String query = "SELECT * FROM events WHERE date = ?";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setDate(1, Date.valueOf(date));
@@ -220,13 +214,13 @@ public class EventDao {
 
 					int eventId = rs.getInt("id");
 					String eventName = rs.getString("event_name");
-					String event_address = rs.getString("event_address");
-					String event_description = rs.getString("event_description");
+					String eventAddress = rs.getString(eventAddressStr);
+					String eventDescription = rs.getString("event_description");
 					Date eventDate = rs.getDate("date");
 					Time eventTime = rs.getTime("time");
 					double price = rs.getDouble(priceValue);
 
-					Events event = new Events(eventId, eventName, event_description, event_address,
+					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
 							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
 					events.add(event);
 
@@ -244,24 +238,24 @@ public class EventDao {
 	public static List<Events> eventRange(LocalDate start, LocalDate end) throws DAOException {
 		List<Events> events = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?;";
+			String query = "SELECT * FROM events WHERE date BETWEEN ? AND ?";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, String.valueOf(start));
 				pst.setString(2, String.valueOf(end));
 				ResultSet rs = pst.executeQuery();
 
-				while (rs.next()) {
+				while (rs.next()) { 
 
 					int eventId = rs.getInt("id");
 					String eventName = rs.getString("event_name");
-					String event_address = rs.getString("event_address");
-					String event_description = rs.getString("event_description");
+					String eventAddress = rs.getString(eventAddressStr);
+					String eventDescription = rs.getString("event_description");
 					Date eventDate = rs.getDate("date");
 					Time eventTime = rs.getTime("time");
 					double price = rs.getDouble(priceValue);
 
-					Events event = new Events(eventId, eventName, event_description, event_address,
+					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
 							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
 					events.add(event);
 

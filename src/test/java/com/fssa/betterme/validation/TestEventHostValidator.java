@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.objects.EventHost;
-
+import com.fssa.betterme.model.EventHost;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
  class TestEventHostValidator {
