@@ -15,7 +15,10 @@ public class Events {
     private LocalDate eventDate;
     private LocalTime eventTime;
     private double price;
+    private String imageUrl;
     private EventHost host;
+    private boolean isActive;
+    
 
     /**
      * Constructs an Events object with all attributes.
@@ -29,15 +32,17 @@ public class Events {
      * @param price            The price of the event.
      */
     
-    public Events(int eventid,String eventName, String eventDescription, String eventAddress,
-                  LocalDate eventDate, LocalTime eventTime, double price) {
+    public Events(int eventid,String eventName, String eventDescription,String imageURL, String eventAddress,
+                  LocalDate eventDate, LocalTime eventTime, double price, boolean isActive) {
     	this.id=eventid;
         this.eventName = eventName; 
         this.eventDescription = eventDescription;
         this.eventAddress = eventAddress;
+        this.imageUrl = imageURL;
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.price = price;
+        this.isActive = isActive;
       
     }
 
@@ -52,15 +57,17 @@ public class Events {
      * @param price            The price of the event.
      */
     
-    public Events(String eventName, String eventDescription, String eventAddress,
+    public Events(String eventName, String eventDescription, String eventAddress,String imageURL,
                   LocalDate eventDate, LocalTime eventTime, double price,EventHost host) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.eventAddress = eventAddress;
+        this.imageUrl = imageURL;
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.price = price;
         this.host = host;
+       
     }
     
 
@@ -72,7 +79,7 @@ public class Events {
      */
     @Override
     public String toString() {
-        return eventName;
+        return "event Name: "+getEventName()+" price: "+getPrice()+" Date: "+ getEventDate()+" Time: "+getEventTime() ;
     }
 
     /**
@@ -140,12 +147,34 @@ public class Events {
     }
     
     /**
+     * Gets the address of the event.
+     *
+     * @return The event address.
+     */
+    public String getImageURL() {
+        return imageUrl;
+    }
+    
+    /**
      * Gets the host of the event.
      *
      * @return The event host.
      */
+    
+    
     public EventHost getHost() {
         return host;
+    }
+    
+    /**
+     * Gets the active status of the event.
+     *
+     * @return The event status of active.
+     */
+    
+    
+    public boolean getIsActive() {
+        return isActive;
     }
 
     /**
@@ -202,6 +231,16 @@ public class Events {
         this.price = price;
     }
     
+    
+    /**
+     * Sets the imageUrl of the event.
+     *
+     * @param imageUrl The new event imageUrl.
+     */
+    public void setImageUrl(String imageUrl) {
+    	this.imageUrl = imageUrl;
+    }
+    
     /**
      * Sets the host of the event.
      *
@@ -209,6 +248,15 @@ public class Events {
      */
     public void setHost(EventHost host) {
         this.host = host;
+    }
+    
+    /**
+     * Sets the active status of the event.
+     *
+     * @param  event activity status.
+     */
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
 

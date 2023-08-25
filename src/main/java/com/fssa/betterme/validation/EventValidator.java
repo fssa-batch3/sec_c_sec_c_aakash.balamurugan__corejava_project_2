@@ -1,5 +1,7 @@
 package com.fssa.betterme.validation;
 
+
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.regex.Matcher;
@@ -130,6 +132,33 @@ public class EventValidator {
 
 	       
 	    }
+	    
+		public static boolean validateProductImageLink(String url) throws ValidationException {
+
+			/*
+			 * Product Image URL Validation. If the product Image URL is Null or Empty It
+			 * will throw the Exception.
+			 */
+
+			if (url == null || "".equals(url.trim())) {
+				throw new ValidationException(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_NULLERROR);
+			}
+
+			/*
+			 *  Image URL Regex Pattern Validate Code
+			 */
+			boolean isMatch = Pattern.matches("(http)?s?:?(\\/\\/[^\"']*\\.(?:png|jpg|jpeg|gif|png|svg|webp))", url);
+
+			/*
+			 *  If the patter is not Matched it will throw the Exception Otherwise it's True.
+			 */
+			if (!isMatch) {
+				throw new ValidationException(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_ERROR);
+			}
+
+			return true;
+
+		}
 
 		 // validator for price should be in the range of 150 and 500 
 	    public static boolean isValidPrice(double price) throws ValidationException {

@@ -23,7 +23,7 @@ public class EventService {
      * @throws DAOException If there's an issue with the data access.
      * @throws ValidationException 
      */
-    public boolean addEvent(Events event) throws  ValidationException, DAOException {
+    public static boolean addEvent(Events event) throws  ValidationException, DAOException {
         if (EventValidator.isValidEvent(event)) {
         	int hostId = EventDao.findHostId(event.getEventName()) ;
             EventDao.addEvent(event,hostId);
@@ -72,10 +72,10 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public boolean getEvents() throws DAOException {
+    public static List<Events> getEvents() throws DAOException {
         List<Events> values = EventDao.readEvents();
         printEvents(values);
-        return true;
+        return values;
     }
 
     /**
@@ -84,10 +84,10 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public boolean getEventByDate() throws DAOException {
-        List<Events> values1 = EventDao.getEventByDate(LocalDate.of(2023, 8, 19));
+    public static List<Events> getEventByDate(LocalDate date) throws DAOException {
+        List<Events> values1 = EventDao.getEventByDate(date);
         printEvents(values1);
-        return true;
+        return values1;
     }
 
     /**
@@ -96,10 +96,10 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public boolean getEventByRange() throws DAOException {
+    public static List<Events> getEventByRange() throws DAOException {
         List<Events> values2 = EventDao.eventRange(LocalDate.of(2023, 8, 15), LocalDate.of(2023, 8, 25));
         printEvents(values2);
-        return true;
+        return values2;
     }
 
     /**
@@ -107,7 +107,7 @@ public class EventService {
      *
      * @param val The list of events to be printed.
      */
-    void printEvents(List<Events> val) {
+    static void printEvents(List<Events> val) {
         Logger log = new Logger();
         for (Events events : val) {
             log.info(events.toString());

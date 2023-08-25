@@ -33,7 +33,7 @@ import com.fssa.betterme.service.EventHostService;
 	@Test 
 	void testReadAllHost() throws DAOException {
 		
-		Assertions.assertTrue(EventHostService.readAllHost());
+		Assertions.assertDoesNotThrow(()->EventHostService.readAllHost());
 	}
 	
 	

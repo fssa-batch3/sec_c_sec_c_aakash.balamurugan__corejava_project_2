@@ -23,19 +23,25 @@ public class EventDao {
 
 	
 	static Logger log = new Logger();
-	static final String EVENTNAME = "event_name";
-	static final String EVENTADDR = "event_address";
-	static final String PRICEVALUE = "price";
+	static final String EVENTNAME_TAB = "event_name";
+	static final String EVENTADDR_TAB = "event_address";
+	static final String PRICEVALUE_TAB = "price";
+	static final String IMA_TAB = "img_url";
+	static final String DES_TAB = "event_description";
+	static final String ID_TAB = "id";
+	static final String DATE_TAB = "date";
+	static final String TIME_TAB = "time";
+	static final String STATUS_TAB = "status";
 
 	// adding new row to the table
 	public static boolean addEvent(Events event, int id) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			// Retrieve host ID based on host name
-			int hostId = findHostId(event.getHost().getHostName() );
+			int hostId = findHostId(event.getHost().getEmail());
 			if (hostId == -1) {
 				throw new DAOException("host not found");
 			}
-			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id,img_url) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, event.getEventName());
 				pst.setString(2, event.getEventDescription());
@@ -44,6 +50,7 @@ public class EventDao {
 				pst.setTime(5, Time.valueOf(event.getEventTime()));
 				pst.setDouble(6, event.getPrice());
 			    pst.setInt(7, hostId);
+			    pst.setString(8, event.getImageURL());
 
 				int rowsAffected = pst.executeUpdate();
 
@@ -59,13 +66,13 @@ public class EventDao {
 		}
 	}
 
-	public static int findHostId(String hostName) throws DAOException {
+	public static int findHostId(String email) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
-		String query = " SELECT id FROM hosts WHERE host_name = ?";
+		String query = " SELECT id FROM hosts WHERE email = ?";
 		int hostId = -1;
 		try (PreparedStatement pst = con.prepareStatement(query);) {
 
-			pst.setString(1, hostName);
+			pst.setString(1, email);
 
 			ResultSet rs = pst.executeQuery();
 
@@ -176,21 +183,12 @@ public class EventDao {
 
 			try (PreparedStatement pst = con.prepareStatement(query); ResultSet rs = pst.executeQuery();) {
 
-				while (rs.next()) {
+				while (rs.next()) { 
 
-					int eventId = rs.getInt("id");
-					String eventName = rs.getString(EVENTNAME);
-					String eventAddress = rs.getString(EVENTADDR);
-					String eventDescription = rs.getString("event_description");
-					Date eventDate = rs.getDate("date");
-					Time eventTime = rs.getTime("time");
-					double price = rs.getDouble(PRICEVALUE);
-
-					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
-							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
+				 Events event = createEvent(rs);
 					events.add(event);
 
-				}
+				} 
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
@@ -210,18 +208,8 @@ public class EventDao {
 
 				ResultSet rs = pst.executeQuery();
 
-				while (rs.next()) {
-
-					int eventId = rs.getInt("id");
-					String eventName = rs.getString(EVENTNAME);
-					String eventAddress = rs.getString(EVENTADDR);
-					String eventDescription = rs.getString("event_description");
-					Date eventDate = rs.getDate("date");
-					Time eventTime = rs.getTime("time");
-					double price = rs.getDouble(PRICEVALUE);
-
-					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
-							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
+				while (rs.next()) { 
+					Events event = createEvent(rs);
 					events.add(event);
 
 				}
@@ -247,16 +235,7 @@ public class EventDao {
 
 				while (rs.next()) { 
 
-					int eventId = rs.getInt("id");
-					String eventName = rs.getString(EVENTNAME);
-					String eventAddress = rs.getString(EVENTADDR);
-					String eventDescription = rs.getString("event_description");
-					Date eventDate = rs.getDate("date");
-					Time eventTime = rs.getTime("time");
-					double price = rs.getDouble(PRICEVALUE);
-
-					Events event = new Events(eventId, eventName, eventDescription, eventAddress,
-							eventDate.toLocalDate(), eventTime.toLocalTime(), price);
+					Events event = createEvent(rs);
 					events.add(event);
 
 				}
@@ -268,6 +247,24 @@ public class EventDao {
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
 		}
+	}
+	
+	static Events createEvent(ResultSet rs) throws SQLException{
+		int eventId = rs.getInt(ID_TAB);
+		String eventName = rs.getString(EVENTNAME_TAB);
+		String eventAddress = rs.getString(EVENTADDR_TAB);
+		String eventDescription = rs.getString(DES_TAB);
+		String imgURL = rs.getString(IMA_TAB);
+		
+		Date eventDate = rs.getDate(DATE_TAB);
+		Time eventTime = rs.getTime(TIME_TAB);
+		double price = rs.getDouble(PRICEVALUE_TAB);
+		boolean isActive = rs.getBoolean(STATUS_TAB); 
+
+		Events event = new Events(eventId, eventName, eventDescription, eventAddress,imgURL,
+				eventDate.toLocalDate(), eventTime.toLocalTime(), price,isActive);
+		return event;
+		
 	}
 	
 	

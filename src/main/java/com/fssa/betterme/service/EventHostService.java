@@ -70,9 +70,24 @@ public class EventHostService {
      * @return True if the hosts were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public static boolean readAllHost() throws DAOException {
-    	printHosts( HostDao.readAllHost());
-        return true;
+    public static List<EventHost> readAllHost() throws DAOException {
+    	List<EventHost> value = HostDao.readAllHost();
+    	printHosts( value);
+    	return value;
+        
+    }
+    
+    /**
+     * Retrieves all event hosts from the database.
+     *
+     * @return True if the hosts were retrieved successfully, false otherwise.
+     * @throws DAOException If there's an issue with the data access.
+     */
+    public static EventHost readAllHostByEmail(String email) throws DAOException {
+    	EventHost value =HostDao.findHostByEmail(email);
+    	
+    	return value;
+    	
     }
     
     /**

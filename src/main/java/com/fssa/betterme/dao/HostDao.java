@@ -83,6 +83,34 @@ public class HostDao {
 	    }
 	}
 	
+	public static EventHost findHostByEmail(String email) throws DAOException {
+		EventHost host =null;
+		
+	    String query = "SELECT* FROM hosts WHERE email = ?";
+
+	    try (Connection con = ConnectionUtil.getConnection();
+	         PreparedStatement pst = con.prepareStatement(query)) {
+
+	        pst.setString(1, email);
+
+	        try (ResultSet rs = pst.executeQuery()) {
+	            if (rs.next()) {
+	            	int  hostId = rs.getInt("id");
+	            	String hostName = rs.getString("host_name");
+	                String mobileNumber = rs.getString("mobile_number");
+	                String Gmail = rs.getString("email");
+	                
+	                 host = new EventHost(hostId,hostName,mobileNumber,Gmail );
+	                
+	            }
+	        }
+	        return host;
+	    } catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
+	    }
+	}
+	
+	
 	public static List<EventHost> readAllHost() throws DAOException {
 		List<EventHost> hosts = new ArrayList<>();
 		
@@ -95,7 +123,7 @@ public class HostDao {
 	       
 
 	        try (ResultSet rs = pst.executeQuery()) {
-	            if (rs.next()) {
+	            while (rs.next()) {
 	            	int  hostId = rs.getInt("id");
 	            	String hostName = rs.getString("host_name");
 	                String mobileNumber = rs.getString("mobile_number");
