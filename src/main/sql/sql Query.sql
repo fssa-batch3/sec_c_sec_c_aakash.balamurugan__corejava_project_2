@@ -1,15 +1,13 @@
-USE aakash_balamurugan_corejava_project;
-
-
+USE `aakash_balamurugan_corejava_project` ;
 
 
 CREATE TABLE IF NOT EXISTS hosts (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    host_name VARCHAR(100) NOT NULL UNIQUE,
+    host_name VARCHAR(100) NOT NULL ,
     mobile_number BIGINT NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     CONSTRAINT chk_email CHECK (email LIKE '%_@__%.__%'),
-     CONSTRAINT chk_mobile_number CHECK (mobile_number REGEXP '^[0-9]{10,15}$')
+	CONSTRAINT chk_mobile_number CHECK (mobile_number REGEXP '^[0-9]{10,15}$')
 );
 
 
@@ -25,6 +23,8 @@ CREATE TABLE events (
     price DOUBLE NOT NULL,
     status TINYINT DEFAULT 1, 
     host_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (host_id) REFERENCES hosts(id)
 );
 
@@ -35,8 +35,11 @@ CREATE TABLE users (
     gender VARCHAR(6) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+	mobile_number BIGINT NOT NULL ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT gender_chk CHECK (gender IN ('male', 'female', 'others'))
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT gender_chk CHECK (gender IN ('male', 'female', 'others')),
+    CONSTRAINT mobile_number CHECK (mobile_number REGEXP '^[0-9]{10,15}$')
 );
 
 
@@ -52,6 +55,7 @@ CREATE TABLE event_user (
 -- Default values to the tables
 
 
+
 INSERT INTO hosts (host_name, mobile_number, email) VALUES 
 ('Aakash', 9876543210, 'aakash@gmail.com'),
 ('Vishlali', 9876543210, 'vishali@gmail.com'),
@@ -60,7 +64,6 @@ INSERT INTO hosts (host_name, mobile_number, email) VALUES
 ('Yogi', 9876543210, 'yogi@gmail.com')
 ;
 
-use betterme;
 
 INSERT INTO events  (event_name,event_description,event_address,img_url,date,time,price,host_id) VALUES 
 ('Bettet me day one', 'it a valid event to be instesrt with  length of 30 characters',
@@ -81,3 +84,17 @@ INSERT INTO events  (event_name,event_description,event_address,img_url,date,tim
 ('Bettet me day seven',  'it a valid event to be instesrt with  length of 30 characters',
 '274 ,M.G.R main road, perugudi , chennai ', 'https://iili.io/HNOIrnj.jpg', '2024-01-21','16:00'
 ,200.00,5);
+
+-- call update_status_before_date_expiiires();
+-- use betterme;
+-- DELIMITER //
+-- CREATE TRIGGER update_status_before_date_expiiires
+-- BEFORE UPDATE ON events
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.date < '2023-12-30' THEN
+--         SET NEW.status = 0;
+--     END IF;
+-- END;
+-- //
+-- DELIMITER ;

@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.fssa.betterme.dao.HostDao;
 import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.ValidationException;
 import com.fssa.betterme.model.EventHost;
-import com.fssa.betterme.util.Logger;
+import com.fssa.betterme.service.message.Constants;
 import com.fssa.betterme.validation.EventHostValidator;
 
 /**
@@ -20,14 +21,19 @@ public class EventHostService {
      *
      * @param host The event host to be added.
      * @return True if the host was added successfully, false otherwise.
+     * @throws ServiceException 
      * @throws DAOException If there's an issue with the data access.
      * @throws ValidationException 
      */
-    public static boolean addHost(EventHost host) throws DAOException, ValidationException {
-        if (EventHostValidator.isValidEventHost(host)) {
-            HostDao.addHost(host);
-            return true;
-        }
+    public static boolean addHost(EventHost host) throws ServiceException, ValidationException  {
+        try {
+			if (EventHostValidator.isValidEventHost(host)) {
+			    HostDao.addHost(host); 
+			    return true;
+			}
+		} catch (  DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
         return false;
     }
 
@@ -38,14 +44,29 @@ public class EventHostService {
      * @return True if the host was updated successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      * @throws ValidationException 
+     * @throws ServiceException 
      */
-    public static boolean updateHost(EventHost host) throws DAOException, ValidationException {
+    public static boolean updateHost(EventHost host) throws  ValidationException, ServiceException {
         if (EventHostValidator.isValidEventHost(host)) {
-            HostDao hostDao = new HostDao();
-            hostDao.updateHost(host);
-            return true;
+        	
+        	
+			try {
+				EventHost eventHost = HostDao.findHostByEmail(host.getEmail());
+				if (eventHost.getId() == 0) {
+					throw new ValidationException(Constants.INVALIDHOST);
+				}
+	        	host.setId(eventHost.getId());
+	            
+	            HostDao.updateHost(host);
+	            return true;
+	        }
+	      
+			 catch (DAOException e) {			
+				 throw new ServiceException(e.getMessage());
+			}
         }
-        return false;
+			  return false;
+        	
     }
 
     /**
@@ -54,16 +75,81 @@ public class EventHostService {
      * @param host The event host to be deleted.
      * @return True if the host was deleted successfully, false otherwise.
      * @throws ValidationException 
+     * @throws ServiceException 
      * @throws DAOException If there's an issue with the data access.
      */
-    public static boolean deleteHost(EventHost host) throws ValidationException, DAOException   {
+    public static boolean deleteHost(EventHost host) throws ValidationException, ServiceException   {
         if (EventHostValidator.isValidEventHost(host)) {
-            HostDao.deleteHostByHostName(host.getHostName());
+        	 try {
+        	EventHost EventHost = HostDao.findHostByEmail(host.getEmail()) ;
+        	if (EventHost.getId() == 0) {
+				throw new ValidationException(Constants.INVALIDHOST);
+			}
+           
+				HostDao.deleteHostByHostId(EventHost.getId());
+			} catch (DAOException e) {
+				throw new ServiceException(e.getMessage());
+			}
             return true;
         }
         return false;
     }
 
+
+    
+    /**
+     * Retrieves all event hosts from the database.
+     *
+     * @return True if the hosts were retrieved successfully, false otherwise.
+     * @throws DAOException If there's an issue with the data access.
+     * @throws ValidationException 
+     * @throws ServiceException 
+     */
+    public static EventHost readHostByEmail(String email) throws  ValidationException, ServiceException {
+    	EventHost value;
+		try {
+			value = HostDao.findHostByEmail(email);
+			if(value == null) {
+	    		throw new ValidationException(Constants.INVALIDHOSTEMAIL);
+	    	}
+	    	
+	    	return value;
+		} catch (DAOException e) {
+			
+			throw new ServiceException(e.getMessage());
+		}
+    	
+    	
+    	
+    }
+    
+    
+
+    
+    /**
+     * Retrieves all event hosts from the database.
+     *
+     * @return the object if the hosts were retrieved successfully, false otherwise.
+     * @throws DAOException If there's an issue with the data access.
+     * @throws ValidationException 
+     * @throws ServiceException 
+     */
+    
+    public static EventHost readHostById( int id) throws  ValidationException, ServiceException {
+    	try{
+    		EventHost value =HostDao.findHostById(id);
+    	
+    	if(value == null) {
+    		throw new ValidationException(Constants.INVALIDHOSTID);
+    	}
+    	
+    	return value;
+    }catch(DAOException e) {
+    	throw new ServiceException(e.getMessage());
+    }
+    	
+    }
+    
     /**
      * Retrieves all event hosts from the database.
      *
@@ -72,33 +158,14 @@ public class EventHostService {
      */
     public static List<EventHost> readAllHost() throws DAOException {
     	List<EventHost> value = HostDao.readAllHost();
-    	printHosts( value);
-    	return value;
-        
-    }
     
-    /**
-     * Retrieves all event hosts from the database.
-     *
-     * @return True if the hosts were retrieved successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
-     */
-    public static EventHost readAllHostByEmail(String email) throws DAOException {
-    	EventHost value =HostDao.findHostByEmail(email);
-    	
     	return value;
+       
     	
     }
     
-    /**
-     * Prints the hosts to the logger.
-     *
-     * @param val The list of events to be printed.
-     */
-    static void printHosts(List<EventHost> val) {
-        Logger log = new Logger();
-        for (EventHost hosts : val) {
-            log.info(hosts.toString());
-        }
-    }
+
+
+    
+
 }

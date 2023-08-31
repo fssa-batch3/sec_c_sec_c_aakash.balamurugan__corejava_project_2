@@ -1,13 +1,20 @@
 package com.fssa.betterme.service;
 
+
+
 import java.time.LocalDate;
+
 import java.util.List;
 
-import com.fssa.betterme.dao.EventDao;
+
+
+import com.fssa.betterme.dao.*;
 import com.fssa.betterme.exception.DAOException;
+import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.model.Events;
-import com.fssa.betterme.util.Logger;
+import com.fssa.betterme.model.Event;
+import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.service.message.Constants;
 import com.fssa.betterme.validation.EventValidator;
 
 /**
@@ -20,15 +27,28 @@ public class EventService {
      *
      * @param event The event to be added.
      * @return True if the event was added successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
      * @throws ValidationException 
+     * @throws ServiceException 
      */
-    public static boolean addEvent(Events event) throws  ValidationException, DAOException {
-        if (EventValidator.isValidEvent(event)) {
-        	int hostId = EventDao.findHostId(event.getEventName()) ;
-            EventDao.addEvent(event,hostId);
-            return true;
-        }
+    public static boolean addEvent(Event event) throws ValidationException, ServiceException  {
+        try {
+			if (EventValidator.isValidEvent(event)) {
+				if(!EventDao.doesEventExist(event.getEventName())) {
+					
+				
+				EventHost host = HostDao.findHostByEmail(event.getHost().getEmail()) ;
+				if (host.getId() == 0) {
+					throw new ValidationException(Constants.INVALIDHOST);
+				}
+			    EventDao.addEvent(event,host.getId());
+			    return true;
+			    }else {
+			    	throw new ValidationException(Constants.EVENTALREADYEXISTS);
+			    }
+			}
+		} catch ( DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
         return false;
     }
 
@@ -37,16 +57,24 @@ public class EventService {
      *
      * @param event The event to be updated.
      * @return True if the event was updated successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
+     * @throws ServiceException 
      * @throws ValidationException 
      */
-    public boolean updateEvent(Events event) throws DAOException, ValidationException {
-        if (EventValidator.isValidEvent(event)) {
-            EventDao eventDao = new EventDao();
-            event.setEventAddress(event.getEventAddress()+" (updated)");
-            eventDao.updateEvent(event);
-            return true;
-        }
+    public static boolean updateEvent(Event event) throws ServiceException, ValidationException{
+        try {
+        	if(EventDao.doesEventExist(event.getEventName())) {
+        		if (EventValidator.isValidEvent(event)) {
+        			EventDao eventDao = new EventDao();
+			    
+			    	eventDao.updateEvent(event);
+			    	return true;
+				}
+        	}else {
+        		throw new ValidationException(Constants.EVENTDOESNTEXISTS);
+        	}
+		} catch ( DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
         return false;
     }
 
@@ -57,24 +85,58 @@ public class EventService {
      * @return True if the event was deleted successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      * @throws ValidationException 
+     * @throws ServiceException 
      */
-    public boolean deleteEvent(Events event) throws DAOException, ValidationException {
-        if (EventValidator.isValidEvent(event)) {
-            EventDao.deleteEvent(event);
-            return true;
-        }
+    public static boolean deleteEvent(Event event) throws ValidationException, ServiceException {
+        try {
+        	if(EventDao.doesEventExist(event.getEventName())) {
+			if (EventValidator.isValidEvent(event)) {
+			    EventDao.deleteEvent(event);
+			    return true;
+			}
+        	}else {
+        		throw new ValidationException(Constants.EVENTDOESNTEXISTS);
+        	}
+        } catch (DAOException e) {
+        	throw new ServiceException(e.getMessage());
+		}
         return false;
     }
 
     /**
-     * Retrieves all events from the database.
+     * Retrieves all active events from the database.
+     *
+     * @return A list of active events if retrieved successfully, an empty list if no active events, or null if an error occurs.
+     * @throws ServiceException 
+     */
+    public static List<Event> getActiveEvents() throws ServiceException {
+        try {
+            List<Event> activeEvents = EventDao.readActiveEvents();            
+            return activeEvents; 
+        } catch (DAOException e) {
+        	throw new ServiceException(e.getMessage());
+        }
+    }
+
+
+    /**
+     * Retrieves  events with given eventName from the database.
      *
      * @return True if the events were retrieved successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
+     * @throws ServiceException 
+     * @throws ValidationException 
      */
-    public static List<Events> getEvents() throws DAOException {
-        List<Events> values = EventDao.readEvents();
-        printEvents(values);
+    public static Event getEventByEventName(Event event) throws ServiceException, ValidationException {
+        Event values = null;
+		try {
+			values = EventDao.getEventsByName(event.getEventName());
+			 if(values == null )
+		        	throw new ValidationException(Constants.INVALIDEVENTNAME);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+       
+      
         return values;
     }
 
@@ -82,35 +144,109 @@ public class EventService {
      * Retrieves events by a specific date from the database.
      *
      * @return True if the events were retrieved successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
+     * @throws ServiceException 
+  
      */
-    public static List<Events> getEventByDate(LocalDate date) throws DAOException {
-        List<Events> values1 = EventDao.getEventByDate(date);
-        printEvents(values1);
-        return values1;
+    public static List<Event> getActiveEventByDate(LocalDate date) throws ServiceException  {
+        List<Event> values = null;
+		try {
+			values = EventDao.getActiveEventByDate(date);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		
+	
+        return values;
     }
 
     /**
      * Retrieves events within a date range from the database.
      *
      * @return True if the events were retrieved successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
+     * @throws ServiceException  
+
      */
-    public static List<Events> getEventByRange() throws DAOException {
-        List<Events> values2 = EventDao.eventRange(LocalDate.of(2023, 8, 15), LocalDate.of(2023, 8, 25));
-        printEvents(values2);
-        return values2;
+    public static List<Event> getActiveEventByRange(LocalDate start, LocalDate end) throws ServiceException {
+        List<Event> values = null;
+		try {
+			values = EventDao.activeEventRange(start, end);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+	
+        
+      
+        return values;
+    }
+    
+    
+    /**
+     * Retrieves all events from the database.
+     *
+     * @return True if the events were retrieved successfully, false otherwise.
+     * @throws ServiceException 
+     */
+    public static List<Event> getAllEvents() throws ServiceException  {
+    	 List<Event> values = null;
+    	try {
+        values = EventDao.readAllEvents();
+      
+        
+    	} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+    	return values;
+    	
     }
 
     /**
-     * Prints the events to the logger.
+     * Retrieves events by a specific date from the database.
      *
-     * @param val The list of events to be printed.
+     * @return True if the events were retrieved successfully, false otherwise.
+     * @throws ServiceException 
      */
-    static void printEvents(List<Events> val) {
-        Logger log = new Logger();
-        for (Events events : val) {
-            log.info(events.toString());
-        }
+    public static List<Event> getAllEventByDate(LocalDate date) throws ServiceException {
+    	try {
+        List<Event> values = EventDao.getAllEventByDate(date);
+        
+        return values;
+    	} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
     }
+
+    /**
+     * Retrieves events within a date range from the database.
+     *
+     * @return True if the events were retrieved successfully, false otherwise.
+     * @throws ServiceException 
+     */
+    public static List<Event> getAllEventByRange(LocalDate start, LocalDate end) throws ServiceException {
+    	try {
+        List<Event> values = EventDao.allEventRange(start, end);
+      
+        return values;
+    	} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+    }
+    
+    
+    /**
+     * Retrieves events within a date range from the database.
+     *
+     * @return True if the events were retrieved successfully, false otherwise.
+     * @throws ServiceException 
+     */
+    public static Event getEventById(int id) throws ServiceException{
+    	try {
+        Event values = EventDao.getEventByID(id);
+        
+        return  values;
+    	} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+    }
+
+
 }

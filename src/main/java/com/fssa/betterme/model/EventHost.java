@@ -38,9 +38,10 @@ public class EventHost {
      * @return The host name.
      */
     @Override
-    public String toString() {
-        return hostName;
-    }
+   	public String toString() {
+   		return "EventHost [id=" + id + ", hostName=" + hostName + ", contactNumber=" + contactNumber + ", email="
+   				+ email + "]";
+   	}
 
     
     /**
@@ -79,6 +80,16 @@ public class EventHost {
         return email;
     }
 
+    
+    /**
+     * Sets the name of the host.
+     *
+     * @param hostName The new host name.
+     */
+    public void setId(int hostId) {
+        this.id = hostId;
+    }
+    
     /**
      * Sets the name of the host.
      *

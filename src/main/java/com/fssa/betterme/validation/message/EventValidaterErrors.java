@@ -20,6 +20,6 @@ public final class EventValidaterErrors {
     public static final String EVENTADDRESS_INVALID_ERROR = "Event Address should contain at least 30 characters";
     public static final String EVENTDATE_INVALID_ERROR = "Event Date should not be in the past";
     public static final String EVENTTIME_INVALID_ERROR = "Event time should be between 9 am and 8 pm";
-    public static final String EVENTPRICE_INVALID_ERROR = "Event Price should range between 150 and 500";
+    public static final String EVENTPRICE_INVALID_ERROR = "Event Price should be minimum of 150";
     public static final String INVALID_EVENT_IMAGE_URL_ERROR = "EVENT Image is invalid";
 }

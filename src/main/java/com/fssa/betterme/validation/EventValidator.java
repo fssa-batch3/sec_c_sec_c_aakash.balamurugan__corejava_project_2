@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fssa.betterme.exception.ValidationException;
-import com.fssa.betterme.model.Events;
+import com.fssa.betterme.model.Event;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 public class EventValidator {
@@ -23,9 +23,9 @@ public class EventValidator {
    
 
  	private static final  LocalTime START =LocalTime.of(8, 59);
-     private static final  LocalTime END  =LocalTime.of(21, 01);
+    private static final  LocalTime END  =LocalTime.of(21, 01);
 	private static final  int MIN_PRICE =150;
-    private static final  int MAX_PRICE =500;
+//    private static final  int MAX_PRICE =500;
 
     // Validator methods
 
@@ -36,7 +36,7 @@ public class EventValidator {
      * @return True if the event is valid, false otherwise.
      * @throws ValidationException If the event is not valid.
      */
-    public static boolean isValidEvent(Events event) throws ValidationException {
+    public static boolean isValidEvent(Event event) throws ValidationException {
         if (event == null) {
             throw new ValidationException(EventValidaterErrors.EVENT_NULL_ERROR);
         }
@@ -45,6 +45,7 @@ public class EventValidator {
         isValidEventDescription(event.getEventDescription());
         isValidEventAddress(event.getEventAddress());
         isValidEventDate(event.getEventDate());
+        isValidateProductImageLink(event.getImageURL());
         isValidEventTime(event.getEventTime());
         isValidPrice(event.getPrice());
 
@@ -133,7 +134,7 @@ public class EventValidator {
 	       
 	    }
 	    
-		public static boolean validateProductImageLink(String url) throws ValidationException {
+		public static boolean isValidateProductImageLink(String url) throws ValidationException {
 
 			/*
 			 * Product Image URL Validation. If the product Image URL is Null or Empty It
@@ -162,7 +163,7 @@ public class EventValidator {
 
 		 // validator for price should be in the range of 150 and 500 
 	    public static boolean isValidPrice(double price) throws ValidationException {
-	    	if(price >= MIN_PRICE && price <=MAX_PRICE) {
+	    	if(price >= MIN_PRICE ) {
 	        return true;
 	        }else {
 	        	throw new ValidationException(EventValidaterErrors.EVENTPRICE_INVALID_ERROR);

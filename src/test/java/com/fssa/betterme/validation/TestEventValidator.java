@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.ValidationException;
 import com.fssa.betterme.model.EventHost;
-import com.fssa.betterme.model.Events;
+import com.fssa.betterme.model.Event;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 
@@ -18,10 +18,10 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
 	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
-	Events validEvent = new Events("yogi event", "it is a event conducted by betterme ",
+	Event validEvent = new Event("yogi event", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme","https://iili.io/HNOIrnj.jpg", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			validHost);
-	Events inValidEvent = new Events("me", "it is not a valid", "it is not a valid", "",LocalDate.now().minusDays(1),
+	Event inValidEvent = new Event("me", "it is not a valid", "it is not a valid", "vd",LocalDate.now().minusDays(1),
 			LocalTime.of(23, 0), 0, inValidHost);
 	EventValidator validateEvent = new EventValidator();
 	EventHostValidator validateHost = new EventHostValidator();
@@ -196,7 +196,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		
 	
 			try {
-				EventValidator.validateProductImageLink(null);
+				EventValidator.isValidateProductImageLink(null);
 				Assertions.fail("Test Invalid Product Image URL Method Is Failded");
 			} catch (ValidationException e) {
 				Assertions.assertEquals(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_NULLERROR, e.getMessage());
@@ -211,7 +211,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		
 	
 			try {
-				EventValidator.validateProductImageLink(inValidEvent.getImageURL());
+				EventValidator.isValidateProductImageLink(inValidEvent.getImageURL());
 				Assertions.fail("Test Invalid Product Image URL Method Is Failded");
 			} catch (ValidationException e) {
 				Assertions.assertEquals(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_ERROR, e.getMessage());
@@ -225,7 +225,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	void testInvalidProductImageURL() throws ValidationException {
 		
 		validEvent.setImageUrl(validEvent.getImageURL());
-		Assertions.assertTrue(EventValidator.validateProductImageLink(validEvent.getImageURL()));
+		Assertions.assertTrue(EventValidator.isValidateProductImageLink(validEvent.getImageURL()));
 		
 	}
 
@@ -253,11 +253,5 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		Assertions.assertTrue(true);
 
 	}
-
-
-	
-	
-
-
 
 }

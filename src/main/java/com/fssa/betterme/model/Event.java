@@ -6,7 +6,7 @@ import java.time.*;
 /**
  * Represents an event.
  */
-public class Events {
+public class Event {
 	
 	private int id;
     private String eventName;
@@ -32,7 +32,7 @@ public class Events {
      * @param price            The price of the event.
      */
     
-    public Events(int eventid,String eventName, String eventDescription,String imageURL, String eventAddress,
+    public Event(int eventid,String eventName, String eventDescription, String eventAddress,String imageURL,
                   LocalDate eventDate, LocalTime eventTime, double price, boolean isActive) {
     	this.id=eventid;
         this.eventName = eventName; 
@@ -57,7 +57,7 @@ public class Events {
      * @param price            The price of the event.
      */
     
-    public Events(String eventName, String eventDescription, String eventAddress,String imageURL,
+    public Event(String eventName, String eventDescription, String eventAddress,String imageURL,
                   LocalDate eventDate, LocalTime eventTime, double price,EventHost host) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;

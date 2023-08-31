@@ -39,18 +39,18 @@ public class HostDao {
 	    } catch (SQLException e) {
 	        throw new DAOException( e.getMessage());
 		} 
-	}
+	} 
 
 	
-	public boolean updateHost(EventHost host) throws DAOException {
-	    String query = "UPDATE hosts SET mobile_number = ?, email = ? WHERE host_name = ?";
+	public static boolean updateHost(EventHost host) throws DAOException {
+	    String query = "UPDATE hosts SET mobile_number = ?, email = ? WHERE id = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
 
 	        pst.setString(1, host.getContactNumber());
 	        pst.setString(2, host.getEmail());
-	        pst.setString(3, host.getHostName());
+	        pst.setInt(3, host.getId());
 
 	        int rowsAffected = pst.executeUpdate();
 
@@ -65,17 +65,17 @@ public class HostDao {
 
 
 	
-	public static boolean deleteHostByHostName(String hostName) throws DAOException {
-	    String query = "DELETE FROM hosts WHERE host_name = ?";
+	public static boolean deleteHostByHostId(int hostId) throws DAOException {
+	    String query = "DELETE FROM hosts WHERE id = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
 
-	        pst.setString(1, hostName);
+	        pst.setInt(1, hostId);
 
 	        int rowsAffected = pst.executeUpdate();
 	        if (rowsAffected == 0) {
-	            throw new DAOException("No host with the given name was found for updating.");
+	            throw new DAOException("No host with the given name was found for deleting.");
 	        }
 	        return true;
 	    } catch (SQLException e) {
@@ -86,21 +86,38 @@ public class HostDao {
 	public static EventHost findHostByEmail(String email) throws DAOException {
 		EventHost host =null;
 		
-	    String query = "SELECT* FROM hosts WHERE email = ?";
+	    String query = "SELECT id, host_name, mobile_number, email FROM hosts WHERE email = ?";
 
-	    try (Connection con = ConnectionUtil.getConnection();
+	    try (Connection con = ConnectionUtil.getConnection(); 
 	         PreparedStatement pst = con.prepareStatement(query)) {
 
 	        pst.setString(1, email);
 
 	        try (ResultSet rs = pst.executeQuery()) {
 	            if (rs.next()) {
-	            	int  hostId = rs.getInt("id");
-	            	String hostName = rs.getString("host_name");
-	                String mobileNumber = rs.getString("mobile_number");
-	                String Gmail = rs.getString("email");
+	            	host =createHost(rs);
 	                
-	                 host = new EventHost(hostId,hostName,mobileNumber,Gmail );
+	            }
+	        }
+	        return host;
+	    } catch (SQLException e) {
+	        throw new DAOException( e.getMessage());
+	    }
+	}
+	
+	public static EventHost findHostById(int id) throws DAOException {
+		EventHost host =null;
+		
+	    String query = "SELECT id, host_name, mobile_number, email FROM hosts WHERE id = ?";
+
+	    try (Connection con = ConnectionUtil.getConnection();
+	         PreparedStatement pst = con.prepareStatement(query)) {
+
+	        pst.setInt(1, id);
+
+	        try (ResultSet rs = pst.executeQuery()) {
+	            if (rs.next()) {
+	            	host = createHost(rs);
 	                
 	            }
 	        }
@@ -114,7 +131,7 @@ public class HostDao {
 	public static List<EventHost> readAllHost() throws DAOException {
 		List<EventHost> hosts = new ArrayList<>();
 		
-	    String query = "SELECT * FROM hosts";
+	    String query = "SELECT id, host_name, mobile_number, email FROM hosts";
 	   
 
 	    try (Connection con = ConnectionUtil.getConnection();
@@ -124,13 +141,7 @@ public class HostDao {
 
 	        try (ResultSet rs = pst.executeQuery()) {
 	            while (rs.next()) {
-	            	int  hostId = rs.getInt("id");
-	            	String hostName = rs.getString("host_name");
-	                String mobileNumber = rs.getString("mobile_number");
-	                String email = rs.getString("email");
-	                
-	                EventHost host = new EventHost(hostId,hostName,mobileNumber,email );
-	                hosts.add(host);
+	            	hosts.add(createHost(rs));
 	            }
 	        }
 	    } catch (SQLException e) {
@@ -138,6 +149,20 @@ public class HostDao {
 	    }
 
 	    return hosts;
+	}
+	
+
+	
+	static EventHost createHost(ResultSet rs) throws SQLException   {
+		EventHost host = null;
+			int hostId = rs.getInt("id");
+		 	String hostName = rs.getString("host_name");
+	        String mobileNumber = rs.getString("mobile_number");
+	        String email = rs.getString("email");
+	     
+	        host = new EventHost(hostId,hostName,mobileNumber,email );
+			return host;
+		
 	}
 
 }

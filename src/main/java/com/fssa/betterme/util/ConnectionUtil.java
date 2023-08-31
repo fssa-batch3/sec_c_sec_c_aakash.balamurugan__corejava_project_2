@@ -37,11 +37,11 @@ public class ConnectionUtil {
 		passWord = "123456";
 
 		try {
-//			Class.forName("com.mysql.cj.jdbc.Driver");
+		Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, userName, passWord);
 			System.out.println("Connection");
 		} catch (Exception e) {
-			throw new DAOException("Connection Fails");
+			throw new DAOException(e.getMessage());
 		}
 		return con;
 	}
@@ -52,7 +52,7 @@ public class ConnectionUtil {
 			if (rs != null) {
 				rs.close();
 			}
-			if (stmt != null) {
+			if (stmt != null) { 
 				stmt.close();
 			}
 			if (conn != null) {
