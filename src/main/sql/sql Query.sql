@@ -1,4 +1,4 @@
-USE `aakash_balamurugan_corejava_project` ;
+USE betterme ;
 
 
 CREATE TABLE IF NOT EXISTS hosts (
