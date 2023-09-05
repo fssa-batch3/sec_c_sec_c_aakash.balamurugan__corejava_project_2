@@ -8,6 +8,7 @@ import com.fssa.betterme.model.Gender;
 import com.fssa.betterme.model.User;
 import com.fssa.betterme.validation.UserValidator;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
+import com.fssa.betterme.validation.message.UserValidatorError;
 import com.fssa.betterme.exception.UserValidationException;
 
 public class TestUserValidator {
@@ -15,12 +16,12 @@ public class TestUserValidator {
 	
     @Test
     public void testIsValidUserValidUser() {
-        User user = new User("John Doe", "johndoe@example.com", "StrongP@ss123", 1234567890L, Gender.MALE);
+        User user = new User("John Doe", "johndoe@example.com", "StrongP@ss123", 9876543210l, Gender.MALE);
         UserValidator userValid = new UserValidator();
         try {
             assertTrue(userValid.isValidUser(user));
         } catch (UserValidationException e) {
-            fail("Exception should not be thrown for a valid user.");
+            fail(e.getMessage());
         }
     }
     
@@ -30,7 +31,7 @@ public class TestUserValidator {
         try {
 			UserValidator.isValidUser(user);
 		} catch (UserValidationException e) {
-			Assertions.assertEquals("", e.getMessage());
+			Assertions.assertEquals(UserValidatorError.USER_NULL_ERROR, e.getMessage());
 		}
     }
 
@@ -40,7 +41,7 @@ public class TestUserValidator {
         try {
 			UserValidator.isValidName(user.getUsername());
 		} catch (UserValidationException e) {
-			Assertions.assertEquals("", e.getMessage());
+			Assertions.assertEquals(UserValidatorError.USERNAME_NULL_ERROR, e.getMessage());
 		}
     }
 
@@ -52,7 +53,7 @@ public class TestUserValidator {
         try {
     			UserValidator.isValidName(user.getUsername());
     		} catch (UserValidationException e) {
-    			Assertions.assertEquals("", e.getMessage());
+    			Assertions.assertEquals(UserValidatorError.USERNAME_INVALID_ERROR, e.getMessage());
     		}
     }
 
@@ -62,7 +63,7 @@ public class TestUserValidator {
         try {
     			UserValidator.isValidGender(user.getGender());
     		} catch (UserValidationException e) {
-    			Assertions.assertEquals("", e.getMessage());
+    			Assertions.assertEquals(UserValidatorError.USERGENDER_NULL_ERROR, e.getMessage());
     		}
     }
 
@@ -72,7 +73,7 @@ public class TestUserValidator {
         try {
     			UserValidator.isValidMobileNumber(user.getPhoneNumber());
     		} catch (UserValidationException e) {
-    			Assertions.assertEquals("", e.getMessage());
+    			Assertions.assertEquals(UserValidatorError.USER_MOBILENUMBER_INVALID_ERROR, e.getMessage());
     		}
     }
 
@@ -82,7 +83,7 @@ public class TestUserValidator {
         try {
 			UserValidator.isValidEmail(user.getEmail());
 		} catch (UserValidationException e) {
-			Assertions.assertEquals("", e.getMessage());
+			Assertions.assertEquals(UserValidatorError.USEREMAIL_INVALID_ERROR, e.getMessage());
 		}
     }
 
@@ -92,7 +93,7 @@ public class TestUserValidator {
         try {
 			UserValidator.isValidPassword(user.getPassword());
 		} catch (UserValidationException e) {
-			Assertions.assertEquals("", e.getMessage());
+			Assertions.assertEquals(UserValidatorError.USERPASS_INVALID_ERROR, e.getMessage());
 		}
     }
     
@@ -102,7 +103,7 @@ public class TestUserValidator {
         try {
 			UserValidator.isValidEmail(user.getEmail());
 		} catch (UserValidationException e) {
-			Assertions.assertEquals("", e.getMessage());
+			Assertions.assertEquals(UserValidatorError.USEREMAIL_NULL_ERROR, e.getMessage());
 		}
     }
 
@@ -112,7 +113,7 @@ public class TestUserValidator {
         try {
 			UserValidator.isValidPassword(user.getPassword());
 		} catch (UserValidationException e) {
-			Assertions.assertEquals("", e.getMessage());
+			Assertions.assertEquals(UserValidatorError.USERPASS_NULL_ERROR, e.getMessage());
 		}
     }
 }

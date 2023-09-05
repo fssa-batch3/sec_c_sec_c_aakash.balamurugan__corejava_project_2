@@ -139,7 +139,7 @@ public class EventValidator {
 			/*
 			 * Product Image URL Validation. If the product Image URL is Null or Empty It
 			 * will throw the Exception.
-			 */
+			 */ 
 
 			if (url == null || "".equals(url.trim())) {
 				throw new EventValidationException(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_NULLERROR);
