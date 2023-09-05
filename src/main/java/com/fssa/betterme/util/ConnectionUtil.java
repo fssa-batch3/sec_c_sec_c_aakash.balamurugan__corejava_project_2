@@ -39,7 +39,7 @@ public class ConnectionUtil {
 	}
 
 	public static void close(Connection conn, Statement stmt, ResultSet rs) {
-		Logger logger = new Logger();
+	
 		try {
 			if (rs != null) {
 				rs.close();
@@ -51,7 +51,7 @@ public class ConnectionUtil {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			logger.info(e.getMessage());
+			Logger.info(e.getMessage());
 		}
 	}
 

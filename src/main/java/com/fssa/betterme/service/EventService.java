@@ -232,9 +232,9 @@ public class EventService {
      */
     public static Event getEventById(int id) throws ServiceException{
     	try {
-        Event values = EventDao.getEventByID(id);
+    		return EventDao.getEventByID(id);
         
-        return  values;
+       
     	} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

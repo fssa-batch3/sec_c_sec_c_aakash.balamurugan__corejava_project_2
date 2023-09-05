@@ -157,9 +157,9 @@ public class EventHostService {
      * @throws DAOException If there's an issue with the data access.
      */
     public static List<EventHost> readAllHost() throws DAOException {
-    	List<EventHost> value = HostDao.readAllHost();
+    	return HostDao.readAllHost();
     
-    	return value;
+    	
        
     	
     }

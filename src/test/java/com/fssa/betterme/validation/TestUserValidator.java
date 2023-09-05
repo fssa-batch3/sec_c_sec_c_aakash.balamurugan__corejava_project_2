@@ -2,31 +2,31 @@ package com.fssa.betterme.validation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import com.fssa.betterme.model.Gender;
 import com.fssa.betterme.model.User;
-import com.fssa.betterme.validation.UserValidator;
-import com.fssa.betterme.validation.message.EventValidaterErrors;
+
 import com.fssa.betterme.validation.message.UserValidatorError;
 import com.fssa.betterme.exception.UserValidationException;
 
-public class TestUserValidator {
+ class TestUserValidator {
 
 	
     @Test
-    public void testIsValidUserValidUser() {
+    void testIsValidUserValidUser() {
         User user = new User("John Doe", "johndoe@example.com", "StrongP@ss123", 9876543210l, Gender.MALE);
-        UserValidator userValid = new UserValidator();
+     
         try {
-            assertTrue(userValid.isValidUser(user));
+            assertTrue(UserValidator.isValidUser(user));
         } catch (UserValidationException e) {
             fail(e.getMessage());
         }
     }
     
     @Test
-    public void testIsValidUserNull() {
+    void testIsValidUserNull() {
         User user = null;
         try {
 			UserValidator.isValidUser(user);
@@ -36,7 +36,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserNameNull() {
+    void testIsValidUserNameNull() {
         User user = new User(null, "johndoe@example.com", "StrongP@ss123", 1234567890L, Gender.MALE);
         try {
 			UserValidator.isValidName(user.getUsername());
@@ -46,7 +46,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserNameTooShort() {
+    void testIsValidUserNameTooShort() {
         User user = new User("Jo", "johndoe@example.com", "StrongP@ss123", 1234567890L, Gender.MALE);
        
         
@@ -58,7 +58,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserInvalidGender() {
+    void testIsValidUserInvalidGender() {
         User user = new User("John Doe", "johndoe@example.com", "StrongP@ss123", 1234567890L, null);
         try {
     			UserValidator.isValidGender(user.getGender());
@@ -68,7 +68,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserInvalidMobileNumber() {
+    void testIsValidUserInvalidMobileNumber() {
         User user = new User("John Doe", "johndoe@example.com", "StrongP@ss123", 123456789L, Gender.MALE);
         try {
     			UserValidator.isValidMobileNumber(user.getPhoneNumber());
@@ -78,7 +78,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserInvalidEmail() {
+    void testIsValidUserInvalidEmail() {
         User user = new User("John Doe", "invalid-email", "StrongP@ss123", 1234567890L, Gender.MALE);
         try {
 			UserValidator.isValidEmail(user.getEmail());
@@ -88,7 +88,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserInvalidPassword() {
+    void testIsValidUserInvalidPassword() {
         User user = new User("John Doe", "johndoe@example.com", "weakpass", 1234567890L, Gender.MALE);
         try {
 			UserValidator.isValidPassword(user.getPassword());
@@ -98,7 +98,7 @@ public class TestUserValidator {
     }
     
     @Test
-    public void testIsValidUserEmailNull() {
+    void testIsValidUserEmailNull() {
         User user = new User("John Doe",null, "StrongP@ss123", 1234567890L, Gender.MALE);
         try {
 			UserValidator.isValidEmail(user.getEmail());
@@ -108,7 +108,7 @@ public class TestUserValidator {
     }
 
     @Test
-    public void testIsValidUserPasswordNull() {
+    void testIsValidUserPasswordNull() {
         User user = new User("John Doe", "johndoe@example.com", null, 1234567890L, Gender.MALE);
         try {
 			UserValidator.isValidPassword(user.getPassword());

@@ -2,14 +2,10 @@ package com.fssa.betterme.service;
 
 import java.util.List;
 
-import com.fssa.betterme.dao.EventDao;
 import com.fssa.betterme.dao.UserDao;
-import com.fssa.betterme.exception.DAOException;
-import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.UserDAOException;
 import com.fssa.betterme.exception.UserServiceException;
 import com.fssa.betterme.exception.UserValidationException;
-import com.fssa.betterme.model.Event;
 import com.fssa.betterme.model.User;
 import com.fssa.betterme.validation.UserValidator;
 

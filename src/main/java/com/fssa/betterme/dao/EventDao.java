@@ -2,8 +2,9 @@ package com.fssa.betterme.dao;
 
 import java.sql.Connection;
 
+
 import com.fssa.betterme.util.ConnectionUtil;
-import com.fssa.betterme.util.Logger;
+
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -343,9 +344,9 @@ public class EventDao {
 		double price = rs.getDouble(PRICEVALUE_TAB);
 		boolean isActive = rs.getBoolean(STATUS_TAB);
 
-		Event event = new Event(eventId, eventName, eventDescription, eventAddress, imgURL, eventDate.toLocalDate(),
+		return new Event(eventId, eventName, eventDescription, eventAddress, imgURL, eventDate.toLocalDate(),
 				eventTime.toLocalTime(), price, isActive);
-		return event;
+	
 
 	}
 

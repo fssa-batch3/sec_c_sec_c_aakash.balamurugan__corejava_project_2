@@ -8,7 +8,7 @@ import com.fssa.betterme.exception.UserValidationException;
 import com.fssa.betterme.model.Gender;
 import com.fssa.betterme.model.User;
 
-public class TestUserService {
+class TestUserService {
 	
      User validUser = new User("Suvetha", "suvetha@example.com", "Suvetha@123", 9876543210l, Gender.MALE);
 	 User updateUser = new User("Aakash", "aakash@gmail.com", "Aakash@123", 9876543210l, Gender.MALE);

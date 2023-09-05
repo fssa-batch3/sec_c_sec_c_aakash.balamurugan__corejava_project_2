@@ -7,17 +7,17 @@ package com.fssa.betterme.service;
 import java.time.LocalDate;
 
 
+
 import java.time.LocalTime;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 
 import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
 import com.fssa.betterme.model.EventHost;
-import com.fssa.betterme.service.message.Constants;
+
 import com.fssa.betterme.model.Event;
 
 

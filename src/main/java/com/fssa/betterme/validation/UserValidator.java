@@ -1,6 +1,6 @@
 package com.fssa.betterme.validation;
 
-import java.util.Scanner;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,7 +141,7 @@ public class UserValidator {
             }
 
             // Define the password pattern using a regex
-            String regex = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$";
+            String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
 
             // Compile the regex pattern
             Pattern pattern = Pattern.compile(regex);

@@ -1,5 +1,6 @@
 package com.fssa.betterme.dao;
 
+
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fssa.betterme.exception.DAOException;
+
 import com.fssa.betterme.exception.UserDAOException;
 import com.fssa.betterme.model.Gender;
 import com.fssa.betterme.model.User;
@@ -61,7 +62,7 @@ public class UserDao {
 			pst.setInt(5, user.getId());
 
 			int rowsAffected = pst.executeUpdate();
-			System.out.println(rowsAffected);
+		
 
 			if (rowsAffected <= 0) {
 				throw new UserDAOException("Update failed");
@@ -89,7 +90,7 @@ public class UserDao {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+		
 			throw new UserDAOException(e.getMessage());
 		}
 
@@ -105,7 +106,7 @@ public class UserDao {
 				pst.setInt(1, user.getId());
 
 				int rows = pst.executeUpdate();
-				System.out.println(rows);
+
 
 				if (rows <= 0) {
 					throw new UserDAOException("user delete failed");
@@ -214,13 +215,13 @@ public class UserDao {
 	static User createUser(ResultSet rs) throws SQLException {
 		int userId = rs.getInt(ID_TAB);
 		String userName = rs.getString(NAME_TAB);
-		long MobileNumber = rs.getLong(MOBILE_TAB);
+		long mobileNumber = rs.getLong(MOBILE_TAB);
 		String email = rs.getString(EMAIL_TAB);
 		Gender gender = Gender.fromString(rs.getString(GENDER_TAB));
 		String password = rs.getString(PASSWORD_TAB);
 
-		User user = new User(userId, userName, email, password, MobileNumber, gender);
-		return user;
+		return new User(userId, userName, email, password, mobileNumber, gender);
+		
 
 	}
 
