@@ -14,6 +14,10 @@ public class ConnectionUtil {
 //	private constructor
 	}
 
+	  private static final String DATABASE_HOST = System.getenv("DATABASE_HOST");
+      private static final String DATABASE_USERNAME = System.getenv("DATABASE_USERNAME");
+	  private static final String DATABASE_PASSWORD = System.getenv("DATABASE_PASSWORD");
+
 	/**
 	 * Get a connection to the database.
 	 * 
@@ -21,29 +25,17 @@ public class ConnectionUtil {
 	 * @throws DAOException
 	 * @throws RuntimeException if unable to connect to the database.
 	 */
-	public static Connection getConnection() throws DAOException {
+	public static Connection getConnection()  {
 		Connection con = null;
 
-		String url;
-		String userName;
-		String passWord;
-
-		url = System.getenv("DATABASE_HOST");
-		userName = System.getenv("DATABASE_USERNAME");
-		passWord = System.getenv("DATABASE_PASSWORD");
-
-//		url = "jdbc:mysql://localhost:3306/betterme";
-//		userName = "root";
-//		passWord = "123456";
-
-		try {
-		Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url, userName, passWord);
-			System.out.println("Connection");
-		} catch (Exception e) {
-			throw new DAOException(e.getMessage());
-		}
-		return con;
+		 try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            con = DriverManager.getConnection(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD);
+	        } catch (Exception e) {
+	        	Logger.info(e.getMessage());
+	        }
+		 return con;
+	
 	}
 
 	public static void close(Connection conn, Statement stmt, ResultSet rs) {

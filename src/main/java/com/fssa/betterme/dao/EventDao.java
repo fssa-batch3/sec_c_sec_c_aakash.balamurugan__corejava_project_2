@@ -21,7 +21,7 @@ import com.fssa.betterme.model.Event;
 
 public class EventDao {
 
-	static Logger log = new Logger();
+
 	static final String EVENTNAME_TAB = "event_name";
 	static final String EVENTADDR_TAB = "event_address";
 	static final String PRICEVALUE_TAB = "price";
@@ -92,7 +92,7 @@ public class EventDao {
 				int eventId = event.getId();
 
 				pst.setInt(6, eventId);
-				pst.setString(1, event.getEventDescription());
+				pst.setString(1, event.getEventDescription()); 
 				pst.setString(2, event.getEventAddress());
 				pst.setDate(3, Date.valueOf(event.getEventDate()));
 				pst.setTime(4, Time.valueOf(event.getEventTime()));
@@ -135,14 +135,14 @@ public class EventDao {
 
 	}
 
-	public static Event getEventsByName(String Name) throws DAOException {
+	public static Event getEventsByName(String name) throws DAOException {
 		Event events = null;
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events where event_name = ?";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
-				pst.setString(1, Name);
+				pst.setString(1, name);
 				ResultSet rs = pst.executeQuery();
 				while (rs.next()) {
 

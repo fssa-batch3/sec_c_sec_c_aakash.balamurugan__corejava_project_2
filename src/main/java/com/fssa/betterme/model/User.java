@@ -1,7 +1,7 @@
 package com.fssa.betterme.model;
 
 
-public class Users {
+public class User {
 
 	private int id;
 	private String username;
@@ -9,10 +9,11 @@ public class Users {
     private String password;
     private long phoneNumber;
     private Gender gender;
-    private boolean isActive;
+
     
     
-	public Users(String username, String email, String password, long phoneNumber, Gender gender) {
+
+	public User(String username, String email, String password, long phoneNumber, Gender gender) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
@@ -20,17 +21,23 @@ public class Users {
 		this.gender = gender;
 	}
 	
-    public Users(int id, String username, String email, String password, long phoneNumber, Gender gender,
-			boolean isActive) {
+    public User(int id, String username, String email, String password, long phoneNumber, Gender gender) {
     	this( username,  email,  password,  phoneNumber,  gender);
 		this.id = id;
-		this.isActive = isActive;
+		
 		
 	}
     
 
 
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;
@@ -62,12 +69,7 @@ public class Users {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public boolean isActive() {
-		return isActive;
-	}
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}  
+
     
     
 

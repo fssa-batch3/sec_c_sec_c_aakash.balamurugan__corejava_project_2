@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 
 import com.fssa.betterme.exception.ServiceException;
-import com.fssa.betterme.exception.ValidationException;
+import com.fssa.betterme.exception.EventValidationException;
 import com.fssa.betterme.model.*;
 
 
@@ -18,14 +18,14 @@ import com.fssa.betterme.model.*;
 
  class TestHostService {
 
-	EventHost valid = new EventHost("vishalii" , "9876543210" ,"vishaili@gmail.com");
+	EventHost valid = new EventHost("suvetha" , "9876543210" ,"suvetha@gmail.com");
 	EventHost Updatevalid = new EventHost("Aakash" , "9876543210" ,"Aakash@gmail.com");
 	
 	@Test 
 	void testAddHost()  {
 		try {
 			Assertions.assertTrue(EventHostService.addHost(valid));
-		} catch (ServiceException | ValidationException e) {
+		} catch (ServiceException | EventValidationException e) {
 			Assertions.fail();
 		}
 	}
@@ -36,7 +36,7 @@ import com.fssa.betterme.model.*;
 		
 		try {
 			Assertions.assertTrue(EventHostService.updateHost(Updatevalid));
-		} catch (ValidationException | ServiceException e) {
+		} catch (EventValidationException | ServiceException e) {
 			Assertions.fail();
 		}
 	}

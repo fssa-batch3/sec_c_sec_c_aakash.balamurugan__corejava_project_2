@@ -10,13 +10,14 @@ import java.util.List;
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.model.EventHost;
 import com.fssa.betterme.util.ConnectionUtil;
-import com.fssa.betterme.util.Logger;
+
 
 
 public class HostDao {
 
-	static Logger log = new Logger();
 
+
+	
 	
 	public static boolean addHost(EventHost host) throws DAOException {
 	    try (Connection con = ConnectionUtil.getConnection()) {

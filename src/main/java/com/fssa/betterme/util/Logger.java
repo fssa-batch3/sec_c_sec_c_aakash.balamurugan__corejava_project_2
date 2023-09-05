@@ -10,7 +10,7 @@ public class Logger {
      *
      * @param obj The object to be logged.
      */
-    public void info(Object obj) {
+    public static void info(Object obj) {
         System.out.println(obj);
     }
 }

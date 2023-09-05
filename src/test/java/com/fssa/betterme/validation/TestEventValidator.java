@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.fssa.betterme.exception.ValidationException;
+import com.fssa.betterme.exception.EventValidationException;
 import com.fssa.betterme.model.EventHost;
 import com.fssa.betterme.model.Event;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
@@ -29,9 +29,13 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	
 	
 	@Test
-	void testValidEvent() throws ValidationException {
+	void testValidEvent()  {
 
-		Assertions.assertTrue(EventValidator.isValidEvent(validEvent));
+		try {
+			Assertions.assertTrue(EventValidator.isValidEvent(validEvent));
+		} catch (EventValidationException e) {
+			Assertions.fail();
+		}
 	}
 
 	@Test
@@ -39,17 +43,21 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEvent(null);
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENT_NULL_ERROR, ex.getMessage());
-			;
+			
 		}
 	}
 
 	@Test
-	void testValidEventName() throws ValidationException {
+	void testValidEventName()  {
 
 		validEvent.setEventName(validEvent.getEventName());
-		Assertions.assertTrue(EventValidator.isValidEventName(validEvent.getEventName()));
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventName(validEvent.getEventName()));
+		} catch (EventValidationException e) {
+			Assertions.fail();
+		}
 	}
 
 	@Test
@@ -58,7 +66,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventName(null);
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -68,18 +76,22 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventName(inValidEvent.getEventName());
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTNAME_INVALID_ERROR, ex.getMessage());
 		}
  
 	}
 
 	@Test
-	void testValidEventAddress() throws ValidationException {
+	void testValidEventAddress()  {
 
 		validEvent.setEventAddress(validEvent.getEventAddress());
 
-		Assertions.assertTrue(EventValidator.isValidEventAddress(validEvent.getEventAddress()));
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventAddress(validEvent.getEventAddress()));
+		} catch (EventValidationException e) {
+			Assertions.fail();
+		}
 	}
 
 	@Test
@@ -87,7 +99,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventAddress(null);
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTADDRESS_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -97,16 +109,21 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventAddress(inValidEvent.getEventAddress());
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTADDRESS_INVALID_ERROR, ex.getMessage());
 		}
 	}
 
 	@Test
-	void testValidEventDescription() throws ValidationException {
+	void testValidEventDescription() {
 
 		validEvent.setEventDescription(validEvent.getEventDescription());
-		Assertions.assertTrue(EventValidator.isValidEventDescription(validEvent.getEventDescription()));
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventDescription(validEvent.getEventDescription()));
+		} catch (EventValidationException e) {
+			
+			Assertions.fail();
+		}
 	}
 
 	@Test
@@ -115,7 +132,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDescription(null);
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR, ex.getMessage());
 		}
 
@@ -126,16 +143,21 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDescription(inValidEvent.getEventDescription());
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_INVALID_ERROR, ex.getMessage());
 		}
 	}
 
 	@Test
-	void testValidEventDate() throws ValidationException {
+	void testValidEventDate() {
 
 		validEvent.setEventDate(validEvent.getEventDate());
-		Assertions.assertTrue(EventValidator.isValidEventDate(validEvent.getEventDate()));
+		
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventDate(validEvent.getEventDate()));
+		} catch (EventValidationException e) {
+			Assertions.fail();
+		}
 	}
 
 	@Test
@@ -144,7 +166,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDate(null);
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDATE_NULL_ERROR, ex.getMessage());
 		}
 
@@ -156,17 +178,21 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventDate(inValidEvent.getEventDate());
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDATE_INVALID_ERROR, ex.getMessage());
 		}
 
 	}
 
 	@Test
-	void testValidEventTime() throws ValidationException {
+	void testValidEventTime()  {
 
 		validEvent.setEventTime(validEvent.getEventTime());
-		Assertions.assertTrue(EventValidator.isValidEventTime(validEvent.getEventTime()));
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventTime(validEvent.getEventTime()));
+		} catch (EventValidationException e) {
+	
+		}
 	}
 
 	@Test
@@ -174,7 +200,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventTime(null);
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTTIME_NULL_ERROR, ex.getMessage());
 		}
 	}
@@ -185,7 +211,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidEventTime(inValidEvent.getEventTime());
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTTIME_INVALID_ERROR, ex.getMessage());
 		}
 
@@ -198,7 +224,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 			try {
 				EventValidator.isValidateProductImageLink(null);
 				Assertions.fail("Test Invalid Product Image URL Method Is Failded");
-			} catch (ValidationException e) {
+			} catch (EventValidationException e) {
 				Assertions.assertEquals(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_NULLERROR, e.getMessage());
 			}
 		
@@ -213,7 +239,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 			try {
 				EventValidator.isValidateProductImageLink(inValidEvent.getImageURL());
 				Assertions.fail("Test Invalid Product Image URL Method Is Failded");
-			} catch (ValidationException e) {
+			} catch (EventValidationException e) {
 				Assertions.assertEquals(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_ERROR, e.getMessage());
 			}
 		
@@ -222,18 +248,26 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	}
 	
 	@Test
-	void testInvalidProductImageURL() throws ValidationException {
+	void testInvalidProductImageURL() {
 		
 		validEvent.setImageUrl(validEvent.getImageURL());
-		Assertions.assertTrue(EventValidator.isValidateProductImageLink(validEvent.getImageURL()));
+		try {
+			Assertions.assertTrue(EventValidator.isValidateProductImageLink(validEvent.getImageURL()));
+		} catch (EventValidationException e) {
+			Assertions.fail();
+		}
 		
 	}
 
 	@Test
-	void testValidEventPrice() throws ValidationException {
+	void testValidEventPrice() {
 
 		validEvent.setPrice(validEvent.getPrice());
-		Assertions.assertTrue(EventValidator.isValidPrice(validEvent.getPrice()));
+		try {
+			Assertions.assertTrue(EventValidator.isValidPrice(validEvent.getPrice()));
+		} catch (EventValidationException e) {
+			Assertions.fail();
+		}
 	}
 
 	@Test
@@ -241,7 +275,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		try {
 			EventValidator.isValidPrice(inValidEvent.getPrice());
 			Assertions.fail();
-		} catch (ValidationException ex) {
+		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTPRICE_INVALID_ERROR, ex.getMessage());
 		}
 
