@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS hosts (
 );
 
 
-
 CREATE TABLE IF NOT EXISTS events (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_name VARCHAR(100) NOT NULL UNIQUE,
@@ -36,7 +35,6 @@ CREATE TABLE IF NOT EXISTS users (
     gender VARCHAR(6) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    status TINYINT DEFAULT 1, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT gender_chk CHECK (gender IN ('male', 'female', 'others')),
@@ -60,11 +58,11 @@ CREATE TABLE IF NOT EXISTS event_user (
 
 
 INSERT INTO hosts (host_name, mobile_number, email) VALUES 
-('Aakash', 9876543210, 'aakash@gmail.com'),
-('Vishlali', 9876543210, 'vishali@gmail.com'),
-('Pranaw', 9876543210, 'pranaw@gmail.com'),
-('Sandeep', 9876543210, 'sandeep@gmail.com'),
-('Yogi', 9876543210, 'yogi@gmail.com')
+('John', 9783473478, 'John@gmail.com'),
+('Stefen', 7832543287, 'stefen@gmail.com'),
+('Danom', 7879823432, 'damon@gmail.com'),
+('Rafeal', 8732342343, 'rafeal@gmail.com'),
+('Diana', 9876543210, 'diana@gmail.com')
 ;
 
 
@@ -76,20 +74,21 @@ INSERT INTO events  (event_name,event_description,event_address,img_url,date,tim
 ('Virtual Open Mic-Singer-Songwriters',  'Happening Every 3rd Tuesday of Each Month! Come and Showcase your talents. If there is a theme it will be announced before the event.',
 '274 ,M.G.R main road, perugudi , chennai ','https://cdn-az.allevents.in/events5/banners/ce49271cf2730c726d2f8400fef106fb95ae88d7cb67887d7dc2b2755c0c3558-rimg-w1080-h1080-gmir.jpg?v=1692414578', '2023-9-20','17:00'
 ,200.00,1),
-('Bettet me day three', 'it a valid event to be instesrt with  length of 30 characters',
-'it the event address with charater length of 30 and above','https://iili.io/HNOIrnj.jpg', '2023-11-20','12:00'
-,280.00,4),
 ('Poems & Stories - A House of T themed Open Mic', 'As a new month arrives so does your favorite House of Ts OPEN MIC. But this time we are adding a little twist to it.Wondering what the twist is all about?
  This time its a themed OPEN MIC! Are you curious about what the theme is?
 The theme is EROTICA.',
 'House of T, Mowbrays Road, CIT Colony, Mylapore, Chennai, Tamil Nadu 600018, India, Chennai, India','https://cdn2.allevents.in/thumbs/thumb63428a62596c8.jpg', '2023-9-5','12:00'
 ,280.00,4)
+
 ;
 
-INSERT INTO users (username, mobile_number, email, password, gender) VALUES 
-('Aakash', 9876543210, 'aakash@gmail.com', 'Aakash@123','Male'),
-('gokul' , 9876543210 , 'gokul@gmail.com', 'Gokul@123' , 'Male'),
-('Isac' , 9876543210 , 'Isac@gmail' , 'Isac@123' , 'Male' )
+
+INSERT INTO users ( username, mobile_number, gender, email, password) VALUES 
+('Aakash', 9876543210, 'male' ,'aakash@gmail.com', 'Aakash!123'),
+('Vishlali', 9876543210,'female' ,'vishali@gmail.com', 'Vishalil@30'),
+('Pranaw', 9876543210,'Male' ,'pranaw@gmail.com','Pranaw@123'),
+('Sandeep', 9876543210, 'Male','sandeep@gmail.com','Sandeep@123'),
+('Yogi', 9876543210, 'Female','yogi@gmail.com','Yogi@22')
 ;
 
 -- call update_status_before_date_expiiires();

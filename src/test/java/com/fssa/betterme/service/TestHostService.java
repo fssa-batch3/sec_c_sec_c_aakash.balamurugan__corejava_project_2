@@ -18,8 +18,8 @@ import com.fssa.betterme.model.*;
 
  class TestHostService {
 
-	EventHost valid = new EventHost("suvetha" , "9876543210" ,"suvetha@gmail.com");
-	EventHost Updatevalid = new EventHost("Aakash" , "9876543210" ,"Aakash@gmail.com");
+	EventHost valid = new EventHost("Eleana" , "7823452312" ,"Eleana@gmail.com");
+	EventHost Updatevalid = new EventHost("Damon" , "9876543210" ,"Damon@gmail.com");
 	
 	@Test 
 	void testAddHost()  {

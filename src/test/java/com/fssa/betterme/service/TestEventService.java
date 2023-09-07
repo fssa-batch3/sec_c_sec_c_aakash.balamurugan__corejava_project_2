@@ -24,7 +24,7 @@ import com.fssa.betterme.model.Event;
 
  class TestEventService { 
 	
-	EventHost validHost = new EventHost("Aakash", "9876543210", "aakash@gmail.com");
+	EventHost validHost = new EventHost("John", "9783473478", "John@gmail.com");
 	
 	Event validEvent = new Event("Bettet me day twelve", "it a valid event to be instesrt with  length of 30 characters",
 			"274 ,M.G.R main road, perugudi , chennai ", "https://iili.io/HNOIrnj.jpg", LocalDate.now().plusDays(1), LocalTime.of(15, 00)

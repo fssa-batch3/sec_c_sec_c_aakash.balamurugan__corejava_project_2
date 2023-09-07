@@ -62,14 +62,7 @@ public class UserService {
 	        return false;
 	    }
 	   
-	    public static List<User> getActiveUsers() throws UserServiceException {
-	        try {
-	                      
-	            return UserDao.readActiveUsers(); 
-	        } catch (UserDAOException e) {
-	        	throw new UserServiceException(e.getMessage());
-	        }
-	    }
+	 
 	    
 	    public static List<User> getAllUsers() throws UserServiceException {
 	        try {

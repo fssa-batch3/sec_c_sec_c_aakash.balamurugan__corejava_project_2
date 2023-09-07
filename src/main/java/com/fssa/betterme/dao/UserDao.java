@@ -99,7 +99,8 @@ public class UserDao {
 
 	public static boolean deleteUser(User user) throws UserDAOException {
 
-		String query = "UPDATE users SET status = 0 WHERE id = ?";
+		String query = "DELETE FROM users WHERE id = ?";
+	
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 

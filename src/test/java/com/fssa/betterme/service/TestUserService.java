@@ -10,12 +10,14 @@ import com.fssa.betterme.model.User;
 
 class TestUserService {
 	
-     User validUser = new User("Suvetha", "suvetha@example.com", "Suvetha@123", 9876543210l, Gender.MALE);
+     User validUser = new User("Suvetha", "suvetha@example.com", "Suvetha@123", 9876543210l, Gender.FEMALE);
 	 User updateUser = new User("Aakash", "aakash@gmail.com", "Aakash@123", 9876543210l, Gender.MALE);
-	 User deleteUser = new User("gokul", "gokul@gmail.com", "Gokulh@123", 9876543210l, Gender.FEMALE);
+	 User deleteUser = new User("Sandeep", "Sandeep@gmail.com", "Sandeep@123", 9876543210l, Gender.MALE);
 	 
 	@Test 
 	void testAddUser()  {
+		
+		UserService ser = new UserService();
 			try {
 				Assertions.assertTrue(UserService.addUser(validUser));
 			} catch (UserValidationException | UserServiceException e) {
@@ -42,7 +44,7 @@ class TestUserService {
 	@Test 
 	void testdeleteUser()  {
 		
-		
+
 			try {
 				User user =  UserService.getUserByEmail(updateUser.getEmail());
 				Assertions.assertTrue(UserService.deleteUser(user));
@@ -53,16 +55,12 @@ class TestUserService {
 		
 	}
 	
-	@Test 
-	void testReadActiveUser()  {
-		
-		Assertions.assertDoesNotThrow(()->UserService.getActiveUsers());
-			
-	}
+
 	
 	@Test 
 	void testReadAllUser()  {
 		
+		UserService ser = new UserService();
 		Assertions.assertDoesNotThrow(()->UserService.getAllUsers());
 			
 	}
