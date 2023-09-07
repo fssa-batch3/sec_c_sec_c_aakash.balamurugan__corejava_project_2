@@ -89,13 +89,20 @@ This project is a database project that manages user information using the "User
 
 ## User Table - Table Structure
 
-| Field            | Type         | Null | Key | Default           | Extra           |
-|------------------|--------------|------|-----|-------------------|-----------------|
-| id               | INT          | NO   | PRI |                   | auto_increment  |
-| username         | VARCHAR(50)  | NO   |     |                   |                 |
-| mobile_number    | BIGINT       | NO   |     |                   |                 |
-| gender           | VARCHAR(6)   | NO   |     |                   |                 |
-| email            | VARCHAR(100) |
+| Field Name     | Data Type           | Null | Key | Default           | Extra           |
+|----------------|---------------------|------|-----|-------------------|-----------------|
+| id             | INT AUTO_INCREMENT | NO   | PRI |                   | auto_increment  |
+| username       | VARCHAR(50)         | NO   |     |                   |                 |
+| mobile_number  | BIGINT              | NO   |     |                   |                 |
+| gender         | VARCHAR(6)          | NO   |     |                   |                 |
+| email          | VARCHAR(100)        | NO   | UNI |                   |                 |
+| password       | VARCHAR(255)        | NO   |     |                   |                 |
+| created_at     | TIMESTAMP           |      |     | CURRENT_TIMESTAMP |                 |
+| modified_at    | TIMESTAMP           |      |     | CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | |
+|                |                     |      |     |                   |                 |
+| CONSTRAINT gender_chk CHECK (gender IN ('male', 'female', 'others')) | | | | |
+| CONSTRAINT mobile_number CHECK (mobile_number REGEXP '^[0-9]{10,15}$') | | | | |
+| CONSTRAINT email          |              |      |     | email LIKE '%_@__%.__%' |  |
 
 
 
