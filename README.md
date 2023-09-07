@@ -10,7 +10,9 @@
  ###  ** EVENT MODULE FEATURES**
 -Add event
 -Read all event
+-Read Active event
 -Filter events between date
+-Filter events Active between date
 -Filter events by date
 -update event
 -Delete Event
@@ -71,6 +73,19 @@
 # User Table - Database Project
 
 This project is a database project that manages user information using the "User" table. It provides a structured and organized way to store and retrieve user data.
+
+###  ** User MODULE**
+- User Model
+- User Validator
+- User Dao
+- User ServiceLayer
+- User Test cases
+- 
+ ###  ** Host MODULE FEATURES**
+ -Add User
+-Read all User
+-update User
+-Delete User
 
 ## User Table - Table Structure
 
