@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
 public class EventHostValidator {
@@ -17,7 +17,7 @@ public class EventHostValidator {
      * @return True if the event host is valid, false otherwise.
      * @throws EventValidationException If the event host is not valid.
      */
-    public static boolean isValidEventHost(EventHost eventHost) throws EventValidationException {
+    public static boolean isValidEventHost(Trainner eventHost) throws EventValidationException {
         if (eventHost == null) {
             throw new EventValidationException(EventHostValidatorError.EVENTHOST_NULL_ERROR);
         }

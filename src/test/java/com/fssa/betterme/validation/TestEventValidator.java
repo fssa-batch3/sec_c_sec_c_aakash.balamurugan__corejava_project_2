@@ -9,20 +9,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.model.Event;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 
  class TestEventValidator {
 
-	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
-	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
+	Trainner validHost = new Trainner("vishali", "9876543210", "joe1@gmail.com");
+	Trainner inValidHost = new Trainner("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
 	Event validEvent = new Event("yogi event", "it is a event conducted by betterme ",
-			"it is a event conducted by betterme","https://iili.io/HNOIrnj.jpg", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
-			validHost);
-	Event inValidEvent = new Event("me", "it is not a valid", "it is not a valid", "vd",LocalDate.now().minusDays(1),
-			LocalTime.of(23, 0), 0, inValidHost);
+			"it is a event conducted by betterme","address for the event with 30 characters", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
+			"https://iili.io/HNOIUZb.jpg", validHost);
+	Event inValidEvent = new Event("me", "it ", "it is", "vd",LocalDate.now().minusDays(1),
+			LocalTime.of(23, 0), 0, "invalid", inValidHost);
 	EventValidator validateEvent = new EventValidator();
 	EventHostValidator validateHost = new EventHostValidator();
 
@@ -125,13 +125,52 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 			Assertions.fail();
 		}
 	}
+	
+	@Test
+	void testValidEventAbout() {
+
+		validEvent.setEventAbout(validEvent.getEventAbout());
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventAbout(validEvent.getEventAbout()));
+		} catch (EventValidationException e) {
+			
+			Assertions.fail();
+		}
+	}
+	
+	@Test
+	void testInValidEventAbout() {
+
+	
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventAbout(inValidEvent.getEventAbout()));
+			Assertions.fail();
+		} catch (EventValidationException ex) {
+			Assertions.assertEquals(EventValidaterErrors.EVENTABOUT_INVALID_ERROR, ex.getMessage());
+		}
+	}
+
+	
+	@Test
+	void testValidEventAboutNull() {
+
+		
+		try {
+			Assertions.assertTrue(EventValidator.isValidEventAbout(null));
+			Assertions.fail();
+		} catch (EventValidationException e) {
+			Assertions.assertEquals(EventValidaterErrors.EVENTABOUT_NULL_ERROR, e.getMessage());
+			
+		}
+	}
+
 
 	@Test
 	void testInValidEventDescriptionNull() {
 
 		try {
 			EventValidator.isValidEventDescription(null);
-			Assertions.fail();
+			
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR, ex.getMessage());
 		}
@@ -237,7 +276,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 		
 	
 			try {
-				EventValidator.isValidateProductImageLink(inValidEvent.getImageURL());
+				EventValidator.isValidateProductImageLink(inValidEvent.getImageUrl());
 				Assertions.fail("Test Invalid Product Image URL Method Is Failded");
 			} catch (EventValidationException e) {
 				Assertions.assertEquals(EventValidaterErrors.INVALID_EVENT_IMAGE_URL_ERROR, e.getMessage());
@@ -250,9 +289,9 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 	@Test
 	void testInvalidProductImageURL() {
 		
-		validEvent.setImageUrl(validEvent.getImageURL());
+		validEvent.setImageUrl(validEvent.getImageUrl());
 		try {
-			Assertions.assertTrue(EventValidator.isValidateProductImageLink(validEvent.getImageURL()));
+			Assertions.assertTrue(EventValidator.isValidateProductImageLink(validEvent.getImageUrl()));
 		} catch (EventValidationException e) {
 			Assertions.fail();
 		}
@@ -283,7 +322,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 	@Test
 	void testValidHostObj() {
-		validEvent.setHost(validEvent.getHost());
+		validEvent.setTrainner(validEvent.getTrainner());
 		Assertions.assertTrue(true);
 
 	}

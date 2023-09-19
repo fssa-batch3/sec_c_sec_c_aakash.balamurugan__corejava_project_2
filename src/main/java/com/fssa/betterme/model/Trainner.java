@@ -3,7 +3,7 @@ package com.fssa.betterme.model;
 /**
  * Represents a host of an event.
  */
-public class EventHost {
+public class Trainner {
 	private int id ;
     private String hostName;
     private String contactNumber;
@@ -16,14 +16,14 @@ public class EventHost {
      * @param contactNumber  The contact number of the host.
      * @param email          The email address of the host.
      */
-    public EventHost(String hostName, String contactNumber, String email) {
+    public Trainner(String hostName, String contactNumber, String email) {
         this.hostName = hostName;
         this.contactNumber = contactNumber;
         this.email = email;
     }
 
     
-    public EventHost(int hostId, String hostName, String mobileNumber, String email) {
+    public Trainner(int hostId, String hostName, String mobileNumber, String email) {
     	this.id=hostId;
     	 this.hostName = hostName;
          this.contactNumber = mobileNumber;

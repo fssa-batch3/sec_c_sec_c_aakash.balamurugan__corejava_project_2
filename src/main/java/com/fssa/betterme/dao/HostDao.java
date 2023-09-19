@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fssa.betterme.exception.DAOException;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.util.ConnectionUtil;
 
 
@@ -19,9 +19,9 @@ public class HostDao {
 
 	
 	
-	public static boolean addHost(EventHost host) throws DAOException {
+	public static boolean addHost(Trainner host) throws DAOException {
 	    try (Connection con = ConnectionUtil.getConnection()) {
-	        String query = "INSERT INTO hosts (host_name, mobile_number, email) VALUES (?, ?, ?)";
+	        String query = "INSERT INTO trainers (host_name, mobile_number, email) VALUES (?, ?, ?)";
 	        try (PreparedStatement pst = con.prepareStatement(query)) {
 	            // Set parameters using a single try block
 	            pst.setString(1, host.getHostName());
@@ -43,8 +43,8 @@ public class HostDao {
 	} 
 
 	
-	public static boolean updateHost(EventHost host) throws DAOException {
-	    String query = "UPDATE hosts SET mobile_number = ?, email = ? WHERE id = ?";
+	public static boolean updateHost(Trainner host) throws DAOException {
+	    String query = "UPDATE trainers SET mobile_number = ?, email = ? WHERE id = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
@@ -67,7 +67,7 @@ public class HostDao {
 
 	
 	public static boolean deleteHostByHostId(int hostId) throws DAOException {
-	    String query = "DELETE FROM hosts WHERE id = ?";
+	    String query = "DELETE FROM trainers WHERE id = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
@@ -84,10 +84,10 @@ public class HostDao {
 	    }
 	}
 	
-	public static EventHost findHostByEmail(String email) throws DAOException {
-		EventHost host =null;
+	public static Trainner findHostByEmail(String email) throws DAOException {
+		Trainner host =null;
 		
-	    String query = "SELECT id, host_name, mobile_number, email FROM hosts WHERE email = ?";
+	    String query = "SELECT id, host_name, mobile_number, email FROM trainers WHERE email = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection(); 
 	         PreparedStatement pst = con.prepareStatement(query)) {
@@ -106,10 +106,10 @@ public class HostDao {
 	    }
 	}
 	
-	public static EventHost findHostById(int id) throws DAOException {
-		EventHost host =null;
+	public static Trainner findHostById(int id) throws DAOException {
+		Trainner host =null;
 		
-	    String query = "SELECT id, host_name, mobile_number, email FROM hosts WHERE id = ?";
+	    String query = "SELECT id, host_name, mobile_number, email FROM trainers WHERE id = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection();
 	         PreparedStatement pst = con.prepareStatement(query)) {
@@ -129,10 +129,10 @@ public class HostDao {
 	}
 	
 	
-	public static List<EventHost> readAllHost() throws DAOException {
-		List<EventHost> hosts = new ArrayList<>();
+	public static List<Trainner> readAllHost() throws DAOException {
+		List<Trainner> hosts = new ArrayList<>();
 		
-	    String query = "SELECT id, host_name, mobile_number, email FROM hosts";
+	    String query = "SELECT id, host_name, mobile_number, email FROM trainers";
 	   
 
 	    try (Connection con = ConnectionUtil.getConnection();
@@ -154,14 +154,14 @@ public class HostDao {
 	
 
 	
-	static EventHost createHost(ResultSet rs) throws SQLException   {
-		EventHost host = null;
+	static Trainner createHost(ResultSet rs) throws SQLException   {
+		Trainner host = null;
 			int hostId = rs.getInt("id");
 		 	String hostName = rs.getString("host_name");
 	        String mobileNumber = rs.getString("mobile_number");
 	        String email = rs.getString("email");
 	     
-	        host = new EventHost(hostId,hostName,mobileNumber,email );
+	        host = new Trainner(hostId,hostName,mobileNumber,email );
 			return host;
 		
 	}

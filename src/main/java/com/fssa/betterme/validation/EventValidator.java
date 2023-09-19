@@ -42,17 +42,20 @@ public class EventValidator {
         }
 
         isValidEventName(event.getEventName());
+        isValidEventAbout(event.getEventAbout());
         isValidEventDescription(event.getEventDescription());
         isValidEventAddress(event.getEventAddress());
         isValidEventDate(event.getEventDate());
-        isValidateProductImageLink(event.getImageURL());
+        isValidateProductImageLink(event.getImageUrl());
         isValidEventTime(event.getEventTime());
         isValidPrice(event.getPrice());
 
         return true;
     }
 
-    /**
+
+
+	/**
      * Validates if the event name is valid.
      *
      * @param name The event name to be validated.
@@ -79,15 +82,28 @@ public class EventValidator {
 		
 	}
 	
+	
+	// validator for description as the description contains atleast of 30 charaters length
+    public static boolean isValidEventDescription(String eventDescription) throws EventValidationException {
+        if(eventDescription == null || eventDescription.trim().isEmpty()) {
+        	throw new EventValidationException(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR);
+        	
+        }	else if(eventDescription.length()>30) {
+    		return true;
+		}else {
+			throw new EventValidationException(EventValidaterErrors.EVENTDESCRIPTION_INVALID_ERROR);
+		}
+    }
+    
 // validator for description as the description contains atleast of 30 charaters length
-	    public static boolean isValidEventDescription(String eventDescription) throws EventValidationException {
-	        if(eventDescription == null || eventDescription.trim().isEmpty()) {
-	        	throw new EventValidationException(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR);
+    public static boolean isValidEventAbout(String eventAbout) throws EventValidationException {
+	        if(eventAbout == null || eventAbout.trim().isEmpty()) {
+	        	throw new EventValidationException(EventValidaterErrors.EVENTABOUT_NULL_ERROR);
 	        	
-	        }	else if(eventDescription.length()>30) {
+	        }	else if(eventAbout.length()>10) {
 	    		return true;
 			}else {
-				throw new EventValidationException(EventValidaterErrors.EVENTDESCRIPTION_INVALID_ERROR);
+				throw new EventValidationException(EventValidaterErrors.EVENTABOUT_INVALID_ERROR);
 			}
 	    }
 

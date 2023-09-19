@@ -80,7 +80,8 @@ public class UserDao {
 	public static boolean doesUserExist(String email) throws UserDAOException {
 		String query = "SELECT COUNT(*) FROM users WHERE email = ?";
 
-		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement pst = con.prepareStatement(query)) {
+		try (Connection con = ConnectionUtil.getConnection(); 
+			PreparedStatement pst = con.prepareStatement(query)) {
 
 			pst.setString(1, email);
 			try (ResultSet rs = pst.executeQuery()) {

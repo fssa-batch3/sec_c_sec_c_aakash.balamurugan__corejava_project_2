@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
  class TestEventHostValidator {
 	
-	EventHost validHost = new EventHost("vishali", "9876543210", "joe1@gmail.com");
-	EventHost inValidHost = new EventHost("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
+	Trainner validHost = new Trainner("vishali", "9876543210", "joe1@gmail.com");
+	Trainner inValidHost = new Trainner("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
 
 
 	EventHostValidator validateHost = new EventHostValidator();

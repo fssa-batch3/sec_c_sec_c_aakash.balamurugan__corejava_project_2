@@ -1,8 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.fssa.betterme.validation.EventValidatorTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.041 s <<< FAILURE! - in com.fssa.betterme.validation.EventValidatorTest
-TestValidName  Time elapsed: 0.016 s  <<< ERROR!
-java.time.DateTimeException: Invalid value for DayOfMonth (valid values 1 - 28/31): 2005
-	at com.fssa.betterme.validation.EventValidatorTest.<init>(EventValidatorTest.java:16)
-

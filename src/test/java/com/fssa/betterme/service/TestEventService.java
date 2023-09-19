@@ -16,28 +16,58 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 
 import com.fssa.betterme.model.Event;
 
 
 
- class TestEventService { 
+ class TestEventService {  
 	
-	EventHost validHost = new EventHost("John", "9783473478", "John@gmail.com");
+	Trainner validHost = new Trainner("John", "9783473478", "John@gmail.com");
 	
-	Event validEvent = new Event("Bettet me day twelve", "it a valid event to be instesrt with  length of 30 characters",
-			"274 ,M.G.R main road, perugudi , chennai ", "https://iili.io/HNOIrnj.jpg", LocalDate.now().plusDays(1), LocalTime.of(15, 00)
-			, 300.00,validHost);
-	
-	Event updateEvent = new Event("The One Secret To Beat Overthinking", "aakash it is a event conducted by betterme ",
-			"it is a event conducted by betterme", "https://iili.io/HNOIrnj.jpg",LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
-			validHost);
+	// Assuming you have a valid Trainner object named 'validHost'
 
-	Event deleteEvent = new Event("Mundhanai - Storytelling Special by Srikumar", "Join us for an enchanting evening of storytelling at \"Mundhanai - Storytelling Special\" by the eminent storyteller Srikumar brought to you by An Unexplored Mic.\r\n"
-			+ "  Unveiling the art of captivating narratives this event promises to transport you to a world of imagination and emotions leaving you spellbound.",
-			"it is a event conducted by betterme","https://iili.io/HNOIrnj.jpg", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
-			validHost);
+	Event validEvent = new Event(
+	    "Bettet me day twelve",
+	    "",
+	    "it a valid event to be instesrt with  length of 30 characters",
+	    "274, M.G.R main road, perugudi, chennai",
+	    LocalDate.now().plusDays(1),
+	    LocalTime.of(15, 0),
+	    300.0,
+	    "https://iili.io/HNOIrnj.jpg",
+	    validHost
+	);
+
+	Event updateEvent = new Event(
+	    "The One Secret To Beat Overthinking",
+	    "",
+	    "aakash it is an event conducted by betterme",
+	    "274, M.G.R main road, perugudi, chenna",
+	   
+	    LocalDate.now().plusDays(1),
+	    LocalTime.of(15, 0),
+	    150.0,
+	    "https://iili.io/HNOIrnj.jpg",
+	    validHost
+	);
+
+	
+	Event deleteEvent = new Event(
+			"Mundhanai Storytelling Special by Srikumar",
+		    "",
+		    "aakash it is an event conducted by betterme",
+		    "274, M.G.R main road, perugudi, chenna",
+		   
+		    LocalDate.now().plusDays(1),
+		    LocalTime.of(15, 0),
+		    150.0,
+		    "https://iili.io/HNOIrnj.jpg",
+		    validHost
+		);
+
+
 	
 	
 	

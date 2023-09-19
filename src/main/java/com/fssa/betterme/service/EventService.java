@@ -13,7 +13,7 @@ import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
 import com.fssa.betterme.model.Event;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.service.message.Constants;
 import com.fssa.betterme.util.Logger;
 import com.fssa.betterme.validation.EventValidator;
@@ -32,12 +32,12 @@ public class EventService {
      * @throws ServiceException 
      */
     public static boolean addEvent(Event event) throws EventValidationException, ServiceException  {
-        try {
+        try { 
 			if (EventValidator.isValidEvent(event)) {
 				if(!EventDao.doesEventExist(event.getEventName())) {
 					
 				
-				EventHost host = HostDao.findHostByEmail(event.getHost().getEmail()) ;
+				Trainner host = HostDao.findHostByEmail(event.getTrainner().getEmail()) ;
 				if (host.getId() == 0) {
 					throw new EventValidationException(Constants.INVALIDHOST);
 				}

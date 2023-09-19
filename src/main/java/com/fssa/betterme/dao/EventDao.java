@@ -1,24 +1,21 @@
 package com.fssa.betterme.dao;
 
+import java.sql.Blob;
 import java.sql.Connection;
-
-
-import com.fssa.betterme.util.ConnectionUtil;
-
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.sql.Time;
 import java.time.LocalDate;
-
-import java.util.List;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.model.Event;
+import com.fssa.betterme.util.ConnectionUtil;
 
 public class EventDao {
 
@@ -26,29 +23,31 @@ public class EventDao {
 	static final String EVENTNAME_TAB = "event_name";
 	static final String EVENTADDR_TAB = "event_address";
 	static final String PRICEVALUE_TAB = "price";
-	static final String IMG_TAB = "img_url";
+	static final String IMG_TAB = "images";
 	static final String DES_TAB = "event_description";
 	static final String ID_TAB = "id";
 	static final String DATE_TAB = "date";
 	static final String TIME_TAB = "time";
 	static final String STATUS_TAB = "status";
+	static final String EVENTABT_TAB = "short_intro";
 
 	// adding new row to the table
 	public static boolean addEvent(Event event, int id) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			// Retrieve host ID based on host name
 
-			String query = "INSERT INTO events (event_name, event_description, event_address, date, time, price, host_id,img_url) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+			String query = "INSERT INTO events (event_name, short_intro, event_description, date, time, event_address, images, price, host_id ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
 			try (PreparedStatement pst = con.prepareStatement(query)) {
-				pst.setString(1, event.getEventName());
-				pst.setString(2, event.getEventDescription());
-				pst.setString(3, event.getEventAddress());
-				pst.setDate(4, Date.valueOf(event.getEventDate()));
-				pst.setTime(5, Time.valueOf(event.getEventTime()));
-				pst.setDouble(6, event.getPrice());
-				pst.setInt(7, id);
-				pst.setString(8, event.getImageURL());
-
+			pst.setString(1, event.getEventName());
+			pst.setString(2, event.getEventAbout());
+			pst.setString(3, event.getEventDescription());
+			pst.setDate(4, Date.valueOf(event.getEventDate()));
+			pst.setTime(5, Time.valueOf(event.getEventTime()));
+			pst.setString(6, event.getEventAddress());
+			pst.setString(7, event.getImageUrl());
+			pst.setDouble(8, event.getPrice());
+			pst.setDouble(9, id);
+			
 				int rowsAffected = pst.executeUpdate();
 
 				if (rowsAffected <= 0) {
@@ -66,7 +65,7 @@ public class EventDao {
 	// This method checks if an event with the given name already exists in the
 	// database.
 	public static boolean doesEventExist(String eventName) throws DAOException {
-		String query = "SELECT COUNT(*) FROM events WHERE event_name = ?";
+		String query = "SELECT COUNT(*) FROM events WHERE event_name = ?"; 
 
 		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement pst = con.prepareStatement(query)) {
 
@@ -140,7 +139,7 @@ public class EventDao {
 		Event events = null;
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events where event_name = ?";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events where event_name = ?";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, name);
@@ -163,7 +162,7 @@ public class EventDao {
 		List<Event> events = new ArrayList<>();
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events WHERE status = 1";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events WHERE status = 1";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				ResultSet rs = pst.executeQuery();
@@ -185,7 +184,7 @@ public class EventDao {
 		List<Event> events = new ArrayList<>();
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events ";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events ";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				ResultSet rs = pst.executeQuery();
@@ -207,7 +206,7 @@ public class EventDao {
 		List<Event> events = new ArrayList<>();
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events WHERE date = ? AND status =1";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events WHERE date = ? AND status =1";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setDate(1, Date.valueOf(date));
@@ -233,7 +232,7 @@ public class EventDao {
 		List<Event> events = new ArrayList<>();
 
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events WHERE date = ? ";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events WHERE date = ? ";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setDate(1, Date.valueOf(date));
@@ -258,7 +257,7 @@ public class EventDao {
 	public static List<Event> activeEventRange(LocalDate start, LocalDate end) throws DAOException {
 		List<Event> events = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events WHERE date BETWEEN ? AND ? AND status =1";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events WHERE date BETWEEN ? AND ? AND status =1";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, String.valueOf(start));
@@ -284,7 +283,7 @@ public class EventDao {
 	public static List<Event> allEventRange(LocalDate start, LocalDate end) throws DAOException {
 		List<Event> events = new ArrayList<>();
 		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events WHERE date BETWEEN ? AND ? ";
+			String query = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events WHERE date BETWEEN ? AND ? ";
 
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				pst.setString(1, String.valueOf(start));
@@ -309,7 +308,7 @@ public class EventDao {
 
 	public static Event getEventByID(int id) throws DAOException {
 		Event events = null;
-		String queryDeleteEvents = "SELECT id, event_name, event_description, event_address,img_url,date, time, price,status FROM events WHERE id = ? ";
+		String queryDeleteEvents = "SELECT id, event_name, short_intro, event_description, date, time, event_address, images, price, status FROM events WHERE id = ? ";
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(queryDeleteEvents)) {
 
@@ -336,18 +335,20 @@ public class EventDao {
 		int eventId = rs.getInt(ID_TAB);
 		String eventName = rs.getString(EVENTNAME_TAB);
 		String eventAddress = rs.getString(EVENTADDR_TAB);
+		String eventAbout = rs.getString(EVENTABT_TAB);
 		String eventDescription = rs.getString(DES_TAB);
-		String imgURL = rs.getString(IMG_TAB);
-
+		String Img_url = rs.getString(IMG_TAB);
 		Date eventDate = rs.getDate(DATE_TAB);
 		Time eventTime = rs.getTime(TIME_TAB);
 		double price = rs.getDouble(PRICEVALUE_TAB);
 		boolean isActive = rs.getBoolean(STATUS_TAB);
-
-		return new Event(eventId, eventName, eventDescription, eventAddress, imgURL, eventDate.toLocalDate(),
-				eventTime.toLocalTime(), price, isActive);
+		
+		return new Event( eventId,  eventName,  eventAbout,  eventDescription,  eventAddress,
+				 eventDate.toLocalDate(),  eventTime.toLocalTime(),  price, Img_url ,isActive);
 	
 
 	}
+	
+
 
 }

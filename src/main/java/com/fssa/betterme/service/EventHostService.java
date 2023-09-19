@@ -7,7 +7,7 @@ import com.fssa.betterme.dao.HostDao;
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.EventHost;
+import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.service.message.Constants;
 import com.fssa.betterme.validation.EventHostValidator;
 
@@ -25,7 +25,7 @@ public class EventHostService {
      * @throws DAOException If there's an issue with the data access.
      * @throws EventValidationException 
      */
-    public static boolean addHost(EventHost host) throws ServiceException, EventValidationException  {
+    public static boolean addHost(Trainner host) throws ServiceException, EventValidationException  {
         try {
 			if (EventHostValidator.isValidEventHost(host)) {
 			    HostDao.addHost(host); 
@@ -46,12 +46,12 @@ public class EventHostService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static boolean updateHost(EventHost host) throws  EventValidationException, ServiceException {
+    public static boolean updateHost(Trainner host) throws  EventValidationException, ServiceException {
         if (EventHostValidator.isValidEventHost(host)) {
         	
         	
 			try {
-				EventHost eventHost = HostDao.findHostByEmail(host.getEmail());
+				Trainner eventHost = HostDao.findHostByEmail(host.getEmail());
 				if (eventHost.getId() == 0) {
 					throw new EventValidationException(Constants.INVALIDHOST);
 				}
@@ -78,10 +78,10 @@ public class EventHostService {
      * @throws ServiceException 
      * @throws DAOException If there's an issue with the data access.
      */
-    public static boolean deleteHost(EventHost host) throws EventValidationException, ServiceException   {
+    public static boolean deleteHost(Trainner host) throws EventValidationException, ServiceException   {
         if (EventHostValidator.isValidEventHost(host)) {
         	 try {
-        	EventHost eventHost = HostDao.findHostByEmail(host.getEmail()) ;
+        	Trainner eventHost = HostDao.findHostByEmail(host.getEmail()) ;
         	if (eventHost.getId() == 0) {
 				throw new EventValidationException(Constants.INVALIDHOST);
 			}
@@ -105,8 +105,8 @@ public class EventHostService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static EventHost readHostByEmail(String email) throws  EventValidationException, ServiceException {
-    	EventHost value;
+    public static Trainner readHostByEmail(String email) throws  EventValidationException, ServiceException {
+    	Trainner value;
 		try {
 			value = HostDao.findHostByEmail(email);
 			if(value == null) {
@@ -135,9 +135,9 @@ public class EventHostService {
      * @throws ServiceException 
      */
     
-    public static EventHost readHostById( int id) throws  EventValidationException, ServiceException {
+    public static Trainner readHostById( int id) throws  EventValidationException, ServiceException {
     	try{
-    		EventHost value =HostDao.findHostById(id);
+    		Trainner value =HostDao.findHostById(id);
     	
     	if(value == null) {
     		throw new EventValidationException(Constants.INVALIDHOSTID);
@@ -156,7 +156,7 @@ public class EventHostService {
      * @return True if the hosts were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public static List<EventHost> readAllHost() throws DAOException {
+    public static List<Trainner> readAllHost() throws DAOException {
     	return HostDao.readAllHost();
     
     	
