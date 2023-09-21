@@ -49,7 +49,7 @@ public class BookingDao {
 
 	}
 
-	public static boolean BookingExists(int eventId, int userId) throws BookDAOException {
+	public static boolean bookingExists(int eventId, int userId) throws BookDAOException {
 
 		String query = "SELECT COUNT(*) FROM event_user WHERE event_id = ? AND user_id = ? ";
 
@@ -71,7 +71,7 @@ public class BookingDao {
 		}
 	}
 
-	public static boolean DeleteBooking(int eventId, int userId) throws BookDAOException {
+	public static boolean deleteBooking(int eventId, int userId) throws BookDAOException {
 		
 		String query = "UPDATE event_user SET status = 0 WHERE event_id = ? AND user_id = ?";
 
@@ -93,6 +93,29 @@ public class BookingDao {
 		}
 
 	}
+	
+
+public static int getBookingCount(int eventId) throws BookDAOException {
+    String query = "SELECT COUNT(*) FROM betterme.event_user WHERE event_id = ? AND status = 1";
+    int bookingCount = 0;
+
+    try (Connection con = ConnectionUtil.getConnection(); 
+         PreparedStatement pst = con.prepareStatement(query)) {
+        
+        pst.setInt(1, eventId);
+
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                bookingCount = rs.getInt(1);
+            }
+        }
+
+    } catch (SQLException e) {
+        throw new BookDAOException(e.getMessage());
+    }
+
+    return bookingCount;
+}
 	
 	public static List<Event> getEventForUser( int userId) throws BookDAOException {
 		List<Event> events = new ArrayList<>();

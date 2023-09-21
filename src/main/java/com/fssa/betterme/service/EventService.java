@@ -37,7 +37,7 @@ public class EventService {
 				if(!EventDao.doesEventExist(event.getEventName())) {
 					
 				
-				Trainner host = HostDao.findHostByEmail(event.getTrainner().getEmail()) ;
+				Trainner host = TrainerDao.findTrainerByEmail(event.getTrainner().getEmail()) ;
 				if (host.getId() == 0) {
 					throw new EventValidationException(Constants.INVALIDHOST);
 				}

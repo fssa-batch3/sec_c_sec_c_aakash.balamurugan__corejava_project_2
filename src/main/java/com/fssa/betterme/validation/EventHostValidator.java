@@ -22,7 +22,7 @@ public class EventHostValidator {
             throw new EventValidationException(EventHostValidatorError.EVENTHOST_NULL_ERROR);
         }
         
-        isValidHostName(eventHost.getHostName());
+        isValidHostName(eventHost.getTrainerName());
         isValidContactNumber(eventHost.getContactNumber());
         isValidEmail(eventHost.getEmail());
 

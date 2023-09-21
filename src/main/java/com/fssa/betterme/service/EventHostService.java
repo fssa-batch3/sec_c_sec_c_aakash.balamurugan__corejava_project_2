@@ -3,10 +3,10 @@ package com.fssa.betterme.service;
 import java.util.List;
 
 
-import com.fssa.betterme.dao.HostDao;
+import com.fssa.betterme.dao.TrainerDao;
 import com.fssa.betterme.exception.DAOException;
-import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
+import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.model.Trainner;
 import com.fssa.betterme.service.message.Constants;
 import com.fssa.betterme.validation.EventHostValidator;
@@ -25,10 +25,10 @@ public class EventHostService {
      * @throws DAOException If there's an issue with the data access.
      * @throws EventValidationException 
      */
-    public static boolean addHost(Trainner host) throws ServiceException, EventValidationException  {
+    public static boolean addTrainer(Trainner host) throws ServiceException, EventValidationException  {
         try {
 			if (EventHostValidator.isValidEventHost(host)) {
-			    HostDao.addHost(host); 
+				TrainerDao.addTrainer(host); 
 			    return true;
 			}
 		} catch (  DAOException e) {
@@ -46,18 +46,18 @@ public class EventHostService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static boolean updateHost(Trainner host) throws  EventValidationException, ServiceException {
+    public static boolean updateTrainer(Trainner host) throws  EventValidationException, ServiceException {
         if (EventHostValidator.isValidEventHost(host)) {
         	
         	
 			try {
-				Trainner eventHost = HostDao.findHostByEmail(host.getEmail());
+				Trainner eventHost = TrainerDao.findTrainerByEmail(host.getEmail());
 				if (eventHost.getId() == 0) {
 					throw new EventValidationException(Constants.INVALIDHOST);
 				}
 	        	host.setId(eventHost.getId());
 	            
-	            HostDao.updateHost(host);
+	        	TrainerDao.updateTrainer(host);
 	            return true;
 	        }
 	      
@@ -81,12 +81,12 @@ public class EventHostService {
     public static boolean deleteHost(Trainner host) throws EventValidationException, ServiceException   {
         if (EventHostValidator.isValidEventHost(host)) {
         	 try {
-        	Trainner eventHost = HostDao.findHostByEmail(host.getEmail()) ;
+        	Trainner eventHost = TrainerDao.findTrainerByEmail(host.getEmail()) ;
         	if (eventHost.getId() == 0) {
 				throw new EventValidationException(Constants.INVALIDHOST);
 			}
            
-				HostDao.deleteHostByHostId(eventHost.getId());
+        	TrainerDao.deleteTrainerByHostId(eventHost.getId());
 			} catch (DAOException e) {
 				throw new ServiceException(e.getMessage());
 			}
@@ -105,10 +105,10 @@ public class EventHostService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static Trainner readHostByEmail(String email) throws  EventValidationException, ServiceException {
+    public static Trainner findTrainerByEmail(String email) throws  EventValidationException, ServiceException {
     	Trainner value;
 		try {
-			value = HostDao.findHostByEmail(email);
+			value = TrainerDao.findTrainerByEmail(email);
 			if(value == null) {
 	    		throw new EventValidationException(Constants.INVALIDHOSTEMAIL);
 	    	}
@@ -135,9 +135,9 @@ public class EventHostService {
      * @throws ServiceException 
      */
     
-    public static Trainner readHostById( int id) throws  EventValidationException, ServiceException {
+    public static Trainner findTrainerById( int id) throws  EventValidationException, ServiceException {
     	try{
-    		Trainner value =HostDao.findHostById(id);
+    		Trainner value =TrainerDao.findTrainerById(id);
     	
     	if(value == null) {
     		throw new EventValidationException(Constants.INVALIDHOSTID);
@@ -156,8 +156,8 @@ public class EventHostService {
      * @return True if the hosts were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public static List<Trainner> readAllHost() throws DAOException {
-    	return HostDao.readAllHost();
+    public static List<Trainner> readAllTrainer() throws DAOException {
+    	return TrainerDao.readAllTrainer();
     
     	
        

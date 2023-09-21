@@ -8,8 +8,10 @@ import com.fssa.betterme.model.Event;
 
 public class BookingService {
 	
+	static final short MAXCOUNT = 10;
+	
 	public static boolean AddBooking (int eventId , int userId) throws BookDAOException {
-		if(!BookingDao.BookingExists(eventId , userId)) {
+		if(!BookingDao.bookingExists(eventId , userId) && BookingDao.getBookingCount(eventId) <  MAXCOUNT) {
 			if(BookingDao.createBooking(eventId, userId))
 				return true;
 		}
@@ -20,8 +22,8 @@ public class BookingService {
 	}
 	
 	public static boolean DeleteBooking (int eventId , int userId) throws BookDAOException {
-		if(BookingDao.BookingExists(eventId , userId)) {
-			if(BookingDao.DeleteBooking(eventId, userId))
+		if(BookingDao.bookingExists(eventId , userId)) {
+			if(BookingDao.deleteBooking(eventId, userId))
 				return true;
 		}
 			

@@ -41,9 +41,9 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 
 	@Test
 	void testValidEventHostNameTest() {
-		validHost.setHostName(validHost.getHostName());
+		validHost.setTrainerName(validHost.getTrainerName());
 		try {
-			Assertions.assertTrue(EventHostValidator.isValidHostName(validHost.getHostName()));
+			Assertions.assertTrue(EventHostValidator.isValidHostName(validHost.getTrainerName()));
 		} catch (EventValidationException e) {
 			Assertions.fail();
 		}
@@ -63,7 +63,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostName() {
 		try {
-			EventHostValidator.isValidHostName(inValidHost.getHostName());
+			EventHostValidator.isValidHostName(inValidHost.getTrainerName());
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_INVALID_ERROR, ex.getMessage());

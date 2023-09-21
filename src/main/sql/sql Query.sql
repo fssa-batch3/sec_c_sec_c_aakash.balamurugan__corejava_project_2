@@ -1,9 +1,9 @@
 USE `aakash_balamurugan_corejava_project` ;
 
 
-CREATE TABLE IF NOT EXISTS hosts (
+CREATE TABLE IF NOT EXISTS trainers (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    host_name VARCHAR(100) NOT NULL ,
+    trainer_name VARCHAR(100) NOT NULL ,
     mobile_number BIGINT NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     CONSTRAINT chk_email CHECK (email LIKE '%_@__%.__%'),
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS hosts (
 );
 
 
-ALTER TABLE hosts RENAME TO Trainers;
+
 CREATE TABLE IF NOT EXISTS events (
   id int AUTO_INCREMENT PRIMARY KEY,
   event_name varchar(255) NOT NULL,
@@ -23,12 +23,11 @@ CREATE TABLE IF NOT EXISTS events (
   images blob NOT NULL,
   price double NOT NULL,
   status tinyint NOT NULL DEFAULT 1,
-  host_id int NOT NULL,
+  trainers_id int NOT NULL,
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   modified_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY unique_event (event_name,date),
-  KEY host_id (host_id),
-  CONSTRAINT events_ibfk_1 FOREIGN KEY (host_id) REFERENCES trainers (id)
+  CONSTRAINT events_ibfk_1 FOREIGN KEY (trainers_id) REFERENCES trainers (id)
 ) ;
 
 
@@ -43,9 +42,10 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT gender_chk CHECK (gender IN ('male', 'female', 'others')),
+    CONSTRAINT gender_chk CHECK (gender IN ('male', 'female', 'other')),
     CONSTRAINT mobile_number CHECK (mobile_number REGEXP '^[0-9]{10,15}$')
 );
+
 
 
 
@@ -54,12 +54,13 @@ CREATE TABLE IF NOT EXISTS event_user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
     user_id INT NOT NULL,
+    status tinyint DEFAULT 1,
 
     FOREIGN KEY (event_id) REFERENCES events(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-ALTER TABLE event_user  ADD status tinyint DEFAULT 1;
+
 
 CREATE TABLE IF NOT EXISTS recorded_video(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -67,7 +68,7 @@ CREATE TABLE IF NOT EXISTS recorded_video(
     user_id INT NOT NULL,
     video BLOB NOT NULL,
 
-    FOREIGN KEY (Trainner_id) REFERENCES Trainers(id),
+    FOREIGN KEY (Trainner_id) REFERENCES trainers(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -75,7 +76,7 @@ CREATE TABLE IF NOT EXISTS recorded_video(
 
 
 
-INSERT INTO trainers (host_name, mobile_number, email) VALUES 
+INSERT INTO trainers (trainer_name, mobile_number, email) VALUES 
 ('John', 9783473478, 'John@gmail.com'),
 ('Stefen', 7832543287, 'stefen@gmail.com'),
 ('Danom', 7879823432, 'damon@gmail.com'),
@@ -84,7 +85,7 @@ INSERT INTO trainers (host_name, mobile_number, email) VALUES
 ;
 
 
-INSERT INTO events  (event_name,short_intro,event_description,event_address,images,date,time,price,host_id) VALUES 
+INSERT INTO events  (event_name,short_intro,event_description,event_address,images,date,time,price,trainers_id) VALUES 
 ('Mundhanai  Storytelling Special by Srikumar','short intro for the event' ,'Join us for an enchanting evening of storytelling at "Mundhanai - Storytelling Special" by the eminent storyteller Srikumar brought to you by An Unexplored Mic.
  Unveiling the art of captivating narratives this event promises to transport you to a world of imagination and emotions leaving you spellbound.',
 'The ARTery 12 Hanumantha Rd Balaji Nagar Royapettah Chennai Tamil Nadu 600014 India','https://cdn2.allevents.in/thumbs/thumb64f12ba79a90c.jpg', '2023-9-10','15:00'

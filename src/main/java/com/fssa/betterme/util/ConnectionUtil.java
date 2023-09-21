@@ -2,6 +2,7 @@
 package com.fssa.betterme.util;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,36 +22,33 @@ public class ConnectionUtil {
 	/**
 	 * Get a connection to the database.
 	 * 
-	 * @return The database connection.
+	 * @throws Exception 
 	 * @throws DAOException
 	 * @throws RuntimeException if unable to connect to the database.
 	 */
-	public static Connection getConnection() {
-	
+	public static Connection getConnection()  {
 
 		String url;
 		String userName;
 		String passWord;
-		url = "jdbc:mysql://localhost:3306/betterme";
-		userName = "root";
-		passWord = "123456";
+		url = System.getenv("DATABASE_HOST");
+		userName = System.getenv("DATABASE_USERNAME");
+		passWord = System.getenv("DATABASE_PASSWORD");
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			return DriverManager.getConnection(url, userName, passWord);
-//	            con = DriverManager.getConnection(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD);
-			
+
 		} catch (Exception e) {
 			Logger.info(e.getMessage());
+			
+	
 		}
 		return null;
-		
+	
 
 	}
 
-	public static void main(String[] args) {
-		getConnection();
-	}
 
 	public static void close(Connection conn, Statement stmt, ResultSet rs) {
 

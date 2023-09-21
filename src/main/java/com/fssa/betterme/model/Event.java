@@ -3,12 +3,16 @@ package com.fssa.betterme.model;
 
 import java.time.*;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Represents an event.
  */
 public class Event {
 	
 	private int id;
+	
+	@NotNull(message = "event name should not be null")
     private String eventName;
     private String EventAbout;
     private String eventDescription;

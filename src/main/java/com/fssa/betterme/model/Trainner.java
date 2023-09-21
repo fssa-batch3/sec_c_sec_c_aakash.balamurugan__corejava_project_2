@@ -5,7 +5,7 @@ package com.fssa.betterme.model;
  */
 public class Trainner {
 	private int id ;
-    private String hostName;
+    private String trainerName;
     private String contactNumber;
     private String email;
 
@@ -17,7 +17,7 @@ public class Trainner {
      * @param email          The email address of the host.
      */
     public Trainner(String hostName, String contactNumber, String email) {
-        this.hostName = hostName;
+        this.trainerName = hostName;
         this.contactNumber = contactNumber;
         this.email = email;
     }
@@ -25,7 +25,7 @@ public class Trainner {
     
     public Trainner(int hostId, String hostName, String mobileNumber, String email) {
     	this.id=hostId;
-    	 this.hostName = hostName;
+    	 this.trainerName = hostName;
          this.contactNumber = mobileNumber;
          this.email = email;
 	}
@@ -39,7 +39,7 @@ public class Trainner {
      */
     @Override
    	public String toString() {
-   		return "EventHost [id=" + id + ", hostName=" + hostName + ", contactNumber=" + contactNumber + ", email="
+   		return "EventHost [id=" + id + ", hostName=" + trainerName + ", contactNumber=" + contactNumber + ", email="
    				+ email + "]";
    	}
 
@@ -58,8 +58,8 @@ public class Trainner {
      *
      * @return The host name.
      */
-    public String getHostName() {
-        return hostName;
+    public String getTrainerName() {
+        return trainerName;
     }
 
     /**
@@ -84,7 +84,7 @@ public class Trainner {
     /**
      * Sets the name of the host.
      *
-     * @param hostName The new host name.
+     * @param trainerName The new host name.
      */
     public void setId(int hostId) {
         this.id = hostId;
@@ -95,8 +95,8 @@ public class Trainner {
      *
      * @param hostName The new host name.
      */
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
+    public void setTrainerName(String trainerName) {
+        this.trainerName = trainerName;
     }
 
     /**

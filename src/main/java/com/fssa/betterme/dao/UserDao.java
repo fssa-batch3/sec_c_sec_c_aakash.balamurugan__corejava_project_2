@@ -51,15 +51,13 @@ public class UserDao {
 	}
 
 	public static boolean updateUser(User user) throws UserDAOException {
-		String query = "UPDATE users SET username =?,mobile_number =?, gender =?, password =? WHERE id = ?";
+		String query = "UPDATE users SET username =?,mobile_number =? WHERE id = ?";
 
 		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement pst = con.prepareStatement(query)) {
 
 			pst.setString(1, user.getUsername());
 			pst.setLong(2, user.getPhoneNumber());
-			pst.setString(3, user.getGender().toString());
-			pst.setString(4, user.getPassword());
-			pst.setInt(5, user.getId());
+			pst.setInt(3, user.getId());
 
 			int rowsAffected = pst.executeUpdate();
 		
@@ -90,7 +88,7 @@ public class UserDao {
 					return count == 1; // If count ==1 , user exists; otherwise, it doesn't.
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 		
 			throw new UserDAOException(e.getMessage());
 		}

@@ -1,6 +1,0 @@
-com\fssa\betterme\service\TestHostService.class
-com\fssa\betterme\service\TestUserService.class
-com\fssa\betterme\service\TestEventService.class
-com\fssa\betterme\validation\TestEventHostValidator.class
-com\fssa\betterme\validation\TestEventValidator.class
-com\fssa\betterme\validation\TestUserValidator.class

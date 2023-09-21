@@ -16,6 +16,7 @@ com\fssa\betterme\model\Trainner.class
 com\fssa\betterme\validation\EventValidator.class
 com\fssa\betterme\validation\message\EventValidaterErrors.class
 com\fssa\betterme\validation\message\EventHostValidatorError.class
+com\fssa\betterme\dao\RecordedVideoDao.class
 com\fssa\betterme\service\EventHostService.class
 com\fssa\betterme\service\EventService.class
 com\fssa\betterme\service\message\Constants.class
@@ -24,5 +25,6 @@ com\fssa\betterme\exception\UserDAOException.class
 com\fssa\betterme\service\UserService.class
 com\fssa\betterme\dao\BookingDao.class
 com\fssa\betterme\exception\EventValidationException.class
+com\fssa\betterme\service\VideoService.class
 com\fssa\betterme\model\Gender.class
 com\fssa\betterme\dao\EventDao.class

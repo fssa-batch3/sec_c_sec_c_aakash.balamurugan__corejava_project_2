@@ -30,7 +30,7 @@ public class EventDao {
 	static final String TIME_TAB = "time";
 	static final String STATUS_TAB = "status";
 	static final String EVENTABT_TAB = "short_intro";
-
+ 
 	// adding new row to the table
 	public static boolean addEvent(Event event, int id) throws DAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -85,13 +85,14 @@ public class EventDao {
 
 	public boolean updateEvent(Event event) throws DAOException {
 
-		String query = "UPDATE events SET event_description = ?, event_address = ?,date = ?,time = ?,price = ? WHERE id = ?";
+		String query = "UPDATE events SET event_description = ?, event_address = ?,date = ?,time = ?,price = ? ,short_intro =?WHERE id = ?";
 
 		try (Connection con = ConnectionUtil.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(query)) {
 				int eventId = event.getId();
 
-				pst.setInt(6, eventId);
+				pst.setInt(7, eventId);
+				pst.setString(6, event.getEventAbout());
 				pst.setString(1, event.getEventDescription()); 
 				pst.setString(2, event.getEventAddress());
 				pst.setDate(3, Date.valueOf(event.getEventDate()));
