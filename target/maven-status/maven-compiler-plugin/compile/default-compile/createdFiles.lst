@@ -8,10 +8,10 @@ com\fssa\betterme\model\Event.class
 com\fssa\betterme\service\BookingService.class
 com\fssa\betterme\util\ConnectionUtil.class
 com\fssa\betterme\exception\ServiceException.class
+com\fssa\betterme\dao\TrainerDao.class
 com\fssa\betterme\exception\BookDAOException.class
 com\fssa\betterme\exception\UserServiceException.class
 com\fssa\betterme\model\User.class
-com\fssa\betterme\dao\HostDao.class
 com\fssa\betterme\model\Trainner.class
 com\fssa\betterme\validation\EventValidator.class
 com\fssa\betterme\validation\message\EventValidaterErrors.class
@@ -26,5 +26,7 @@ com\fssa\betterme\service\UserService.class
 com\fssa\betterme\dao\BookingDao.class
 com\fssa\betterme\exception\EventValidationException.class
 com\fssa\betterme\service\VideoService.class
+com\fssa\betterme\exception\ConnectionException.class
 com\fssa\betterme\model\Gender.class
 com\fssa\betterme\dao\EventDao.class
+com\fssa\betterme\util\PasswordHash.class

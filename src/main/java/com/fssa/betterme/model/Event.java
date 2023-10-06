@@ -27,21 +27,14 @@ public class Event {
     
     
 	public Event(int id, String eventName, String eventAbout, String eventDescription, String eventAddress,
-			LocalDate eventDate, LocalTime eventTime, double price, String imageUrl, boolean isActive) {
-		this.id = id;
-		this.eventName = eventName;
-		this.EventAbout = eventAbout;
-		this.eventDescription = eventDescription;
-		this.eventAddress = eventAddress;
-		this.eventDate = eventDate;
-		this.eventTime = eventTime;
-		this.price = price;
-		this.imageUrl = imageUrl;
-		this.isActive = isActive;
+			LocalDate eventDate, LocalTime eventTime, double price, String imageUrl, boolean isActive, Trainner trainner) {
 		
+		this(eventName, eventAbout, eventDescription, eventAddress, eventDate, eventTime, price, imageUrl, trainner);
+		this.id = id;
+		this.isActive = isActive;
 	}
 	
-	public Event( String eventName, String eventAbout, String eventDescription, String eventAddress,
+	public Event(  String eventName, String eventAbout, String eventDescription, String eventAddress,
 			LocalDate eventDate, LocalTime eventTime, double price, String imageUrl, 
 			Trainner trainner) {
 		

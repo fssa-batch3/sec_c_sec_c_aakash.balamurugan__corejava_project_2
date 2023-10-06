@@ -140,21 +140,10 @@ public class UserValidator {
                 throw new UserValidationException(UserValidatorError.USERPASS_NULL_ERROR);
             }
 
-            // Define the password pattern using a regex
-            String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
-
-            // Compile the regex pattern
-            Pattern pattern = Pattern.compile(regex);
-
-            // Create a Matcher object to match the password against the pattern
-            Matcher matcher = pattern.matcher(password);
-
-            // Return true if the password contains the required elements
-            if (matcher.find()) {
+            
+            
                 return true;
-            } else {
-                throw new UserValidationException(UserValidatorError.USERPASS_INVALID_ERROR);
-            }
+          
         }
 
 

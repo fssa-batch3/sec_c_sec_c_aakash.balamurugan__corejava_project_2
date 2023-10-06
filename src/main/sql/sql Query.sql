@@ -1,4 +1,4 @@
-USE `aakash_balamurugan_corejava_project` ;
+USE `bettermetrainers` ;
 
 
 CREATE TABLE IF NOT EXISTS trainers (
@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS trainers (
     trainer_name VARCHAR(100) NOT NULL ,
     mobile_number BIGINT NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
+    
     CONSTRAINT chk_email CHECK (email LIKE '%_@__%.__%'),
 	CONSTRAINT chk_mobile_number CHECK (mobile_number REGEXP '^[0-9]{10,15}$')
 );
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS recorded_video(
     user_id INT NOT NULL,
     video BLOB NOT NULL,
 
-    FOREIGN KEY (Trainner_id) REFERENCES trainers(id),
+    FOREIGN KEY (trainner_id) REFERENCES trainers(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 

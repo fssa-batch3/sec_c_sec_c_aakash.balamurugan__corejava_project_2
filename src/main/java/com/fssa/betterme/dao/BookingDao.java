@@ -152,12 +152,10 @@ public static int getBookingCount(int eventId) throws BookDAOException {
 		Date eventDate = rs.getDate(DATE_TAB);
 		Time eventTime = rs.getTime(TIME_TAB);
 		double price = rs.getDouble(PRICEVALUE_TAB);
-		boolean status = rs.getBoolean("status");
+		boolean status = rs.getBoolean("status"); 
 
 		
 		return new Event( eventId,  eventName,  eventAbout,  eventDescription,  eventAddress,
-				 eventDate.toLocalDate(),  eventTime.toLocalTime(),  price, Img_url ,status);
-	
-
+				 eventDate.toLocalDate(),  eventTime.toLocalTime(),  price, Img_url ,status, null);
 	}
 }

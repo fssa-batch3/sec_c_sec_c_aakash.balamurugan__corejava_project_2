@@ -34,7 +34,7 @@ public class EventService {
     public static boolean addEvent(Event event) throws EventValidationException, ServiceException  {
         try { 
 			if (EventValidator.isValidEvent(event)) {
-				if(!EventDao.doesEventExist(event.getEventName())) {
+				if(!EventDao.doesEventExist(event)) {
 					
 				
 				Trainner host = TrainerDao.findTrainerByEmail(event.getTrainner().getEmail()) ;
@@ -63,11 +63,16 @@ public class EventService {
      */
     public static boolean updateEvent(Event event) throws ServiceException, EventValidationException{
         try {
-        	if(EventDao.doesEventExist(event.getEventName())) {
+        	if(EventDao.doesEventExist(event)) {
         		if (EventValidator.isValidEvent(event)) {
         			EventDao eventDao = new EventDao();
 			     
-			    	eventDao.updateEvent(event);
+        			
+    				Trainner host = TrainerDao.findTrainerByEmail(event.getTrainner().getEmail()) ;
+    				if (host.getId() == 0) {
+    					throw new EventValidationException(Constants.INVALIDHOST);
+    				}
+			    	eventDao.updateEvent(event, host.getId());
 			    	return true;
 				}
         	}else {
@@ -90,7 +95,7 @@ public class EventService {
      */
     public static boolean deleteEvent(Event event) throws EventValidationException, ServiceException {
         try {
-        	if(EventDao.doesEventExist(event.getEventName())) {
+        	if(EventDao.doesEventExist(event)) {
 			if (EventValidator.isValidEvent(event)) {
 			    EventDao.deleteEvent(event);
 			    return true;

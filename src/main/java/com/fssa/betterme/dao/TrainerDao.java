@@ -109,10 +109,10 @@ public class TrainerDao {
 	public static Trainner findTrainerById(int id) throws DAOException {
 		Trainner trainer =null;
 		
-	    String query = "SELECT id, trainer_name, mobile_number, email FROM trainers WHERE id = ?";
+	    String query = "SELECT id, trainer_name, mobile_number, email FROM Trainers WHERE id = ?";
 
 	    try (Connection con = ConnectionUtil.getConnection();
-	         PreparedStatement pst = con.prepareStatement(query)) {
+	         PreparedStatement pst = con.prepareStatement(query)) { 
 
 	        pst.setInt(1, id);
 
@@ -132,7 +132,7 @@ public class TrainerDao {
 	public static List<Trainner> readAllTrainer() throws DAOException {
 		List<Trainner> trainers = new ArrayList<>();
 		
-	    String query = "SELECT id, trainer_name, mobile_number, email FROM trainers";
+	    String query = "SELECT id, trainer_name, mobile_number, email FROM Trainers";
 	   
 
 	    try (Connection con = ConnectionUtil.getConnection();
