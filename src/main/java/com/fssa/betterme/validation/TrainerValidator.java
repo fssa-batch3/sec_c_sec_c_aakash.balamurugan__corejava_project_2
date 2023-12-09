@@ -2,13 +2,14 @@ package com.fssa.betterme.validation;
 
 
 import java.util.regex.Matcher;
+
 import java.util.regex.Pattern;
 
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.Trainner;
+import com.fssa.betterme.model.Trainer;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
-public class EventHostValidator {
+public class TrainerValidator {
 
     /**
      * Validates if an event host is valid.
@@ -17,20 +18,20 @@ public class EventHostValidator {
      * @return True if the event host is valid, false otherwise.
      * @throws EventValidationException If the event host is not valid.
      */
-    public static boolean isValidEventHost(Trainner eventHost) throws EventValidationException {
-        if (eventHost == null) {
+    public boolean isValidEventHost(Trainer trainer) throws EventValidationException {
+        if (trainer == null) {
             throw new EventValidationException(EventHostValidatorError.EVENTHOST_NULL_ERROR);
         }
         
-        isValidHostName(eventHost.getTrainerName());
-        isValidContactNumber(eventHost.getContactNumber());
-        isValidEmail(eventHost.getEmail());
+        isValidHostName(trainer.getTrainerName());
+     
+        isValidEmail(trainer.getEmail());
 
         return true;
     }
 
 
-    public static boolean isValidHostName(String name) throws EventValidationException {
+    public boolean isValidHostName(String name) throws EventValidationException {
         // Define the regex pattern for a name
     	  if(name==null ) {
          	 throw new EventValidationException(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR);
@@ -48,25 +49,10 @@ public class EventHostValidator {
         }
     }
 
-    public static boolean isValidContactNumber(String contactNumber) throws EventValidationException {
-        // Define the regex pattern for a 10-digit numeric format
-    	 if( contactNumber==null) {
-    		   throw new EventValidationException(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR);
-         }
-    	
-    	 String contactNumberPattern = "^\\d{10}$"; //(\\+91|91)?[6789]\\d{9}$
-        Pattern pattern = Pattern.compile(contactNumberPattern);
-        Matcher match = pattern.matcher(contactNumber);
-        // Check if the contact number matches the pattern
-        if( match.matches() ) {
-        	return true;
-        }else {
-        	 throw new EventValidationException(EventHostValidatorError.EVENTHOSTNUMBER_INVALID_ERROR);
-        }
-     }
 
 
-    public static boolean isValidEmail(String email) throws EventValidationException {
+
+    public boolean isValidEmail(String email) throws EventValidationException {
         // Define the regex pattern for an email address
     	
     	 if( email==null) {

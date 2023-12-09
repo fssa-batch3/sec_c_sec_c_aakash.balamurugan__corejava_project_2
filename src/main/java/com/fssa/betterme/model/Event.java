@@ -22,12 +22,12 @@ public class Event {
     private double price;
     private String imageUrl;
     private boolean isActive;
-    private Trainner trainner;
+    private Trainer trainner;
     
     
     
 	public Event(int id, String eventName, String eventAbout, String eventDescription, String eventAddress,
-			LocalDate eventDate, LocalTime eventTime, double price, String imageUrl, boolean isActive, Trainner trainner) {
+			LocalDate eventDate, LocalTime eventTime, double price, String imageUrl, boolean isActive, Trainer trainner) {
 		
 		this(eventName, eventAbout, eventDescription, eventAddress, eventDate, eventTime, price, imageUrl, trainner);
 		this.id = id;
@@ -36,7 +36,7 @@ public class Event {
 	
 	public Event(  String eventName, String eventAbout, String eventDescription, String eventAddress,
 			LocalDate eventDate, LocalTime eventTime, double price, String imageUrl, 
-			Trainner trainner) {
+			Trainer trainner) {
 		
 		this.eventName = eventName;
 		this.EventAbout = eventAbout;
@@ -110,10 +110,10 @@ public class Event {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	public Trainner getTrainner() {
+	public Trainer getTrainner() {
 		return trainner;
 	}
-	public void setTrainner(Trainner trainner) {
+	public void setTrainner(Trainer trainner) {
 		this.trainner = trainner;
 	}
     

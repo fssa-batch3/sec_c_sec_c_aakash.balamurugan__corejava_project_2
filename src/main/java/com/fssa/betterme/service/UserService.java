@@ -10,13 +10,15 @@ import com.fssa.betterme.model.User;
 import com.fssa.betterme.validation.UserValidator;
 
 public class UserService {
+	
+	static UserDao ser = new UserDao();
 
 	   public static boolean addUser(User user) throws  UserValidationException, UserServiceException   {
 	        try {
 				if (UserValidator.isValidUser(user)) {
-					if(!UserDao.doesUserExist(user.getEmail())) {
+					if(!ser.doesUserExist(user.getEmail())) {
 
-				    UserDao.addUser(user);
+						ser.addUser(user);
 				    return true;
 				    }else {
 				    	throw new UserValidationException("User already exists");
@@ -31,9 +33,9 @@ public class UserService {
 	   public static boolean updateUser(User user) throws  UserValidationException ,UserServiceException  {
 	        try {
 				if (UserValidator.isValidUser(user)) {
-					if(UserDao.doesUserExist(user.getEmail())) {
+					if(ser.doesUserExist(user.getEmail())) {
 
-				    UserDao.updateUser(user);
+						ser.updateUser(user);
 				    return true;
 				    }else {
 				    	throw new UserValidationException("User doesn't exists");
@@ -48,9 +50,9 @@ public class UserService {
 	   public static boolean deleteUser(User user) throws  UserServiceException, UserValidationException   {
 	        try {
 				if (UserValidator.isValidUser(user)) {
-					if(UserDao.doesUserExist(user.getEmail())) {
+					if(ser.doesUserExist(user.getEmail())) {
 
-				    UserDao.deleteUser(user);
+						ser.deleteUser(user);
 				    return true;
 				    }else {
 				    	throw new UserValidationException("User doesn't exists");
@@ -67,7 +69,7 @@ public class UserService {
 	    public static List<User> getAllUsers() throws UserServiceException {
 	        try {
 	                      
-	            return UserDao.readAllUsers(); 
+	            return ser.readAllUsers(); 
 	        } catch (UserDAOException e) {
 	        	throw new UserServiceException(e.getMessage());
 	        }
@@ -84,9 +86,9 @@ public class UserService {
 	    
 	    public static User getUserByEmail(String email) throws UserServiceException, UserValidationException{
 	    	try {
-	    		if(UserDao.doesUserExist(email)) {
+	    		if(ser.doesUserExist(email)) {
 
-	    			return  UserDao.getUserByEmail(email);
+	    			return  ser.getUserByEmail(email);
 	    		}else {
 	    			throw new UserValidationException("User doesn't exists");
 	    		}

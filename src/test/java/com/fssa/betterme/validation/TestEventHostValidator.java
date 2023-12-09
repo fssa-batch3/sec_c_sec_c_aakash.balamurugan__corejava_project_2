@@ -7,22 +7,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.Trainner;
+import com.fssa.betterme.model.Trainer;
 import com.fssa.betterme.validation.message.EventHostValidatorError;
 
  class TestEventHostValidator {
 	
-	Trainner validHost = new Trainner("vishali", "9876543210", "joe1@gmail.com");
-	Trainner inValidHost = new Trainner("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
+	Trainer validHost = new Trainer("vishali", "9876543210", "joe1@gmail.com");
+	Trainer inValidHost = new Trainer("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
 
 
-	EventHostValidator validateHost = new EventHostValidator();
+	TrainerValidator validateHost = new TrainerValidator();
 	
 	@Test
 	void testValidEventHost()  {
 
 		try {
-			Assertions.assertTrue(EventHostValidator.isValidEventHost(validHost));
+			Assertions.assertTrue(TrainerValidator.isValidEventHost(validHost));
 		} catch (EventValidationException e) {
 			Assertions.fail();
 		}
@@ -31,7 +31,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostNull() {
 		try {
-			EventHostValidator.isValidEventHost(null);
+			TrainerValidator.isValidEventHost(null);
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOST_NULL_ERROR, ex.getMessage());
@@ -43,7 +43,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	void testValidEventHostNameTest() {
 		validHost.setTrainerName(validHost.getTrainerName());
 		try {
-			Assertions.assertTrue(EventHostValidator.isValidHostName(validHost.getTrainerName()));
+			Assertions.assertTrue(TrainerValidator.isValidHostName(validHost.getTrainerName()));
 		} catch (EventValidationException e) {
 			Assertions.fail();
 		}
@@ -52,7 +52,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostNameNull() {
 		try {
-			EventHostValidator.isValidHostName(null);
+			TrainerValidator.isValidHostName(null);
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_NULL_ERROR, ex.getMessage());
@@ -63,7 +63,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostName() {
 		try {
-			EventHostValidator.isValidHostName(inValidHost.getTrainerName());
+			TrainerValidator.isValidHostName(inValidHost.getTrainerName());
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNAME_INVALID_ERROR, ex.getMessage());
@@ -75,7 +75,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	void testValidEventHostNumber() {
 		validHost.setContactNumber(validHost.getContactNumber());
 		try {
-			Assertions.assertTrue(EventHostValidator.isValidContactNumber(validHost.getContactNumber()));
+			Assertions.assertTrue(TrainerValidator.isValidContactNumber(validHost.getContactNumber()));
 		} catch (EventValidationException e) {
 			Assertions.fail();
 		}
@@ -84,7 +84,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostNumberNull() {
 		try {
-			EventHostValidator.isValidContactNumber(null);
+			TrainerValidator.isValidContactNumber(null);
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNUMBER_NULL_ERROR, ex.getMessage());
@@ -95,7 +95,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostNumber() {
 		try {
-			EventHostValidator.isValidContactNumber(inValidHost.getContactNumber());
+			TrainerValidator.isValidContactNumber(inValidHost.getContactNumber());
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTNUMBER_INVALID_ERROR, ex.getMessage());
@@ -107,7 +107,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	void testValidEventHostMail(){
 		validHost.setEmail(validHost.getEmail());
 		try {
-			Assertions.assertTrue(EventHostValidator.isValidEmail(validHost.getEmail()));
+			Assertions.assertTrue(TrainerValidator.isValidEmail(validHost.getEmail()));
 		} catch (EventValidationException e) {
 			Assertions.fail();
 		}
@@ -116,7 +116,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostMailNull() {
 		try {
-			EventHostValidator.isValidEmail(null);
+			TrainerValidator.isValidEmail(null);
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTMAIL_NULL_ERROR, ex.getMessage());
@@ -127,7 +127,7 @@ import com.fssa.betterme.validation.message.EventHostValidatorError;
 	@Test
 	void testInValidEventHostMail() {
 		try {
-			EventHostValidator.isValidEmail(inValidHost.getEmail());
+			TrainerValidator.isValidEmail(inValidHost.getEmail());
 			Assertions.fail();
 		} catch (EventValidationException ex) {
 			Assertions.assertEquals(EventHostValidatorError.EVENTHOSTMAIL_INVALID_ERROR, ex.getMessage());

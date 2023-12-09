@@ -11,8 +11,8 @@ import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.util.ConnectionUtil;
 
 public class RecordedVideoDao {
-	public static boolean addVideo(int trainner, int userId, String video) throws DAOException {
-		String query = "INSERT INTO recorded_video ( trainner_id, user_id, video) VALUES (? ,?, ?)";
+	public boolean addVideo(int trainner, int userId, String video) throws DAOException {
+		String query = "INSERT INTO recorded_video ( trainer_id, user_id, video) VALUES (? ,?, ?)";
 
 		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement pst = con.prepareStatement(query)) {
 
@@ -34,7 +34,7 @@ public class RecordedVideoDao {
 
 	}
 	
-	public static List<String> getVideoByUser(int userId) throws DAOException {
+	public List<String> getVideoByUser(int userId) throws DAOException {
 		String query = "SELECT video FROM betterme.recorded_video WHERE user_id = ?";
 		List<String> urls = new ArrayList<>();
 		

@@ -14,7 +14,7 @@ import com.fssa.betterme.validation.message.EventValidaterErrors;
 public class EventValidator {
 
     // Private constructor to prevent instantiation since this is a utility class.
-     EventValidator() {
+     public EventValidator() {
     }
     
   
@@ -36,7 +36,7 @@ public class EventValidator {
      * @return True if the event is valid, false otherwise.
      * @throws EventValidationException If the event is not valid.
      */
-    public static boolean isValidEvent(Event event) throws EventValidationException {
+    public boolean isValidEvent(Event event) throws EventValidationException {
         if (event == null) {
             throw new EventValidationException(EventValidaterErrors.EVENT_NULL_ERROR);
         }
@@ -65,7 +65,7 @@ public class EventValidator {
 
 
 	
-	public static boolean isValidEventName(String name ) throws EventValidationException{
+	public boolean isValidEventName(String name ) throws EventValidationException{
 		  if(name==null ||name.trim().isEmpty()) {
 	         	 throw new EventValidationException(EventValidaterErrors.EVENTNAME_NULL_ERROR);
 	         }
@@ -84,7 +84,7 @@ public class EventValidator {
 	
 	
 	// validator for description as the description contains atleast of 30 charaters length
-    public static boolean isValidEventDescription(String eventDescription) throws EventValidationException {
+    public boolean isValidEventDescription(String eventDescription) throws EventValidationException {
         if(eventDescription == null || eventDescription.trim().isEmpty()) {
         	throw new EventValidationException(EventValidaterErrors.EVENTDESCRIPTION_NULL_ERROR);
         	
@@ -96,7 +96,7 @@ public class EventValidator {
     }
     
 // validator for description as the description contains atleast of 30 charaters length
-    public static boolean isValidEventAbout(String eventAbout) throws EventValidationException {
+    public boolean isValidEventAbout(String eventAbout) throws EventValidationException {
 	        if(eventAbout == null || eventAbout.trim().isEmpty()) {
 	        	throw new EventValidationException(EventValidaterErrors.EVENTABOUT_NULL_ERROR);
 	        	
@@ -108,7 +108,7 @@ public class EventValidator {
 	    }
 
 	 // validator for description as the address contains atleast of 30 charaters length
-	    public static boolean isValidEventAddress(String eventAddress) throws EventValidationException {
+	    public boolean isValidEventAddress(String eventAddress) throws EventValidationException {
 	    	   if(eventAddress == null || eventAddress.trim().isEmpty()) {
 	   			throw new EventValidationException(EventValidaterErrors.EVENTADDRESS_NULL_ERROR);
 		        	
@@ -121,7 +121,7 @@ public class EventValidator {
 
 	
 	 // validator for  the date should be not null and should not be in the past
-	    public static boolean isValidEventDate(LocalDate eventDate) throws EventValidationException {
+	    public boolean isValidEventDate(LocalDate eventDate) throws EventValidationException {
 	LocalDate today = LocalDate.now();
 	        if(eventDate == null ) {
 	        	throw new EventValidationException(EventValidaterErrors.EVENTDATE_NULL_ERROR);
@@ -133,7 +133,7 @@ public class EventValidator {
 	    }
 	    
 	 // validator for time as the time should be between 9 am and 8pm
-	    public static boolean isValidEventTime(LocalTime eventTime) throws EventValidationException {
+	    public boolean isValidEventTime(LocalTime eventTime) throws EventValidationException {
 	        if (eventTime == null) {
 	        	throw new EventValidationException(EventValidaterErrors.EVENTTIME_NULL_ERROR);
 	        }
@@ -150,7 +150,7 @@ public class EventValidator {
 	       
 	    }
 	    
-		public static boolean isValidateProductImageLink(String url) throws EventValidationException {
+		public boolean isValidateProductImageLink(String url) throws EventValidationException {
 
 			/*
 			 * Product Image URL Validation. If the product Image URL is Null or Empty It
@@ -178,7 +178,7 @@ public class EventValidator {
 		}
 
 		 // validator for price should be in the range of 150 and 500 
-	    public static boolean isValidPrice(double price) throws EventValidationException {
+	    public boolean isValidPrice(double price) throws EventValidationException {
 	    	if(price >= MIN_PRICE ) {
 	        return true;
 	        }else {

@@ -25,7 +25,7 @@ public class UserDao {
 	static final String MOBILE_TAB = "mobile_number";
 	static final String GENDER_TAB = "gender";
 
-	public static boolean addUser(User user) throws UserDAOException {
+	public boolean addUser(User user) throws UserDAOException {
 		try (Connection con = ConnectionUtil.getConnection()) {
 			String query = "INSERT INTO users (username, mobile_number, email, gender, password) VALUES (?,?,?,?,?);";
 			try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -50,7 +50,7 @@ public class UserDao {
 		}
 	}
 
-	public static boolean updateUser(User user) throws UserDAOException {
+	public boolean updateUser(User user) throws UserDAOException {
 		String query = "UPDATE users SET username =?,mobile_number =? WHERE id = ?";
 
 		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement pst = con.prepareStatement(query)) {
@@ -75,7 +75,7 @@ public class UserDao {
 
 	// This method checks if an user with the given name already exists in the
 	// database.
-	public static boolean doesUserExist(String email) throws UserDAOException {
+	public boolean doesUserExist(String email) throws UserDAOException {
 		String query = "SELECT COUNT(*) FROM users WHERE email = ?";
 
 		try (Connection con = ConnectionUtil.getConnection(); 
@@ -96,7 +96,7 @@ public class UserDao {
 		return false; // Default return value if an error occurs.
 	}
 
-	public static boolean deleteUser(User user) throws UserDAOException {
+	public boolean deleteUser(User user) throws UserDAOException {
 
 		String query = "DELETE FROM users WHERE id = ?";
 	
@@ -122,7 +122,7 @@ public class UserDao {
 
 	}
 
-	public static User getUserByEmail(String name) throws UserDAOException {
+	public User getUserByEmail(String name) throws UserDAOException {
 		User user = null;
 
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -168,29 +168,9 @@ public class UserDao {
 
 	}
 
-	public static List<User> readActiveUsers() throws UserDAOException {
-		List<User> users = new ArrayList<>();
+	
 
-		try (Connection con = ConnectionUtil.getConnection()) {
-			String query = "SELECT id, username, gender, email, password, mobile_number FROM users WHERE status = 1";
-
-			try (PreparedStatement pst = con.prepareStatement(query)) {
-				ResultSet rs = pst.executeQuery();
-				while (rs.next()) {
-
-					User user = createUser(rs);
-					users.add(user);
-
-				}
-			}
-		} catch (SQLException e) {
-			throw new UserDAOException(e.getMessage());
-		}
-
-		return users;
-	}
-
-	public static List<User> readAllUsers() throws UserDAOException {
+	public List<User> readAllUsers() throws UserDAOException {
 		List<User> users = new ArrayList<>();
 
 		try (Connection con = ConnectionUtil.getConnection()) {
@@ -212,7 +192,7 @@ public class UserDao {
 		return users;
 	}
 
-	static User createUser(ResultSet rs) throws SQLException {
+	private static User createUser(ResultSet rs) throws SQLException {
 		int userId = rs.getInt(ID_TAB);
 		String userName = rs.getString(NAME_TAB);
 		long mobileNumber = rs.getLong(MOBILE_TAB);

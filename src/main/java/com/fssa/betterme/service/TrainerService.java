@@ -7,14 +7,17 @@ import com.fssa.betterme.dao.TrainerDao;
 import com.fssa.betterme.exception.DAOException;
 import com.fssa.betterme.exception.EventValidationException;
 import com.fssa.betterme.exception.ServiceException;
-import com.fssa.betterme.model.Trainner;
+import com.fssa.betterme.model.Trainer;
 import com.fssa.betterme.service.message.Constants;
-import com.fssa.betterme.validation.EventHostValidator;
+import com.fssa.betterme.validation.TrainerValidator;
 
 /**
  * Provides services related to event hosts.
  */
-public class EventHostService {
+public class TrainerService {
+	
+	TrainerValidator val = new TrainerValidator();
+	TrainerDao dao = new TrainerDao();
 
     /**
      * Adds an event host to the database.
@@ -25,11 +28,14 @@ public class EventHostService {
      * @throws DAOException If there's an issue with the data access.
      * @throws EventValidationException 
      */
-    public static boolean addTrainer(Trainner host) throws ServiceException, EventValidationException  {
+    public boolean addTrainer(Trainer host) throws ServiceException, EventValidationException  {
         try {
-			if (EventHostValidator.isValidEventHost(host)) {
-				TrainerDao.addTrainer(host); 
+			if (val.isValidEventHost(host)) {
+				Trainer eventHost = dao.findTrainerByEmail(host.getEmail()) ;
+	        	if (eventHost.getId() != 0) {
+				dao.addTrainer(host); 
 			    return true;
+	        	}
 			}
 		} catch (  DAOException e) {
 			throw new ServiceException(e.getMessage());
@@ -37,37 +43,6 @@ public class EventHostService {
         return false;
     }
 
-    /**
-     * Updates an event host in the database.
-     *
-     * @param host The event host to be updated.
-     * @return True if the host was updated successfully, false otherwise.
-     * @throws DAOException If there's an issue with the data access.
-     * @throws EventValidationException 
-     * @throws ServiceException 
-     */
-    public static boolean updateTrainer(Trainner host) throws  EventValidationException, ServiceException {
-        if (EventHostValidator.isValidEventHost(host)) {
-        	
-        	
-			try {
-				Trainner eventHost = TrainerDao.findTrainerByEmail(host.getEmail());
-				if (eventHost.getId() == 0) {
-					throw new EventValidationException(Constants.INVALIDHOST);
-				}
-	        	host.setId(eventHost.getId());
-	            
-	        	TrainerDao.updateTrainer(host);
-	            return true;
-	        }
-	      
-			 catch (DAOException e) {			
-				 throw new ServiceException(e.getMessage());
-			}
-        }
-			  return false;
-        	
-    }
 
     /**
      * Deletes an event host from the database.
@@ -78,15 +53,15 @@ public class EventHostService {
      * @throws ServiceException 
      * @throws DAOException If there's an issue with the data access.
      */
-    public static boolean deleteHost(Trainner host) throws EventValidationException, ServiceException   {
-        if (EventHostValidator.isValidEventHost(host)) {
+    public boolean deleteHost(Trainer host) throws EventValidationException, ServiceException   {
+        if (val.isValidEventHost(host)) {
         	 try {
-        	Trainner eventHost = TrainerDao.findTrainerByEmail(host.getEmail()) ;
+        	Trainer eventHost = dao.findTrainerByEmail(host.getEmail()) ;
         	if (eventHost.getId() == 0) {
 				throw new EventValidationException(Constants.INVALIDHOST);
 			}
            
-        	TrainerDao.deleteTrainerByHostId(eventHost.getId());
+        	dao.deleteTrainerById(eventHost.getId());
 			} catch (DAOException e) {
 				throw new ServiceException(e.getMessage());
 			}
@@ -105,13 +80,29 @@ public class EventHostService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static Trainner findTrainerByEmail(String email) throws  EventValidationException, ServiceException {
-    	Trainner value;
+    public  Trainer findTrainerByEmail(String email) throws  EventValidationException, ServiceException {
+    	Trainer value;
 		try {
-			value = TrainerDao.findTrainerByEmail(email);
+			value = dao.findTrainerByEmail(email);
 			if(value == null) {
 	    		throw new EventValidationException(Constants.INVALIDHOSTEMAIL);
 	    	}
+	    	
+	    	return value;
+		} catch (DAOException e) {
+			
+			throw new ServiceException(e.getMessage());
+		}
+    	
+    	
+    	
+    }
+    
+    public  String getTrainnerPassByEmail(String email) throws  EventValidationException, ServiceException {
+    	String value;
+		try {
+			value = dao.getTrainnerPassByEmail(email);
+		
 	    	
 	    	return value;
 		} catch (DAOException e) {
@@ -135,9 +126,9 @@ public class EventHostService {
      * @throws ServiceException 
      */
     
-    public static Trainner findTrainerById( int id) throws  EventValidationException, ServiceException {
+    public  Trainer findTrainerById( int id) throws  EventValidationException, ServiceException {
     	try{
-    		Trainner value =TrainerDao.findTrainerById(id);
+    		Trainer value =dao.findTrainerById(id);
     	
     	if(value == null) {
     		throw new EventValidationException(Constants.INVALIDHOSTID);
@@ -156,14 +147,15 @@ public class EventHostService {
      * @return True if the hosts were retrieved successfully, false otherwise.
      * @throws DAOException If there's an issue with the data access.
      */
-    public static List<Trainner> readAllTrainer() throws DAOException {
-    	return TrainerDao.readAllTrainer();
+    public  List<Trainer> readAllTrainer() throws DAOException {
+    	return dao.readAllTrainer();
     
     	
        
     	
     }
     
+
 
 
     

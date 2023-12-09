@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.Trainner;
+import com.fssa.betterme.model.Trainer;
 
 import com.fssa.betterme.model.Event;
 
@@ -24,10 +24,9 @@ import com.fssa.betterme.model.Event;
 
  class TestEventService {  
 	
-	Trainner validHost = new Trainner("John", "9783473478", "John@gmail.com");
-	
+	Trainer validHost = new Trainer(null, null, null, null, null, null, null, null, null, null);
 	// Assuming you have a valid Trainner object named 'validHost'
-
+	EventService ser = new EventService();
 	Event validEvent = new Event(
 	    "Bettet me day twelve",
 	    "",
@@ -77,7 +76,7 @@ import com.fssa.betterme.model.Event;
 	@Test
 	void testAddEvent()  {
 		try {
-			Assertions.assertTrue(EventService.addEvent(validEvent));
+			Assertions.assertTrue(ser.addEvent(validEvent));
 		} catch (EventValidationException | ServiceException e) {
 		
 			e.printStackTrace();
@@ -92,7 +91,7 @@ import com.fssa.betterme.model.Event;
 
 		
 		try {
-			Assertions.assertTrue(EventService.updateEvent(EventService.getEventByEventName(deleteEvent)));
+			Assertions.assertTrue(ser.updateEvent(ser.getEventByEventName(deleteEvent)));
 		} catch (ServiceException | EventValidationException e) {
 		
 			e.printStackTrace();
@@ -103,14 +102,14 @@ import com.fssa.betterme.model.Event;
 	
 	void testReadAllEvent() {
 		
-		Assertions.assertDoesNotThrow(()->EventService.getAllEvents());
+		Assertions.assertDoesNotThrow(()->ser.getAllEvents());
 	}
 	
 	@Test 
 	
 	void testReadActiveEvent() {
 		
-		Assertions.assertDoesNotThrow(()->EventService.getActiveEvents());
+		Assertions.assertDoesNotThrow(()->ser.getActiveEvents());
 	}
 	
 	
@@ -118,7 +117,7 @@ import com.fssa.betterme.model.Event;
 
 	void testDeleteEvent() {
 		try {
-			Assertions.assertTrue(EventService.deleteEvent(EventService.getEventByEventName(deleteEvent)));
+			Assertions.assertTrue(ser.deleteEvent(ser.getEventByEventName(deleteEvent)));
 		} catch (EventValidationException | ServiceException e) {
 		
 			e.printStackTrace();
@@ -127,22 +126,22 @@ import com.fssa.betterme.model.Event;
 	
 	@Test 
 	void testGetActiveEventByDate(){
-		Assertions.assertDoesNotThrow(()->EventService.getActiveEventByDate(LocalDate.of(2023, 8,25)));
+		Assertions.assertDoesNotThrow(()->ser.getActiveEventByDate(LocalDate.of(2023, 8,25)));
 	}
 
 	@Test 
 	void testGetActiveEventByRange()  {
-		Assertions.assertDoesNotThrow(()->EventService.getActiveEventByRange(LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 1)));
+		Assertions.assertDoesNotThrow(()->ser.getActiveEventByRange(LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 1)));
 	}
 	
 	@Test 
 	void testGetAllEventByDate()  {
-		Assertions.assertDoesNotThrow(()->EventService.getAllEventByDate(LocalDate.of(2023, 9,5)));
+		Assertions.assertDoesNotThrow(()->ser.getAllEventByDate(LocalDate.of(2023, 9,5)));
 	}
 
 	@Test 
 	void testGetAllEventByRange() {
-		Assertions.assertDoesNotThrow(()->EventService.getAllEventByRange(LocalDate.of(2023, 9, 1), LocalDate.of(2023, 9, 30)));
+		Assertions.assertDoesNotThrow(()->ser.getAllEventByRange(LocalDate.of(2023, 9, 1), LocalDate.of(2023, 9, 30)));
 	}
 	
 	

@@ -18,13 +18,14 @@ import com.fssa.betterme.model.*;
 
  class TestHostService {
 
-	Trainner valid = new Trainner("Eleana" , "7823452312" ,"Eleana@gmail.com");
-	Trainner Updatevalid = new Trainner("Damon" , "9876543210" ,"Damon@gmail.com");
+	Trainer valid = new Trainer("Eleana" , "7823452312" ,"Eleana@gmail.com");
+	Trainer Updatevalid = new Trainer("Damon" , "9876543210" ,"Damon@gmail.com");
+	TrainerService ser = new TrainerService();
 	
 	@Test 
 	void testAddHost()  {
 		try {
-			Assertions.assertTrue(EventHostService.addTrainer(valid));
+			Assertions.assertTrue(ser.addTrainer(valid));
 		} catch (ServiceException | EventValidationException e) {
 			System.out.println(e.getMessage());
 			Assertions.fail();
@@ -36,7 +37,7 @@ import com.fssa.betterme.model.*;
 	
 		
 		try {
-			Assertions.assertTrue(EventHostService.updateTrainer(Updatevalid));
+			Assertions.assertTrue(ser.updateTrainer(Updatevalid));
 		} catch (EventValidationException | ServiceException e) {
 			Assertions.fail();
 		}
@@ -55,18 +56,18 @@ import com.fssa.betterme.model.*;
 	
 	@Test 
 	void testReadAllHostByEmail()  {
-		Assertions.assertDoesNotThrow(()->EventHostService.findTrainerByEmail(Updatevalid.getEmail()));
+		Assertions.assertDoesNotThrow(()->ser.findTrainerByEmail(Updatevalid.getEmail()));
 	}
 	
 	@Test 
 	void testReadAllHostById()  {
-		Assertions.assertDoesNotThrow(()->EventHostService.findTrainerById(EventHostService.findTrainerByEmail(Updatevalid.getEmail()).getId()));
+		Assertions.assertDoesNotThrow(()->ser.findTrainerById(ser.findTrainerByEmail(Updatevalid.getEmail()).getId()));
 	}
 	
 	@Test 
 	void testReadAllHost()  {
 		
-		Assertions.assertDoesNotThrow(()->EventHostService.readAllTrainer());
+		Assertions.assertDoesNotThrow(()->ser.readAllTrainer());
 	}
 
 	

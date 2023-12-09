@@ -9,9 +9,11 @@ import com.fssa.betterme.exception.DAOException;
 
 public class VideoService {
 	
+	static RecordedVideoDao ser = new RecordedVideoDao();
+	
 	//TODO :: add date as unique
 	public static boolean AddVideo (int trainnerId , int userId, String video) throws  DAOException {
-		return RecordedVideoDao.addVideo(trainnerId, userId, video);
+		return ser.addVideo(trainnerId, userId, video);
 			
 			  
 	
@@ -19,7 +21,7 @@ public class VideoService {
 	}
 	
 	public static List<String> getVideoByUser ( int userId) throws  DAOException {
-		return RecordedVideoDao.getVideoByUser( userId);
+		return ser.getVideoByUser( userId);
 			
 			  
 	

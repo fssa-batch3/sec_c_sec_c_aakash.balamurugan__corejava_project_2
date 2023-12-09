@@ -27,7 +27,7 @@ public class BookingDao {
 	static final String STATUS_TAB = "status";
 	static final String EVENTABT_TAB = "short_intro";
 
-	public static boolean createBooking(int eventId, int userId) throws BookDAOException {
+	public boolean createBooking(int eventId, int userId) throws BookDAOException {
 		String query = "INSERT INTO event_user (event_id , user_id) VALUES (? ,?)";
 
 		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement pst = con.prepareStatement(query)) {
@@ -49,7 +49,7 @@ public class BookingDao {
 
 	}
 
-	public static boolean bookingExists(int eventId, int userId) throws BookDAOException {
+	public boolean bookingExists(int eventId, int userId) throws BookDAOException {
 
 		String query = "SELECT COUNT(*) FROM event_user WHERE event_id = ? AND user_id = ? ";
 
@@ -71,7 +71,7 @@ public class BookingDao {
 		}
 	}
 
-	public static boolean deleteBooking(int eventId, int userId) throws BookDAOException {
+	public boolean deleteBooking(int eventId, int userId) throws BookDAOException {
 		
 		String query = "UPDATE event_user SET status = 0 WHERE event_id = ? AND user_id = ?";
 
@@ -95,7 +95,7 @@ public class BookingDao {
 	}
 	
 
-public static int getBookingCount(int eventId) throws BookDAOException {
+public int getBookingCount(int eventId) throws BookDAOException {
     String query = "SELECT COUNT(*) FROM betterme.event_user WHERE event_id = ? AND status = 1";
     int bookingCount = 0;
 
@@ -117,7 +117,7 @@ public static int getBookingCount(int eventId) throws BookDAOException {
     return bookingCount;
 }
 	
-	public static List<Event> getEventForUser( int userId) throws BookDAOException {
+	public List<Event> getEventForUser( int userId) throws BookDAOException {
 		List<Event> events = new ArrayList<>();
 		String query = "SELECT events.event_name, events.date, events.time ,events.event_description,events.event_address,events.images ,events.price, events.short_intro ,events.id ,event_user.status FROM events INNER JOIN event_user ON events.id = event_user.event_id WHERE event_user.user_id =?";
 		//SELECT event_id FROM event_user WHERE user_id = ?
@@ -142,7 +142,7 @@ public static int getBookingCount(int eventId) throws BookDAOException {
 
 	}
 	
-	static Event createEvent(ResultSet rs) throws SQLException {
+	private static Event createEvent(ResultSet rs) throws SQLException {
 		int eventId = rs.getInt(ID_TAB);
 		String eventName = rs.getString(EVENTNAME_TAB);
 		String eventAddress = rs.getString(EVENTADDR_TAB);

@@ -6,16 +6,14 @@ import java.time.LocalDate;
 
 import java.util.List;
 
+import com.fssa.betterme.dao.EventDao;
 
-
-import com.fssa.betterme.dao.*;
 import com.fssa.betterme.exception.DAOException;
-import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.exception.EventValidationException;
+import com.fssa.betterme.exception.ServiceException;
 import com.fssa.betterme.model.Event;
-import com.fssa.betterme.model.Trainner;
+import com.fssa.betterme.model.Trainer;
 import com.fssa.betterme.service.message.Constants;
-import com.fssa.betterme.util.Logger;
 import com.fssa.betterme.validation.EventValidator;
 
 /**
@@ -23,7 +21,10 @@ import com.fssa.betterme.validation.EventValidator;
  */
 public class EventService {
 
-    /**
+	static EventDao ser = new EventDao();
+	static EventValidator val = new EventValidator();
+	static TrainerService trainerSer = new TrainerService();
+     /**
      * Adds an event to the database.
      *
      * @param event The event to be added.
@@ -31,17 +32,17 @@ public class EventService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static boolean addEvent(Event event) throws EventValidationException, ServiceException  {
+    public boolean addEvent(Event event) throws EventValidationException, ServiceException  {
         try { 
-			if (EventValidator.isValidEvent(event)) {
-				if(!EventDao.doesEventExist(event)) {
+			if (val.isValidEvent(event)) {
+				if(!ser.doesEventExist(event)) {
 					
 				
-				Trainner host = TrainerDao.findTrainerByEmail(event.getTrainner().getEmail()) ;
+				Trainer host = trainerSer.findTrainerByEmail(event.getTrainner().getEmail()) ;
 				if (host.getId() == 0) {
 					throw new EventValidationException(Constants.INVALIDHOST);
 				}
-			    EventDao.addEvent(event,host.getId());
+			    ser.addEvent(event,host.getId());
 			    return true;
 			    }else {
 			    	throw new EventValidationException(Constants.EVENTALREADYEXISTS);
@@ -61,14 +62,14 @@ public class EventService {
      * @throws ServiceException 
      * @throws EventValidationException 
      */
-    public static boolean updateEvent(Event event) throws ServiceException, EventValidationException{
+    public boolean updateEvent(Event event) throws ServiceException, EventValidationException{
         try {
-        	if(EventDao.doesEventExist(event)) {
-        		if (EventValidator.isValidEvent(event)) {
+        	if(ser.doesEventExist(event)) {
+        		if (val.isValidEvent(event)) {
         			EventDao eventDao = new EventDao();
 			     
         			
-    				Trainner host = TrainerDao.findTrainerByEmail(event.getTrainner().getEmail()) ;
+    				Trainer host = trainerSer.findTrainerByEmail(event.getTrainner().getEmail()) ;
     				if (host.getId() == 0) {
     					throw new EventValidationException(Constants.INVALIDHOST);
     				}
@@ -93,11 +94,11 @@ public class EventService {
      * @throws EventValidationException 
      * @throws ServiceException 
      */
-    public static boolean deleteEvent(Event event) throws EventValidationException, ServiceException {
+    public  boolean deleteEvent(Event event) throws EventValidationException, ServiceException {
         try {
-        	if(EventDao.doesEventExist(event)) {
-			if (EventValidator.isValidEvent(event)) {
-			    EventDao.deleteEvent(event);
+        	if(ser.doesEventExist(event)) {
+			if (val.isValidEvent(event)) {
+				ser.deleteEvent(event);
 			    return true;
 			}
         	}else {
@@ -115,10 +116,10 @@ public class EventService {
      * @return A list of active events if retrieved successfully, an empty list if no active events, or null if an error occurs.
      * @throws ServiceException 
      */
-    public static List<Event> getActiveEvents() throws ServiceException {
+    public  List<Event> getActiveEvents() throws ServiceException {
         try {
                      
-            return EventDao.readActiveEvents();
+            return ser.readActiveEvents();
         } catch (DAOException e) {
         	throw new ServiceException(e.getMessage());
         }
@@ -132,10 +133,10 @@ public class EventService {
      * @throws ServiceException 
      * @throws EventValidationException 
      */
-    public static Event getEventByEventName(Event event) throws ServiceException, EventValidationException {
+    public  Event getEventByEventName(Event event) throws ServiceException, EventValidationException {
         Event values = null;
 		try {
-			values = EventDao.getEventsByName(event.getEventName());
+			values = ser.getEventsByName(event.getEventName());
 			 if(values == null )
 		        	throw new EventValidationException(Constants.INVALIDEVENTNAME);
 		} catch (DAOException e) {
@@ -153,10 +154,10 @@ public class EventService {
      * @throws ServiceException 
   
      */
-    public static List<Event> getActiveEventByDate(LocalDate date) throws ServiceException  {
+    public  List<Event> getActiveEventByDate(LocalDate date) throws ServiceException  {
         List<Event> values = null;
 		try {
-			values = EventDao.getActiveEventByDate(date);
+			values = ser.getActiveEventByDate(date);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -171,10 +172,10 @@ public class EventService {
      * @throws ServiceException  
 
      */
-    public static List<Event> getActiveEventByRange(LocalDate start, LocalDate end) throws ServiceException {
+    public  List<Event> getActiveEventByRange(LocalDate start, LocalDate end) throws ServiceException {
         List<Event> values = null;
 		try {
-			values = EventDao.activeEventRange(start, end);
+			values = ser.activeEventRange(start, end);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -189,10 +190,10 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws ServiceException 
      */
-    public static List<Event> getAllEvents() throws ServiceException  {
+    public  List<Event> getAllEvents() throws ServiceException  {
    
     	try {
-        return EventDao.readAllEvents();
+        return ser.readAllEvents();
     	} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -206,9 +207,9 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws ServiceException 
      */
-    public static List<Event> getAllEventByDate(LocalDate date) throws ServiceException {
+    public  List<Event> getAllEventByDate(LocalDate date) throws ServiceException {
     	try {
-        return EventDao.getAllEventByDate(date);
+        return ser.getAllEventByDate(date);
     	} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -220,9 +221,9 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws ServiceException 
      */
-    public static List<Event> getAllEventByRange(LocalDate start, LocalDate end) throws ServiceException {
+    public  List<Event> getAllEventByRange(LocalDate start, LocalDate end) throws ServiceException {
     	try {
-        return EventDao.allEventRange(start, end);
+        return ser.allEventRange(start, end);
     	} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
@@ -235,9 +236,9 @@ public class EventService {
      * @return True if the events were retrieved successfully, false otherwise.
      * @throws ServiceException 
      */
-    public static Event getEventById(int id) throws ServiceException{
+    public  Event getEventById(int id) throws ServiceException{
     	try {
-    		return EventDao.getEventByID(id);
+    		return ser.getEventByID(id);
         
        
     	} catch (DAOException e) {
@@ -245,12 +246,7 @@ public class EventService {
 		}
     }
     
-    static void printValues (List<Event> list) {
-    	for (Event i : list) {
-    	 	Logger.info(i);	
-		}
-   
-    }
+
 
 
 }

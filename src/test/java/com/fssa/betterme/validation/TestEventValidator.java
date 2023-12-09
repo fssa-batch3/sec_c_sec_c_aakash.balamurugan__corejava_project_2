@@ -9,22 +9,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.fssa.betterme.exception.EventValidationException;
-import com.fssa.betterme.model.Trainner;
+import com.fssa.betterme.model.Trainer;
 import com.fssa.betterme.model.Event;
 import com.fssa.betterme.validation.message.EventValidaterErrors;
 
 
  class TestEventValidator {
 
-	Trainner validHost = new Trainner("vishali", "9876543210", "joe1@gmail.com");
-	Trainner inValidHost = new Trainner("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
+	Trainer validHost = new Trainer("vishali", "9876543210", "joe1@gmail.com");
+	Trainer inValidHost = new Trainer("joe32uj493j", "9876543210ujn", "9876543210ujn.com");
 	Event validEvent = new Event("yogi event", "it is a event conducted by betterme ",
 			"it is a event conducted by betterme","address for the event with 30 characters", LocalDate.now().plusDays(1), LocalTime.of(15, 00), 150.00,
 			"https://iili.io/HNOIUZb.jpg", validHost);
 	Event inValidEvent = new Event("me", "it ", "it is", "vd",LocalDate.now().minusDays(1),
 			LocalTime.of(23, 0), 0, "invalid", inValidHost);
 	EventValidator validateEvent = new EventValidator();
-	EventHostValidator validateHost = new EventHostValidator();
+	TrainerValidator validateHost = new TrainerValidator();
 
 	
 	
